@@ -32,7 +32,8 @@ int32_t I2cInit(void)
 
 /******************************************************************************
  * @brief     : Send data to I2C device
- * @param[in] : deviceAddr - I2C device address, regAddr - Register address (can be NULL for direct write), data - Pointer to data buffer to send, length - Number of bytes to send
+ * @param[in] : deviceAddr - I2C device address, regAddr - Register address (can be NULL for direct write), data - Pointer to data buffer to
+ *send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes data to I2C device

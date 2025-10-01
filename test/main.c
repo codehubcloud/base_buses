@@ -1,31 +1,31 @@
 #include <stdint.h>
 #include <stdio.h>
+#include "ahb/ahb.h"
+#include "apb/apb.h"
+#include "axi/axi.h"
 #include "can/can.h"
+#include "dma/dma.h"
+#include "emmc/emmc.h"
+#include "ethernet/ethernet.h"
+#include "flexray/flexray.h"
 #include "i2c/i2c.h"
-#include "i3c/i3c.h"
 #include "i2s/i2s.h"
+#include "i3c/i3c.h"
+#include "jtag/jtag.h"
+#include "lin/lin.h"
 #include "modbus/modbus.h"
+#include "onewire/onewire.h"
+#include "pcie/pcie.h"
+#include "pmbus/pmbus.h"
 #include "rs232/rs232.h"
 #include "rs422/rs422.h"
 #include "rs485/rs485.h"
-#include "smbus/smbus.h"
-#include "pmbus/pmbus.h"
-#include "spi/spi.h"
-#include "uart/uart.h"
-#include "lin/lin.h"
-#include "flexray/flexray.h"
-#include "onewire/onewire.h"
-#include "usb/usb.h"
 #include "sdio/sdio.h"
-#include "ethernet/ethernet.h"
+#include "smbus/smbus.h"
+#include "spi/spi.h"
 #include "swd/swd.h"
-#include "jtag/jtag.h"
-#include "pcie/pcie.h"
-#include "emmc/emmc.h"
-#include "axi/axi.h"
-#include "apb/apb.h"
-#include "ahb/ahb.h"
-#include "dma/dma.h"
+#include "uart/uart.h"
+#include "usb/usb.h"
 
 /******************************************************************************
  * @brief     : Test UART functionality
@@ -991,8 +991,7 @@ int32_t TestPcie(void)
     if (result == 0 && deviceCount > 0) {
         printf("Found %u PCIe device(s):\n", deviceCount);
         for (i = 0; i < deviceCount && i < 16; i++) {
-            printf("  Device %u: Bus=%02x Dev=%02x Func=%x VID=%04x DID=%04x\n",
-                   i, devices[i].bus, devices[i].device, devices[i].function,
+            printf("  Device %u: Bus=%02x Dev=%02x Func=%x VID=%04x DID=%04x\n", i, devices[i].bus, devices[i].device, devices[i].function,
                    devices[i].vendorId, devices[i].deviceId);
         }
     } else {
@@ -1001,8 +1000,7 @@ int32_t TestPcie(void)
 
     result = PcieConfigRead(0, 0, 0, PCIE_CFG_VENDOR_ID, &vendorDevice, 4);
     if (result == 0) {
-        printf("Bus 0 Device 0: Vendor=0x%04X Device=0x%04X\n",
-               (vendorDevice & 0xFFFF), ((vendorDevice >> 16) & 0xFFFF));
+        printf("Bus 0 Device 0: Vendor=0x%04X Device=0x%04X\n", (vendorDevice & 0xFFFF), ((vendorDevice >> 16) & 0xFFFF));
     }
 
     result = PcieDeinit();
@@ -1042,8 +1040,7 @@ int32_t TestEmmc(void)
     if (result == 0) {
         printf("eMMC Card Information:\n");
         printf("  Manufacturer ID: 0x%02X\n", cardInfo.cid.manufacturerId);
-        printf("  Capacity: %llu bytes (%llu MB)\n",
-               (unsigned long long)cardInfo.capacity,
+        printf("  Capacity: %llu bytes (%llu MB)\n", (unsigned long long)cardInfo.capacity,
                (unsigned long long)(cardInfo.capacity / (1024 * 1024)));
         printf("  Block Size: %u bytes\n", cardInfo.blockSize);
         printf("  Block Count: %u\n", cardInfo.blockCount);
@@ -1212,8 +1209,7 @@ int32_t TestAxi(void)
     AxiReadAddress readAddr;
     AxiReadData readData;
     AxiStatus status;
-    uint8_t writeBuffer[16] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                               0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
+    uint8_t writeBuffer[16] = {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F, 0x10};
     uint8_t readBuffer[16] = {0};
     int32_t result = 0;
 
@@ -1288,9 +1284,8 @@ int32_t TestAxi(void)
 
     result = AxiGetStatus(&status);
     if (result == 0) {
-        printf("AXI Status: Initialized=%d, Busy=%d, Errors=%u, Writes=%u, Reads=%u\n",
-               status.isInitialized, status.isBusy, status.errorCount,
-               status.writeCount, status.readCount);
+        printf("AXI Status: Initialized=%d, Busy=%d, Errors=%u, Writes=%u, Reads=%u\n", status.isInitialized, status.isBusy,
+               status.errorCount, status.writeCount, status.readCount);
     }
 
     result = AxiDeinit();

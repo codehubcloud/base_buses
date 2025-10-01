@@ -1,6 +1,7 @@
-#include "securec.h"
-#include "pmbus_hal.h"
 #include "platform_config.h"
+#include "pmbus_hal.h"
+#include "securec.h"
+
 
 /* NOTE: PMBus is built on SMBus/I2C for power management applications
  * PMBus uses LINEAR11 and LINEAR16 data formats
@@ -26,7 +27,7 @@ static i2c_config_t g_pmbusConfig = {
     .scl_io_num = GPIO_NUM_22,
     .sda_pullup_en = GPIO_PULLUP_ENABLE,
     .scl_pullup_en = GPIO_PULLUP_ENABLE,
-    .master.clk_speed = 100000  /* PMBus default 100kHz */
+    .master.clk_speed = 100000 /* PMBus default 100kHz */
 };
 static uint8_t g_pmbusDeviceAddr = 0;
 #endif
@@ -474,7 +475,7 @@ int32_t PmBusWriteData(uint8_t deviceAddr, uint8_t command, uint8_t* data, uint1
     }
 
     msgs[0].addr = deviceAddr;
-    msgs[0].flags = 0;  /* Write */
+    msgs[0].flags = 0; /* Write */
     msgs[0].len = length + 1;
     msgs[0].buf = buffer;
 
@@ -567,13 +568,13 @@ int32_t PmBusReadData(uint8_t deviceAddr, uint8_t command, uint8_t* buffer, uint
 
     /* First message: write command */
     msgs[0].addr = deviceAddr;
-    msgs[0].flags = 0;  /* Write */
+    msgs[0].flags = 0; /* Write */
     msgs[0].len = 1;
     msgs[0].buf = &command;
 
     /* Second message: read data */
     msgs[1].addr = deviceAddr;
-    msgs[1].flags = I2C_M_RD;  /* Read */
+    msgs[1].flags = I2C_M_RD; /* Read */
     msgs[1].len = length;
     msgs[1].buf = buffer;
 
@@ -666,7 +667,7 @@ int32_t PmBusSendCommand(uint8_t deviceAddr, uint8_t command)
     struct i2c_msg msgs[1];
 
     msgs[0].addr = deviceAddr;
-    msgs[0].flags = 0;  /* Write */
+    msgs[0].flags = 0; /* Write */
     msgs[0].len = 1;
     msgs[0].buf = &command;
 

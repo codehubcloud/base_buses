@@ -1,43 +1,44 @@
 # 测试目录 (Test Directory)
 
-本目录包含所有27个通信协议模块的测试代码和示例程序。
+本目录包含所有 27 个通信协议模块的测试代码和示例程序。
 
 ## 文件说明
 
 ### main.c
+
 包含所有模块的测试函数，用于验证各个通信协议模块的功能。
 
 **测试函数列表:**
 
-| 测试函数 | 模块 | 说明 |
-|---------|------|------|
-| `TestUart()` | UART | 通用异步收发器测试 |
-| `TestSpi()` | SPI | 串行外设接口测试 |
-| `TestI2c()` | I2C | 两线制总线测试 |
-| `TestI3c()` | I3C | 改进型I3C测试 |
-| `TestI2s()` | I2S | 音频数据接口测试 |
-| `TestCan()` | CAN | 控制器局域网测试 |
-| `TestCanFd()` | CAN FD | 灵活数据速率CAN测试 |
-| `TestLin()` | LIN | 局域互连网络测试 |
-| `TestFlexRay()` | FlexRay | 高速汽车总线测试 |
-| `TestModbus()` | Modbus | 工业协议测试 |
-| `TestSmBus()` | SMBus | 系统管理总线测试 |
-| `TestPmBus()` | PMBus | 电源管理总线测试 |
-| `TestRs232()` | RS232 | 标准串口测试 |
-| `TestRs422()` | RS422 | 差分串口测试 |
-| `TestRs485()` | RS485 | 多点通信总线测试 |
-| `TestUsb()` | USB | 通用串行总线测试 |
-| `TestSdio()` | SDIO | SD卡接口测试 |
-| `TestOneWire()` | 1-Wire | 单总线协议测试 |
-| `TestEthernet()` | Ethernet | 以太网测试 |
-| `TestPcie()` | PCIe | 高速串行总线测试 |
-| `TestEmmc()` | eMMC | 嵌入式存储测试 |
-| `TestJtag()` | JTAG | 调试接口测试 |
-| `TestSwd()` | SWD | 串行调试接口测试 |
-| `TestAxi()` | AXI | ARM高级总线测试 |
-| `TestAhb()` | AHB | 高性能总线测试 |
-| `TestApb()` | APB | 外设总线测试 |
-| `TestDma()` | DMA | 直接内存访问测试 |
+| 测试函数         | 模块     | 说明                  |
+| ---------------- | -------- | --------------------- |
+| `TestUart()`     | UART     | 通用异步收发器测试    |
+| `TestSpi()`      | SPI      | 串行外设接口测试      |
+| `TestI2c()`      | I2C      | 两线制总线测试        |
+| `TestI3c()`      | I3C      | 改进型 I3C 测试       |
+| `TestI2s()`      | I2S      | 音频数据接口测试      |
+| `TestCan()`      | CAN      | 控制器局域网测试      |
+| `TestCanFd()`    | CAN FD   | 灵活数据速率 CAN 测试 |
+| `TestLin()`      | LIN      | 局域互连网络测试      |
+| `TestFlexRay()`  | FlexRay  | 高速汽车总线测试      |
+| `TestModbus()`   | Modbus   | 工业协议测试          |
+| `TestSmBus()`    | SMBus    | 系统管理总线测试      |
+| `TestPmBus()`    | PMBus    | 电源管理总线测试      |
+| `TestRs232()`    | RS232    | 标准串口测试          |
+| `TestRs422()`    | RS422    | 差分串口测试          |
+| `TestRs485()`    | RS485    | 多点通信总线测试      |
+| `TestUsb()`      | USB      | 通用串行总线测试      |
+| `TestSdio()`     | SDIO     | SD 卡接口测试         |
+| `TestOneWire()`  | 1-Wire   | 单总线协议测试        |
+| `TestEthernet()` | Ethernet | 以太网测试            |
+| `TestPcie()`     | PCIe     | 高速串行总线测试      |
+| `TestEmmc()`     | eMMC     | 嵌入式存储测试        |
+| `TestJtag()`     | JTAG     | 调试接口测试          |
+| `TestSwd()`      | SWD      | 串行调试接口测试      |
+| `TestAxi()`      | AXI      | ARM 高级总线测试      |
+| `TestAhb()`      | AHB      | 高性能总线测试        |
+| `TestApb()`      | APB      | 外设总线测试          |
+| `TestDma()`      | DMA      | 直接内存访问测试      |
 
 ## 编译运行
 
@@ -112,6 +113,7 @@ All tests completed!
 如果需要添加新的测试用例，请按照以下步骤:
 
 1. 在 `main.c` 中添加测试函数:
+
    ```c
    void TestNewModule(void)
    {
@@ -128,6 +130,7 @@ All tests completed!
    ```
 
 2. 在 `main()` 函数中调用新测试:
+
    ```c
    TestNewModule();
    ```
@@ -142,20 +145,24 @@ All tests completed!
 
 1. **硬件依赖**: 某些测试可能需要实际的硬件设备才能完全运行
 2. **平台限制**: 不同平台支持的功能可能不同
-3. **权限要求**: Linux平台某些设备文件(如 `/dev/i2c-1`) 可能需要root权限
+3. **权限要求**: Linux 平台某些设备文件(如 `/dev/i2c-1`) 可能需要 root 权限
 4. **设备可用性**: 确保设备文件存在且可访问
 
 ## 调试技巧
 
 ### 启用详细输出
+
 修改测试函数，增加详细的状态输出:
+
 ```c
 int32_t ret = UartInit();
 printf("UartInit() returned: %d\n", ret);
 ```
 
 ### 单独测试某个模块
+
 注释掉 `main()` 函数中的其他测试调用，只保留需要测试的模块:
+
 ```c
 int main(void)
 {
@@ -170,6 +177,7 @@ int main(void)
 ```
 
 ### 使用调试器
+
 ```bash
 # 使用gdb调试
 gdb ./bus_test
@@ -223,6 +231,6 @@ void TestPerformance(void)
 
 ## 相关文档
 
-- 主项目README: `../README.md`
+- 主项目 README: `../README.md`
 - 开发指南: `../CLAUDE.md`
 - 各模块源码: `../src/`

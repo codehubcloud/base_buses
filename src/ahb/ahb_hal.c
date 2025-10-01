@@ -1,6 +1,7 @@
-#include "ahb_hal.h"
-#include "ahb.h"
 #include "../platform_config.h"
+#include "ahb.h"
+#include "ahb_hal.h"
+
 
 /* Platform-specific includes and implementations */
 
@@ -301,17 +302,11 @@ int32_t AhbConfigureBusMatrix(void)
     return -1;
 }
 
-void AhbResetController(void)
-{
-}
+void AhbResetController(void) {}
 
-void AhbEnableMaster(void)
-{
-}
+void AhbEnableMaster(void) {}
 
-void AhbDisableMaster(void)
-{
-}
+void AhbDisableMaster(void) {}
 
 void AhbSetAddress(uint32_t address)
 {

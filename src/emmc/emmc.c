@@ -1,7 +1,8 @@
 #include <string.h>
-#include "securec.h"
 #include "emmc.h"
 #include "emmc_hal.h"
+#include "securec.h"
+
 
 /* Global card information */
 static EmmcCardInfo_S g_emmcCardInfo;
@@ -229,7 +230,8 @@ int32_t EmmcReadMultipleBlocks(uint32_t blockAddress, uint32_t blockCount, uint8
 
 /******************************************************************************
  * @brief     : Write multiple blocks to eMMC
- * @param[in] : blockAddress - Starting block address, blockCount - Number of blocks to write, data - Data to write (must be blockCount * 512 bytes)
+ * @param[in] : blockAddress - Starting block address, blockCount - Number of blocks to write, data - Data to write (must be blockCount *
+ *512 bytes)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes multiple 512-byte blocks
@@ -640,11 +642,8 @@ static int32_t EmmcIdentifyCard(void)
         result = EmmcHalReadData(extCsdData, 512);
         if (result == 0) {
             /* Parse Extended CSD */
-            g_emmcCardInfo.extCsd.sectorCount =
-                (uint32_t)extCsdData[212] |
-                ((uint32_t)extCsdData[213] << 8) |
-                ((uint32_t)extCsdData[214] << 16) |
-                ((uint32_t)extCsdData[215] << 24);
+            g_emmcCardInfo.extCsd.sectorCount = (uint32_t)extCsdData[212] | ((uint32_t)extCsdData[213] << 8)
+                                                | ((uint32_t)extCsdData[214] << 16) | ((uint32_t)extCsdData[215] << 24);
 
             g_emmcCardInfo.capacity = (uint64_t)g_emmcCardInfo.extCsd.sectorCount * 512;
             g_emmcCardInfo.blockCount = g_emmcCardInfo.extCsd.sectorCount;

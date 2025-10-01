@@ -36,7 +36,8 @@ int32_t ModbusSendReceive(ModbusRequest_S* request, uint8_t* response)
     int32_t result = 0;
     int32_t responseLength = 0;
 
-    if ((request == NULL) || (request->data == NULL) || (response == NULL) || (request->dataLength == 0) || (request->responseMaxLength == 0)) {
+    if ((request == NULL) || (request->data == NULL) || (response == NULL) || (request->dataLength == 0)
+        || (request->responseMaxLength == 0)) {
         return -1;
     }
 

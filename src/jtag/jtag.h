@@ -25,27 +25,27 @@ typedef enum {
 
 /* JTAG Instruction Register Commands (Standard IEEE 1149.1) */
 typedef enum {
-    JTAG_IR_EXTEST = 0x00,      /* Boundary scan test */
-    JTAG_IR_SAMPLE = 0x01,      /* Sample boundary scan register */
-    JTAG_IR_PRELOAD = 0x01,     /* Preload boundary scan register */
-    JTAG_IR_IDCODE = 0x02,      /* Read device identification code */
-    JTAG_IR_BYPASS = 0xFF       /* Bypass mode */
+    JTAG_IR_EXTEST = 0x00,  /* Boundary scan test */
+    JTAG_IR_SAMPLE = 0x01,  /* Sample boundary scan register */
+    JTAG_IR_PRELOAD = 0x01, /* Preload boundary scan register */
+    JTAG_IR_IDCODE = 0x02,  /* Read device identification code */
+    JTAG_IR_BYPASS = 0xFF   /* Bypass mode */
 } JtagInstruction_E;
 
 /* JTAG Configuration */
 typedef struct {
-    uint32_t clockFrequency;    /* TCK clock frequency in Hz */
-    uint8_t irLength;           /* Instruction register length in bits */
-    uint8_t tapCount;           /* Number of TAPs in chain */
-    uint8_t enableTrst;         /* Enable TRST pin (1=yes, 0=no) */
+    uint32_t clockFrequency; /* TCK clock frequency in Hz */
+    uint8_t irLength;        /* Instruction register length in bits */
+    uint8_t tapCount;        /* Number of TAPs in chain */
+    uint8_t enableTrst;      /* Enable TRST pin (1=yes, 0=no) */
 } JtagConfig_T;
 
 /* JTAG IDCODE Structure (32-bit IEEE 1149.1) */
 typedef struct {
-    uint32_t version : 4;       /* Version number */
-    uint32_t partNumber : 16;   /* Part number */
+    uint32_t version : 4;         /* Version number */
+    uint32_t partNumber : 16;     /* Part number */
     uint32_t manufacturerId : 11; /* Manufacturer ID */
-    uint32_t reserved : 1;      /* Always 1 */
+    uint32_t reserved : 1;        /* Always 1 */
 } JtagIdcode_T;
 
 #define JTAG_DEFAULT_CLOCK_FREQ 1000000

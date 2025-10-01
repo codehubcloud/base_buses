@@ -1,8 +1,9 @@
-#include <string.h>
 #include <math.h>
-#include "securec.h"
+#include <string.h>
 #include "pmbus.h"
 #include "pmbus_hal.h"
+#include "securec.h"
+
 
 /******************************************************************************
  * @brief     : Initialize PMBus peripheral with default settings

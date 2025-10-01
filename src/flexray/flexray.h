@@ -4,58 +4,58 @@
 #include <stdint.h>
 
 /* FlexRay Protocol Constants */
-#define FLEXRAY_MAX_PAYLOAD_LENGTH      254
-#define FLEXRAY_HEADER_LENGTH           5
-#define FLEXRAY_CRC_LENGTH              3
-#define FLEXRAY_MAX_FRAME_LENGTH        (FLEXRAY_HEADER_LENGTH + FLEXRAY_MAX_PAYLOAD_LENGTH + FLEXRAY_CRC_LENGTH)
-#define FLEXRAY_MAX_SLOTS               1023
-#define FLEXRAY_DEFAULT_BITRATE         10000000  /* 10 Mbps */
+#define FLEXRAY_MAX_PAYLOAD_LENGTH 254
+#define FLEXRAY_HEADER_LENGTH 5
+#define FLEXRAY_CRC_LENGTH 3
+#define FLEXRAY_MAX_FRAME_LENGTH (FLEXRAY_HEADER_LENGTH + FLEXRAY_MAX_PAYLOAD_LENGTH + FLEXRAY_CRC_LENGTH)
+#define FLEXRAY_MAX_SLOTS 1023
+#define FLEXRAY_DEFAULT_BITRATE 10000000 /* 10 Mbps */
 
 /* FlexRay Channel Selection */
-#define FLEXRAY_CHANNEL_A               0x01
-#define FLEXRAY_CHANNEL_B               0x02
-#define FLEXRAY_CHANNEL_AB              0x03
+#define FLEXRAY_CHANNEL_A 0x01
+#define FLEXRAY_CHANNEL_B 0x02
+#define FLEXRAY_CHANNEL_AB 0x03
 
 /* FlexRay Communication Status */
-#define FLEXRAY_STATUS_UNINITIALIZED    0x00
-#define FLEXRAY_STATUS_READY            0x01
-#define FLEXRAY_STATUS_ACTIVE           0x02
-#define FLEXRAY_STATUS_HALT             0x03
-#define FLEXRAY_STATUS_ERROR            0x04
+#define FLEXRAY_STATUS_UNINITIALIZED 0x00
+#define FLEXRAY_STATUS_READY 0x01
+#define FLEXRAY_STATUS_ACTIVE 0x02
+#define FLEXRAY_STATUS_HALT 0x03
+#define FLEXRAY_STATUS_ERROR 0x04
 
 /* FlexRay Segment Types */
-#define FLEXRAY_SEGMENT_STATIC          0x00
-#define FLEXRAY_SEGMENT_DYNAMIC         0x01
+#define FLEXRAY_SEGMENT_STATIC 0x00
+#define FLEXRAY_SEGMENT_DYNAMIC 0x01
 
 /* FlexRay Frame Structure */
 typedef struct {
-    uint16_t slotId;                    /* Slot ID (0-1023) */
-    uint8_t channel;                    /* Channel selection (A, B, or AB) */
-    uint8_t payloadLength;              /* Payload length in words (0-127) */
-    uint16_t headerCrc;                 /* Header CRC */
-    uint8_t cycleCount;                 /* Cycle counter */
+    uint16_t slotId;       /* Slot ID (0-1023) */
+    uint8_t channel;       /* Channel selection (A, B, or AB) */
+    uint8_t payloadLength; /* Payload length in words (0-127) */
+    uint16_t headerCrc;    /* Header CRC */
+    uint8_t cycleCount;    /* Cycle counter */
     uint8_t payload[FLEXRAY_MAX_PAYLOAD_LENGTH];
-    uint32_t frameCrc;                  /* 24-bit Frame CRC */
+    uint32_t frameCrc;     /* 24-bit Frame CRC */
 } FlexRayFrame_t;
 
 /* FlexRay Slot Configuration */
 typedef struct {
-    uint16_t slotId;                    /* Slot ID */
-    uint8_t channel;                    /* Channel selection */
-    uint16_t payloadLength;             /* Payload length in bytes */
-    uint8_t segmentType;                /* Static or dynamic segment */
-    uint8_t cycleRepetition;            /* Cycle repetition (1, 2, 4, 8, 16, 32, 64) */
+    uint16_t slotId;         /* Slot ID */
+    uint8_t channel;         /* Channel selection */
+    uint16_t payloadLength;  /* Payload length in bytes */
+    uint8_t segmentType;     /* Static or dynamic segment */
+    uint8_t cycleRepetition; /* Cycle repetition (1, 2, 4, 8, 16, 32, 64) */
 } FlexRaySlotConfig_t;
 
 /* FlexRay Communication Status Structure */
 typedef struct {
-    uint8_t state;                      /* Communication state */
-    uint8_t syncState;                  /* Synchronization state */
-    uint16_t slotCounter;               /* Current slot counter */
-    uint8_t cycleCounter;               /* Current cycle counter */
-    uint32_t errorFlags;                /* Error flags */
-    uint16_t txSlotCount;               /* Number of transmitted slots */
-    uint16_t rxSlotCount;               /* Number of received slots */
+    uint8_t state;        /* Communication state */
+    uint8_t syncState;    /* Synchronization state */
+    uint16_t slotCounter; /* Current slot counter */
+    uint8_t cycleCounter; /* Current cycle counter */
+    uint32_t errorFlags;  /* Error flags */
+    uint16_t txSlotCount; /* Number of transmitted slots */
+    uint16_t rxSlotCount; /* Number of received slots */
 } FlexRayStatus_t;
 
 /******************************************************************************

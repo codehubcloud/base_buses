@@ -6,15 +6,16 @@
 
 ## 项目概述 (Project Overview)
 
-这是一个功能完整的嵌入式系统总线通信协议库，提供了27种常用通信协议和总线接口的实现。该项目采用**硬件抽象层(HAL)模式**设计，支持多平台移植，每个协议独立为一个模块，便于集成和使用。
+这是一个功能完整的嵌入式系统总线通信协议库，提供了 27 种常用通信协议和总线接口的实现。该项目采用**硬件抽象层(HAL)模式**设计，支持多平台移植，每个协议独立为一个模块，便于集成和使用。
 
 **主要特性:**
-- ✅ 27个独立通信协议模块
-- ✅ 支持4大平台: STM32F4、STM32F1、ESP32、Linux
+
+- ✅ 27 个独立通信协议模块
+- ✅ 支持 4 大平台: STM32F4、STM32F1、ESP32、Linux
 - ✅ 完整的硬件抽象层(HAL)设计
 - ✅ 严格的返回值检查和错误处理
-- ✅ 使用securec安全函数库
-- ✅ 符合C99标准，代码规范严格
+- ✅ 使用 securec 安全函数库
+- ✅ 符合 C99 标准，代码规范严格
 - ✅ 每个模块独立编译为静态库
 - ✅ 完整的测试用例和使用示例
 
@@ -72,55 +73,61 @@ base_buses/
 ## 模块分类 (Module Categories)
 
 ### 🔌 串行通信协议 (Serial Communication)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **UART** | 通用异步收发器 | MCU串口通信 |
-| **RS232** | 标准串口协议 | 计算机外设通信 |
-| **RS422** | 差分全双工串口 | 工业长距离通信 |
-| **RS485** | 差分半双工多点 | 工业总线网络 |
-| **Modbus** | 工业通信协议 | PLC、传感器网络 |
+
+| 模块       | 说明           | 应用场景        |
+| ---------- | -------------- | --------------- |
+| **UART**   | 通用异步收发器 | MCU 串口通信    |
+| **RS232**  | 标准串口协议   | 计算机外设通信  |
+| **RS422**  | 差分全双工串口 | 工业长距离通信  |
+| **RS485**  | 差分半双工多点 | 工业总线网络    |
+| **Modbus** | 工业通信协议   | PLC、传感器网络 |
 
 ### 🚌 同步总线协议 (Synchronous Bus)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **SPI** | 串行外设接口 | 传感器、存储器 |
-| **I2C** | 两线制总线 | 传感器、EEPROM |
-| **I3C** | 改进型I3C | 高速传感器网络 |
+
+| 模块      | 说明         | 应用场景       |
+| --------- | ------------ | -------------- |
+| **SPI**   | 串行外设接口 | 传感器、存储器 |
+| **I2C**   | 两线制总线   | 传感器、EEPROM |
+| **I3C**   | 改进型 I3C   | 高速传感器网络 |
 | **SMBus** | 系统管理总线 | 电池管理、温控 |
-| **PMBus** | 电源管理总线 | 智能电源管理 |
-| **I2S** | 音频数据接口 | 音频编解码器 |
+| **PMBus** | 电源管理总线 | 智能电源管理   |
+| **I2S**   | 音频数据接口 | 音频编解码器   |
 
 ### 🚗 汽车总线协议 (Automotive Bus)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **CAN** | 控制器局域网 | 汽车ECU通信 |
-| **CAN FD** | 灵活数据速率CAN | 高速汽车网络 |
-| **LIN** | 局域互连网络 | 低速汽车子系统 |
-| **FlexRay** | 时间触发总线 | 高端汽车底盘 |
+
+| 模块        | 说明             | 应用场景       |
+| ----------- | ---------------- | -------------- |
+| **CAN**     | 控制器局域网     | 汽车 ECU 通信  |
+| **CAN FD**  | 灵活数据速率 CAN | 高速汽车网络   |
+| **LIN**     | 局域互连网络     | 低速汽车子系统 |
+| **FlexRay** | 时间触发总线     | 高端汽车底盘   |
 
 ### 💾 存储与高速接口 (Storage & High-Speed)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **USB** | 通用串行总线 | USB设备通信 |
-| **SDIO** | SD卡接口 | SD卡读写 |
-| **eMMC** | 嵌入式存储 | 板载闪存 |
+
+| 模块     | 说明         | 应用场景     |
+| -------- | ------------ | ------------ |
+| **USB**  | 通用串行总线 | USB 设备通信 |
+| **SDIO** | SD 卡接口    | SD 卡读写    |
+| **eMMC** | 嵌入式存储   | 板载闪存     |
 | **PCIe** | 高速串行总线 | 高速外设扩展 |
 
 ### 🌐 网络协议 (Networking)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **Ethernet** | 以太网协议 | 网络通信 |
-| **1-Wire** | 单总线协议 | 温度传感器 |
+
+| 模块         | 说明       | 应用场景   |
+| ------------ | ---------- | ---------- |
+| **Ethernet** | 以太网协议 | 网络通信   |
+| **1-Wire**   | 单总线协议 | 温度传感器 |
 
 ### 🔧 调试与系统总线 (Debug & System Bus)
-| 模块 | 说明 | 应用场景 |
-|------|------|----------|
-| **JTAG** | 边界扫描调试 | 芯片调试下载 |
-| **SWD** | 串行调试接口 | ARM调试接口 |
-| **AXI** | ARM高级扩展总线 | SoC片内高速总线 |
-| **AHB** | ARM高性能总线 | SoC高速外设 |
-| **APB** | ARM外设总线 | SoC低速外设 |
-| **DMA** | 直接内存访问 | 高速数据传输 |
+
+| 模块     | 说明             | 应用场景         |
+| -------- | ---------------- | ---------------- |
+| **JTAG** | 边界扫描调试     | 芯片调试下载     |
+| **SWD**  | 串行调试接口     | ARM 调试接口     |
+| **AXI**  | ARM 高级扩展总线 | SoC 片内高速总线 |
+| **AHB**  | ARM 高性能总线   | SoC 高速外设     |
+| **APB**  | ARM 外设总线     | SoC 低速外设     |
+| **DMA**  | 直接内存访问     | 高速数据传输     |
 
 ---
 
@@ -128,16 +135,16 @@ base_buses/
 
 项目通过条件编译支持多种硬件平台:
 
-| 平台 | 宏定义 | 处理器架构 | 状态 |
-|------|--------|------------|------|
+| 平台        | 宏定义             | 处理器架构    | 状态        |
+| ----------- | ------------------ | ------------- | ----------- |
 | **STM32F4** | `PLATFORM_STM32F4` | ARM Cortex-M4 | ✅ 完全支持 |
 | **STM32F1** | `PLATFORM_STM32F1` | ARM Cortex-M3 | ✅ 完全支持 |
-| **ESP32** | `PLATFORM_ESP32` | Xtensa/RISC-V | ✅ 完全支持 |
-| **Linux** | `PLATFORM_LINUX` | x86/x64/ARM | ✅ 完全支持 |
+| **ESP32**   | `PLATFORM_ESP32`   | Xtensa/RISC-V | ✅ 完全支持 |
+| **Linux**   | `PLATFORM_LINUX`   | x86/x64/ARM   | ✅ 完全支持 |
 
 ### 平台配置文件
 
-所有平台配置集中在 `src/platform_config.h`，通过CMake传递平台宏定义。
+所有平台配置集中在 `src/platform_config.h`，通过 CMake 传递平台宏定义。
 
 ---
 
@@ -191,7 +198,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 
 ### 构建配置说明
 
-- **C标准**: C99
+- **C 标准**: C99
 - **编译器选项**:
   - Debug: `-g -Wall -Wextra`
   - Release: `-O2 -DNDEBUG`
@@ -204,7 +211,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 
 ### 设计原则
 
-项目严格遵循**协议层与HAL层分离**的原则:
+项目严格遵循**协议层与 HAL 层分离**的原则:
 
 ```
 ┌─────────────────────────────────────┐
@@ -227,7 +234,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 └─────────────────────────────────────┘
 ```
 
-### HAL函数命名规范
+### HAL 函数命名规范
 
 ```c
 // 协议层 (平台无关)
@@ -244,29 +251,29 @@ uint8_t UartReadRegister(void);
 
 1. 在 `src/platform_config.h` 添加平台检测
 2. 在各模块的 `xxx_hal.c` 添加平台条件编译分支
-3. 实现平台特定的HAL函数
+3. 实现平台特定的 HAL 函数
 4. 更新 `CMakeLists.txt` 支持新平台
 5. **协议层代码无需修改**
 
 ---
 
-## API接口文档 (API Reference)
+## API 接口文档 (API Reference)
 
 ### 通用函数模式 (Common Function Patterns)
 
-所有模块遵循一致的API设计:
+所有模块遵循一致的 API 设计:
 
-| 函数类型 | 命名模式 | 返回值 | 示例 |
-|----------|----------|--------|------|
-| 初始化 | `XxxInit()` | `int32_t` (0成功/-1失败) | `UartInit()` |
-| 去初始化 | `XxxDeinit()` | `int32_t` | `UartDeinit()` |
-| 发送数据 | `XxxSendData()` / `XxxWriteData()` | `int32_t` | `SpiSendData()` |
-| 接收数据 | `XxxReceiveData()` / `XxxReadData()` | `int32_t` | `CanReceiveData()` |
-| 配置参数 | `XxxSetXxx()` | `int32_t` | `UartSetBaudRate()` |
-| 使能/禁用 | `XxxEnable()` / `XxxDisable()` | `void` | `I2cEnable()` |
-| 状态查询 | `XxxIsXxx()` / `XxxGetXxx()` | `int32_t` / 具体类型 | `SpiIsBusy()` |
+| 函数类型  | 命名模式                             | 返回值                     | 示例                |
+| --------- | ------------------------------------ | -------------------------- | ------------------- |
+| 初始化    | `XxxInit()`                          | `int32_t` (0 成功/-1 失败) | `UartInit()`        |
+| 去初始化  | `XxxDeinit()`                        | `int32_t`                  | `UartDeinit()`      |
+| 发送数据  | `XxxSendData()` / `XxxWriteData()`   | `int32_t`                  | `SpiSendData()`     |
+| 接收数据  | `XxxReceiveData()` / `XxxReadData()` | `int32_t`                  | `CanReceiveData()`  |
+| 配置参数  | `XxxSetXxx()`                        | `int32_t`                  | `UartSetBaudRate()` |
+| 使能/禁用 | `XxxEnable()` / `XxxDisable()`       | `void`                     | `I2cEnable()`       |
+| 状态查询  | `XxxIsXxx()` / `XxxGetXxx()`         | `int32_t` / 具体类型       | `SpiIsBusy()`       |
 
-### 示例: UART模块
+### 示例: UART 模块
 
 ```c
 #include "uart.h"
@@ -292,7 +299,7 @@ ret = UartReceiveData(&rxData, 1);
 UartEnableInterrupts();
 ```
 
-### 示例: CAN模块
+### 示例: CAN 模块
 
 ```c
 #include "can.h"
@@ -314,7 +321,7 @@ uint32_t rxId = 0;
 int32_t len = CanReceiveData(&rxId, rxBuffer, 8);
 ```
 
-### 示例: PMBus模块
+### 示例: PMBus 模块
 
 ```c
 #include "pmbus.h"
@@ -406,11 +413,11 @@ cd build
 ### 代码规范
 
 - ✅ 所有控制语句必须使用花括号
-- ✅ 每个函数最多50行非空非注释代码
-- ✅ 每个函数都有完整Doxygen注释
+- ✅ 每个函数最多 50 行非空非注释代码
+- ✅ 每个函数都有完整 Doxygen 注释
 - ✅ **所有函数返回值必须检查**
-- ✅ 使用securec安全函数 (memcpy_s, strcpy_s等)
-- ✅ 返回值: 0表示成功, -1表示失败
+- ✅ 使用 securec 安全函数 (memcpy_s, strcpy_s 等)
+- ✅ 返回值: 0 表示成功, -1 表示失败
 - ✅ 错误处理: 检查返回值并适当清理资源
 
 ### 错误处理示例
@@ -452,12 +459,12 @@ int32_t UartInit(uint32_t baudRate);
 
 ## 项目统计 (Project Statistics)
 
-- **总模块数**: 27个
-- **源文件数**: 110+ (54 .c文件 + 56 .h文件)
-- **代码行数**: 约45,000行
-- **支持平台**: 4个 (STM32F4, STM32F1, ESP32, Linux)
+- **总模块数**: 27 个
+- **源文件数**: 110+ (54 .c 文件 + 56 .h 文件)
+- **代码行数**: 约 45,000 行
+- **支持平台**: 4 个 (STM32F4, STM32F1, ESP32, Linux)
 - **依赖库**: securec (安全字符串库)
-- **C标准**: C99
+- **C 标准**: C99
 - **构建系统**: CMake
 
 ---
@@ -466,13 +473,16 @@ int32_t UartInit(uint32_t baudRate);
 
 ### ✅ 已完成的质量改进
 
-1. **所有securec函数返回值检查** (54+ 处修复)
+1. **所有 securec 函数返回值检查** (54+ 处修复)
+
    - memcpy_s, memset_s, strcpy_s, strncpy_s, sprintf_s
 
 2. **所有系统调用返回值检查** (47+ 处修复)
+
    - open(), ioctl(), read(), write(), bind()
 
 3. **错误处理模式统一**
+
    - 关键操作: 检查返回值并清理资源
    - 非关键操作: 显式标记 `(void)` 忽略返回值
 
@@ -509,22 +519,23 @@ int32_t UartInit(uint32_t baudRate);
 ### Q2: 如何移植到新平台?
 
 参见 `多平台HAL实现说明.md`，基本步骤:
+
 1. 添加平台宏定义
-2. 实现HAL层函数
-3. 更新CMakeLists.txt
+2. 实现 HAL 层函数
+3. 更新 CMakeLists.txt
 4. 协议层代码无需修改
 
 ### Q3: 如何调试?
 
-- 使用Debug构建: `cmake -DCMAKE_BUILD_TYPE=Debug ..`
+- 使用 Debug 构建: `cmake -DCMAKE_BUILD_TYPE=Debug ..`
 - 检查返回值
 - 启用日志输出
-- 使用JTAG/SWD调试接口
+- 使用 JTAG/SWD 调试接口
 
 ### Q4: 性能优化建议?
 
-- 使用Release构建
-- 启用DMA传输
+- 使用 Release 构建
+- 启用 DMA 传输
 - 配置合适的波特率/时钟速度
 - 使用中断而非轮询
 - 批量传输数据
@@ -535,19 +546,19 @@ int32_t UartInit(uint32_t baudRate);
 
 欢迎贡献代码! 请遵循以下规范:
 
-1. Fork本仓库
+1. Fork 本仓库
 2. 创建特性分支 (`git checkout -b feature/new-protocol`)
 3. 遵循项目编码规范
 4. 添加测试用例
 5. 提交代码 (`git commit -m 'Add new protocol'`)
 6. 推送分支 (`git push origin feature/new-protocol`)
-7. 创建Pull Request
+7. 创建 Pull Request
 
 ---
 
 ## 许可证 (License)
 
-MIT License - 详见LICENSE文件
+MIT License - 详见 LICENSE 文件
 
 ---
 
@@ -562,8 +573,8 @@ MIT License - 详见LICENSE文件
 
 ### v2.0.0 (2025-10-01)
 
-- ✅ 新增17个通信协议模块
-- ✅ 完成4平台HAL层适配
+- ✅ 新增 17 个通信协议模块
+- ✅ 完成 4 平台 HAL 层适配
 - ✅ 全面的返回值检查和错误处理
 - ✅ 代码规范统一化
 - ✅ 完善的文档和示例
@@ -571,10 +582,10 @@ MIT License - 详见LICENSE文件
 ### v1.0.0 (2025-09-24)
 
 - ✅ 初始版本
-- ✅ 实现基础10个通信协议
-- ✅ CMake构建系统
-- ✅ securec安全库集成
+- ✅ 实现基础 10 个通信协议
+- ✅ CMake 构建系统
+- ✅ securec 安全库集成
 
 ---
 
-**持续更新中... 欢迎Star和Fork!** ⭐
+**持续更新中... 欢迎 Star 和 Fork!** ⭐

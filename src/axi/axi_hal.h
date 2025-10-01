@@ -7,9 +7,10 @@
 #ifndef AXI_HAL_H
 #define AXI_HAL_H
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 #include "axi.h"
+
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,7 +26,7 @@ extern "C" {
  * @param[in] config Configuration structure pointer
  * @return 0 on success, -1 on failure
  */
-int AxiHalInit(const AxiConfig *config);
+int AxiHalInit(const AxiConfig* config);
 
 /**
  * @brief Deinitialize AXI hardware interface
@@ -38,7 +39,7 @@ int AxiHalDeinit(void);
  * @param[in] writeAddr Write address channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiHalWriteAddress(const AxiWriteAddress *writeAddr);
+int AxiHalWriteAddress(const AxiWriteAddress* writeAddr);
 
 /**
  * @brief Write to AXI write data channel
@@ -46,21 +47,21 @@ int AxiHalWriteAddress(const AxiWriteAddress *writeAddr);
  * @param[in] dataWidth Data width in bytes
  * @return 0 on success, -1 on failure
  */
-int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth);
+int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth);
 
 /**
  * @brief Read from AXI write response channel
  * @param[out] writeResp Write response channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiHalReadWriteResponse(AxiWriteResponse *writeResp);
+int AxiHalReadWriteResponse(AxiWriteResponse* writeResp);
 
 /**
  * @brief Write to AXI read address channel
  * @param[in] readAddr Read address channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiHalReadAddress(const AxiReadAddress *readAddr);
+int AxiHalReadAddress(const AxiReadAddress* readAddr);
 
 /**
  * @brief Read from AXI read data channel
@@ -68,14 +69,14 @@ int AxiHalReadAddress(const AxiReadAddress *readAddr);
  * @param[in] dataWidth Data width in bytes
  * @return 0 on success, -1 on failure
  */
-int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth);
+int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth);
 
 /**
  * @brief Send AXI4-Stream data
  * @param[in] streamData Stream data structure
  * @return 0 on success, -1 on failure
  */
-int AxiHalStreamSend(const AxiStreamData *streamData);
+int AxiHalStreamSend(const AxiStreamData* streamData);
 
 /**
  * @brief Receive AXI4-Stream data
@@ -83,7 +84,7 @@ int AxiHalStreamSend(const AxiStreamData *streamData);
  * @param[in] maxLength Maximum length to receive
  * @return Number of bytes received on success, -1 on failure
  */
-int AxiHalStreamReceive(AxiStreamData *streamData, size_t maxLength);
+int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength);
 
 /**
  * @brief Check if AXI bus is busy

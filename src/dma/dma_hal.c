@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "dma_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -221,31 +222,29 @@ int32_t DmaHalConfigureChannel(const DmaConfig* config)
     DMA_HandleTypeDef* hdma = &g_dmaHandles[config->controller - 1][config->channel];
 
     /* Get DMA stream instance */
-    DMA_Stream_TypeDef* streamTable[2][8] = {
-        {DMA1_Stream0, DMA1_Stream1, DMA1_Stream2, DMA1_Stream3,
-         DMA1_Stream4, DMA1_Stream5, DMA1_Stream6, DMA1_Stream7},
-        {DMA2_Stream0, DMA2_Stream1, DMA2_Stream2, DMA2_Stream3,
-         DMA2_Stream4, DMA2_Stream5, DMA2_Stream6, DMA2_Stream7}
-    };
+    DMA_Stream_TypeDef* streamTable[2][8] = {{DMA1_Stream0, DMA1_Stream1, DMA1_Stream2, DMA1_Stream3, DMA1_Stream4, DMA1_Stream5,
+                                              DMA1_Stream6, DMA1_Stream7},
+                                             {DMA2_Stream0, DMA2_Stream1, DMA2_Stream2, DMA2_Stream3, DMA2_Stream4, DMA2_Stream5,
+                                              DMA2_Stream6, DMA2_Stream7}};
 
     hdma->Instance = streamTable[config->controller - 1][config->channel];
 
     /* Configure DMA parameters */
     hdma->Init.Channel = DMA_CHANNEL_0;
-    hdma->Init.Direction = (config->direction == DMA_DIR_MEM2MEM) ? DMA_MEMORY_TO_MEMORY :
-                           (config->direction == DMA_DIR_PERIPH2MEM) ? DMA_PERIPH_TO_MEMORY :
-                           DMA_MEMORY_TO_PERIPH;
+    hdma->Init.Direction = (config->direction == DMA_DIR_MEM2MEM)      ? DMA_MEMORY_TO_MEMORY
+                           : (config->direction == DMA_DIR_PERIPH2MEM) ? DMA_PERIPH_TO_MEMORY
+                                                                       : DMA_MEMORY_TO_PERIPH;
     hdma->Init.PeriphInc = config->peripheralIncrement ? DMA_PINC_ENABLE : DMA_PINC_DISABLE;
     hdma->Init.MemInc = config->memoryIncrement ? DMA_MINC_ENABLE : DMA_MINC_DISABLE;
-    hdma->Init.PeriphDataAlignment = (config->dataWidth == DMA_DATA_WIDTH_BYTE) ? DMA_PDATAALIGN_BYTE :
-                                      (config->dataWidth == DMA_DATA_WIDTH_HALFWORD) ? DMA_PDATAALIGN_HALFWORD :
-                                      DMA_PDATAALIGN_WORD;
+    hdma->Init.PeriphDataAlignment = (config->dataWidth == DMA_DATA_WIDTH_BYTE)       ? DMA_PDATAALIGN_BYTE
+                                     : (config->dataWidth == DMA_DATA_WIDTH_HALFWORD) ? DMA_PDATAALIGN_HALFWORD
+                                                                                      : DMA_PDATAALIGN_WORD;
     hdma->Init.MemDataAlignment = hdma->Init.PeriphDataAlignment;
     hdma->Init.Mode = (config->mode == DMA_MODE_CIRCULAR) ? DMA_CIRCULAR : DMA_NORMAL;
-    hdma->Init.Priority = (config->priority == DMA_PRIORITY_LOW) ? DMA_PRIORITY_LOW :
-                          (config->priority == DMA_PRIORITY_MEDIUM) ? DMA_PRIORITY_MEDIUM :
-                          (config->priority == DMA_PRIORITY_HIGH) ? DMA_PRIORITY_HIGH :
-                          DMA_PRIORITY_VERY_HIGH;
+    hdma->Init.Priority = (config->priority == DMA_PRIORITY_LOW)      ? DMA_PRIORITY_LOW
+                          : (config->priority == DMA_PRIORITY_MEDIUM) ? DMA_PRIORITY_MEDIUM
+                          : (config->priority == DMA_PRIORITY_HIGH)   ? DMA_PRIORITY_HIGH
+                                                                      : DMA_PRIORITY_VERY_HIGH;
     hdma->Init.FIFOMode = config->enableFifo ? DMA_FIFOMODE_ENABLE : DMA_FIFOMODE_DISABLE;
     hdma->Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma->Init.MemBurst = DMA_MBURST_SINGLE;
@@ -260,11 +259,9 @@ int32_t DmaHalConfigureChannel(const DmaConfig* config)
     DMA_HandleTypeDef* hdma = &g_dmaHandles[config->controller - 1][config->channel];
 
     /* Get DMA channel instance */
-    DMA_Channel_TypeDef* channelTable[2][7] = {
-        {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4,
-         DMA1_Channel5, DMA1_Channel6, DMA1_Channel7},
-        {DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5, NULL, NULL}
-    };
+    DMA_Channel_TypeDef* channelTable[2][7] = {{DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6,
+                                                DMA1_Channel7},
+                                               {DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5, NULL, NULL}};
 
     hdma->Instance = channelTable[config->controller - 1][config->channel];
     if (hdma->Instance == NULL) {
@@ -272,20 +269,20 @@ int32_t DmaHalConfigureChannel(const DmaConfig* config)
     }
 
     /* Configure DMA parameters */
-    hdma->Init.Direction = (config->direction == DMA_DIR_MEM2MEM) ? DMA_MEMORY_TO_MEMORY :
-                           (config->direction == DMA_DIR_PERIPH2MEM) ? DMA_PERIPH_TO_MEMORY :
-                           DMA_MEMORY_TO_PERIPH;
+    hdma->Init.Direction = (config->direction == DMA_DIR_MEM2MEM)      ? DMA_MEMORY_TO_MEMORY
+                           : (config->direction == DMA_DIR_PERIPH2MEM) ? DMA_PERIPH_TO_MEMORY
+                                                                       : DMA_MEMORY_TO_PERIPH;
     hdma->Init.PeriphInc = config->peripheralIncrement ? DMA_PINC_ENABLE : DMA_PINC_DISABLE;
     hdma->Init.MemInc = config->memoryIncrement ? DMA_MINC_ENABLE : DMA_MINC_DISABLE;
-    hdma->Init.PeriphDataAlignment = (config->dataWidth == DMA_DATA_WIDTH_BYTE) ? DMA_PDATAALIGN_BYTE :
-                                      (config->dataWidth == DMA_DATA_WIDTH_HALFWORD) ? DMA_PDATAALIGN_HALFWORD :
-                                      DMA_PDATAALIGN_WORD;
+    hdma->Init.PeriphDataAlignment = (config->dataWidth == DMA_DATA_WIDTH_BYTE)       ? DMA_PDATAALIGN_BYTE
+                                     : (config->dataWidth == DMA_DATA_WIDTH_HALFWORD) ? DMA_PDATAALIGN_HALFWORD
+                                                                                      : DMA_PDATAALIGN_WORD;
     hdma->Init.MemDataAlignment = hdma->Init.PeriphDataAlignment;
     hdma->Init.Mode = (config->mode == DMA_MODE_CIRCULAR) ? DMA_CIRCULAR : DMA_NORMAL;
-    hdma->Init.Priority = (config->priority == DMA_PRIORITY_LOW) ? DMA_PRIORITY_LOW :
-                          (config->priority == DMA_PRIORITY_MEDIUM) ? DMA_PRIORITY_MEDIUM :
-                          (config->priority == DMA_PRIORITY_HIGH) ? DMA_PRIORITY_HIGH :
-                          DMA_PRIORITY_VERY_HIGH;
+    hdma->Init.Priority = (config->priority == DMA_PRIORITY_LOW)      ? DMA_PRIORITY_LOW
+                          : (config->priority == DMA_PRIORITY_MEDIUM) ? DMA_PRIORITY_MEDIUM
+                          : (config->priority == DMA_PRIORITY_HIGH)   ? DMA_PRIORITY_HIGH
+                                                                      : DMA_PRIORITY_VERY_HIGH;
 
     if (HAL_DMA_Init(hdma) != HAL_OK) {
         return -1;
@@ -305,7 +302,8 @@ int32_t DmaHalConfigureChannel(const DmaConfig* config)
 
 /******************************************************************************
  * @brief     : Start DMA transfer at hardware level
- * @param[in] : controller - DMA controller number, channel - DMA channel/stream number, srcAddr - Source address, destAddr - Destination address, dataLength - Number of data items
+ * @param[in] : controller - DMA controller number, channel - DMA channel/stream number, srcAddr - Source address, destAddr - Destination
+ *address, dataLength - Number of data items
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -529,24 +527,20 @@ int32_t DmaHalDisableInterrupt(uint8_t controller, uint8_t channel, uint8_t inte
 int32_t DmaConfigureNvic(uint8_t controller, uint8_t channel)
 {
 #ifdef PLATFORM_STM32F4
-    IRQn_Type irqTable[2][8] = {
-        {DMA1_Stream0_IRQn, DMA1_Stream1_IRQn, DMA1_Stream2_IRQn, DMA1_Stream3_IRQn,
-         DMA1_Stream4_IRQn, DMA1_Stream5_IRQn, DMA1_Stream6_IRQn, DMA1_Stream7_IRQn},
-        {DMA2_Stream0_IRQn, DMA2_Stream1_IRQn, DMA2_Stream2_IRQn, DMA2_Stream3_IRQn,
-         DMA2_Stream4_IRQn, DMA2_Stream5_IRQn, DMA2_Stream6_IRQn, DMA2_Stream7_IRQn}
-    };
+    IRQn_Type irqTable[2][8] = {{DMA1_Stream0_IRQn, DMA1_Stream1_IRQn, DMA1_Stream2_IRQn, DMA1_Stream3_IRQn, DMA1_Stream4_IRQn,
+                                 DMA1_Stream5_IRQn, DMA1_Stream6_IRQn, DMA1_Stream7_IRQn},
+                                {DMA2_Stream0_IRQn, DMA2_Stream1_IRQn, DMA2_Stream2_IRQn, DMA2_Stream3_IRQn, DMA2_Stream4_IRQn,
+                                 DMA2_Stream5_IRQn, DMA2_Stream6_IRQn, DMA2_Stream7_IRQn}};
 
     IRQn_Type irqn = irqTable[controller - 1][channel];
     HAL_NVIC_SetPriority(irqn, 0, 0);
     HAL_NVIC_EnableIRQ(irqn);
     return 0;
 #elif defined(PLATFORM_STM32F1)
-    IRQn_Type irqTable[2][7] = {
-        {DMA1_Channel1_IRQn, DMA1_Channel2_IRQn, DMA1_Channel3_IRQn, DMA1_Channel4_IRQn,
-         DMA1_Channel5_IRQn, DMA1_Channel6_IRQn, DMA1_Channel7_IRQn},
-        {DMA2_Channel1_IRQn, DMA2_Channel2_IRQn, DMA2_Channel3_IRQn, DMA2_Channel4_5_IRQn,
-         DMA2_Channel4_5_IRQn, 0, 0}
-    };
+    IRQn_Type irqTable[2][7] = {{DMA1_Channel1_IRQn, DMA1_Channel2_IRQn, DMA1_Channel3_IRQn, DMA1_Channel4_IRQn, DMA1_Channel5_IRQn,
+                                 DMA1_Channel6_IRQn, DMA1_Channel7_IRQn},
+                                {DMA2_Channel1_IRQn, DMA2_Channel2_IRQn, DMA2_Channel3_IRQn, DMA2_Channel4_5_IRQn, DMA2_Channel4_5_IRQn, 0,
+                                 0}};
 
     IRQn_Type irqn = irqTable[controller - 1][channel];
     if (irqn != 0) {
@@ -609,20 +603,16 @@ int32_t DmaHalSetCircularMode(uint8_t controller, uint8_t channel, uint8_t enabl
 uint32_t DmaHalGetRemainingCount(uint8_t controller, uint8_t channel)
 {
 #ifdef PLATFORM_STM32F4
-    DMA_Stream_TypeDef* streamTable[2][8] = {
-        {DMA1_Stream0, DMA1_Stream1, DMA1_Stream2, DMA1_Stream3,
-         DMA1_Stream4, DMA1_Stream5, DMA1_Stream6, DMA1_Stream7},
-        {DMA2_Stream0, DMA2_Stream1, DMA2_Stream2, DMA2_Stream3,
-         DMA2_Stream4, DMA2_Stream5, DMA2_Stream6, DMA2_Stream7}
-    };
+    DMA_Stream_TypeDef* streamTable[2][8] = {{DMA1_Stream0, DMA1_Stream1, DMA1_Stream2, DMA1_Stream3, DMA1_Stream4, DMA1_Stream5,
+                                              DMA1_Stream6, DMA1_Stream7},
+                                             {DMA2_Stream0, DMA2_Stream1, DMA2_Stream2, DMA2_Stream3, DMA2_Stream4, DMA2_Stream5,
+                                              DMA2_Stream6, DMA2_Stream7}};
     DMA_Stream_TypeDef* stream = streamTable[controller - 1][channel];
     return stream->NDTR;
 #elif defined(PLATFORM_STM32F1)
-    DMA_Channel_TypeDef* channelTable[2][7] = {
-        {DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4,
-         DMA1_Channel5, DMA1_Channel6, DMA1_Channel7},
-        {DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5, NULL, NULL}
-    };
+    DMA_Channel_TypeDef* channelTable[2][7] = {{DMA1_Channel1, DMA1_Channel2, DMA1_Channel3, DMA1_Channel4, DMA1_Channel5, DMA1_Channel6,
+                                                DMA1_Channel7},
+                                               {DMA2_Channel1, DMA2_Channel2, DMA2_Channel3, DMA2_Channel4, DMA2_Channel5, NULL, NULL}};
     DMA_Channel_TypeDef* ch = channelTable[controller - 1][channel];
     if (ch == NULL) {
         return 0;

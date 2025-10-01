@@ -4,10 +4,11 @@
  * @details Protocol-agnostic implementation of AXI4, AXI4-Lite, and AXI4-Stream
  */
 
+#include <string.h>
 #include "axi.h"
 #include "axi_hal.h"
 #include "securec.h"
-#include <string.h>
+
 
 /** Current AXI configuration */
 static AxiConfig g_axiConfig = {0};
@@ -23,15 +24,14 @@ static uint8_t g_axiInitialized = 0;
  * @param[in] config Configuration structure pointer
  * @return 0 on success, -1 on failure
  */
-static int ValidateConfig(const AxiConfig *config)
+static int ValidateConfig(const AxiConfig* config)
 {
     if (config == NULL) {
         return -1;
     }
 
-    if (config->dataWidth != 32 && config->dataWidth != 64 &&
-        config->dataWidth != 128 && config->dataWidth != 256 &&
-        config->dataWidth != 512 && config->dataWidth != 1024) {
+    if (config->dataWidth != 32 && config->dataWidth != 64 && config->dataWidth != 128 && config->dataWidth != 256
+        && config->dataWidth != 512 && config->dataWidth != 1024) {
         return -1;
     }
 
@@ -55,7 +55,7 @@ static int ValidateConfig(const AxiConfig *config)
  * @param[in] writeAddr Write address channel structure
  * @return 0 on success, -1 on failure
  */
-static int ValidateWriteAddress(const AxiWriteAddress *writeAddr)
+static int ValidateWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (writeAddr == NULL) {
         return -1;
@@ -81,7 +81,7 @@ static int ValidateWriteAddress(const AxiWriteAddress *writeAddr)
  * @param[in] readAddr Read address channel structure
  * @return 0 on success, -1 on failure
  */
-static int ValidateReadAddress(const AxiReadAddress *readAddr)
+static int ValidateReadAddress(const AxiReadAddress* readAddr)
 {
     if (readAddr == NULL) {
         return -1;
@@ -107,7 +107,7 @@ static int ValidateReadAddress(const AxiReadAddress *readAddr)
  * @param[in] config Configuration structure pointer
  * @return 0 on success, -1 on failure
  */
-int AxiInit(const AxiConfig *config)
+int AxiInit(const AxiConfig* config)
 {
     if (g_axiInitialized) {
         return -1;
@@ -117,8 +117,7 @@ int AxiInit(const AxiConfig *config)
         return -1;
     }
 
-    if (memcpy_s(&g_axiConfig, sizeof(AxiConfig), config,
-                 sizeof(AxiConfig)) != EOK) {
+    if (memcpy_s(&g_axiConfig, sizeof(AxiConfig), config, sizeof(AxiConfig)) != EOK) {
         return -1;
     }
 
@@ -167,9 +166,7 @@ int AxiDeinit(void)
  * @param[out] writeResp Write response channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiWriteTransaction(const AxiWriteAddress *writeAddr,
-                        const AxiWriteData *writeData,
-                        AxiWriteResponse *writeResp)
+int AxiWriteTransaction(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, AxiWriteResponse* writeResp)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -207,8 +204,7 @@ int AxiWriteTransaction(const AxiWriteAddress *writeAddr,
         return -1;
     }
 
-    if (writeResp->response != AXI_RESP_OKAY &&
-        writeResp->response != AXI_RESP_EXOKAY) {
+    if (writeResp->response != AXI_RESP_OKAY && writeResp->response != AXI_RESP_EXOKAY) {
         g_axiStatus.errorCount++;
         g_axiStatus.lastError = writeResp->response;
         return -1;
@@ -224,8 +220,7 @@ int AxiWriteTransaction(const AxiWriteAddress *writeAddr,
  * @param[out] readData Read data channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiReadTransaction(const AxiReadAddress *readAddr,
-                       AxiReadData *readData)
+int AxiReadTransaction(const AxiReadAddress* readAddr, AxiReadData* readData)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -254,8 +249,7 @@ int AxiReadTransaction(const AxiReadAddress *readAddr,
         return -1;
     }
 
-    if (readData->response != AXI_RESP_OKAY &&
-        readData->response != AXI_RESP_EXOKAY) {
+    if (readData->response != AXI_RESP_OKAY && readData->response != AXI_RESP_EXOKAY) {
         g_axiStatus.errorCount++;
         g_axiStatus.lastError = readData->response;
         return -1;
@@ -273,10 +267,7 @@ int AxiReadTransaction(const AxiReadAddress *readAddr,
  * @param[out] writeResp Write response channel structure
  * @return 0 on success, -1 on failure
  */
-int AxiWriteBurst(const AxiWriteAddress *writeAddr,
-                  const AxiWriteData *writeData,
-                  uint8_t burstLength,
-                  AxiWriteResponse *writeResp)
+int AxiWriteBurst(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, uint8_t burstLength, AxiWriteResponse* writeResp)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -320,8 +311,7 @@ int AxiWriteBurst(const AxiWriteAddress *writeAddr,
         return -1;
     }
 
-    if (writeResp->response != AXI_RESP_OKAY &&
-        writeResp->response != AXI_RESP_EXOKAY) {
+    if (writeResp->response != AXI_RESP_OKAY && writeResp->response != AXI_RESP_EXOKAY) {
         g_axiStatus.errorCount++;
         g_axiStatus.lastError = writeResp->response;
         return -1;
@@ -338,9 +328,7 @@ int AxiWriteBurst(const AxiWriteAddress *writeAddr,
  * @param[in] burstLength Number of transfers in burst
  * @return 0 on success, -1 on failure
  */
-int AxiReadBurst(const AxiReadAddress *readAddr,
-                 AxiReadData *readData,
-                 uint8_t burstLength)
+int AxiReadBurst(const AxiReadAddress* readAddr, AxiReadData* readData, uint8_t burstLength)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -378,8 +366,7 @@ int AxiReadBurst(const AxiReadAddress *readAddr,
             return -1;
         }
 
-        if (readData[i].response != AXI_RESP_OKAY &&
-            readData[i].response != AXI_RESP_EXOKAY) {
+        if (readData[i].response != AXI_RESP_OKAY && readData[i].response != AXI_RESP_EXOKAY) {
             g_axiStatus.errorCount++;
             g_axiStatus.lastError = readData[i].response;
             return -1;
@@ -417,7 +404,7 @@ int AxiSetQoS(uint8_t qosValue)
  * @param[out] status Status structure pointer
  * @return 0 on success, -1 on failure
  */
-int AxiGetStatus(AxiStatus *status)
+int AxiGetStatus(AxiStatus* status)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -432,8 +419,7 @@ int AxiGetStatus(AxiStatus *status)
         g_axiStatus.isBusy = (uint8_t)busyStatus;
     }
 
-    if (memcpy_s(status, sizeof(AxiStatus), &g_axiStatus,
-                 sizeof(AxiStatus)) != EOK) {
+    if (memcpy_s(status, sizeof(AxiStatus), &g_axiStatus, sizeof(AxiStatus)) != EOK) {
         return -1;
     }
 
@@ -445,7 +431,7 @@ int AxiGetStatus(AxiStatus *status)
  * @param[in] streamData Stream data structure
  * @return 0 on success, -1 on failure
  */
-int AxiStreamSend(const AxiStreamData *streamData)
+int AxiStreamSend(const AxiStreamData* streamData)
 {
     if (!g_axiInitialized) {
         return -1;
@@ -473,7 +459,7 @@ int AxiStreamSend(const AxiStreamData *streamData)
  * @param[in] maxLength Maximum length to receive
  * @return Number of bytes received on success, -1 on failure
  */
-int AxiStreamReceive(AxiStreamData *streamData, size_t maxLength)
+int AxiStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     if (!g_axiInitialized) {
         return -1;

@@ -7,9 +7,10 @@
  * @note    : Multi-platform SDIO HAL implementation
  ******************************************************************************/
 
-#include "sdio_hal.h"
-#include "platform_config.h"
 #include <string.h>
+#include "platform_config.h"
+#include "sdio_hal.h"
+
 
 /******************************************************************************
  * Platform: STM32F4
@@ -348,9 +349,7 @@ int32_t SdioEnableClock(void)
     return 0;
 }
 
-void SdioDisableClock(void)
-{
-}
+void SdioDisableClock(void) {}
 
 int32_t SdioConfigureGpio(void)
 {
@@ -369,11 +368,7 @@ void SdioDisable(void)
 
 int32_t SdioSendCommandHal(uint8_t cmd, uint32_t arg, uint8_t crc)
 {
-    sdmmc_command_t command = {
-        .opcode = cmd,
-        .arg = arg,
-        .flags = SCF_CMD_AC | SCF_RSP_R1
-    };
+    sdmmc_command_t command = {.opcode = cmd, .arg = arg, .flags = SCF_CMD_AC | SCF_RSP_R1};
     return sdmmc_host_do_transaction(host.slot, &command);
 }
 
@@ -427,10 +422,11 @@ int32_t SdioWaitDataComplete(uint32_t timeout)
  ******************************************************************************/
 #ifdef PLATFORM_LINUX
 
-#include <stdio.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <sys/ioctl.h>
+#include <unistd.h>
+
 
 static int sdioFd = -1;
 

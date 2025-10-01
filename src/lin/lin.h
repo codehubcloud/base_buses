@@ -1,31 +1,28 @@
 #ifndef LIN_H
 #define LIN_H
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
+
 
 #define LIN_DEFAULT_BAUDRATE 19200
 #define LIN_MAX_DATA_LENGTH 8
 #define LIN_SYNC_BYTE 0x55
 
 /* LIN protocol versions */
-typedef enum {
-    LIN_VERSION_1_3 = 0,
-    LIN_VERSION_2_0,
-    LIN_VERSION_2_1
-} LinVersion_t;
+typedef enum { LIN_VERSION_1_3 = 0, LIN_VERSION_2_0, LIN_VERSION_2_1 } LinVersion_t;
 
 /* LIN checksum types */
 typedef enum {
-    LIN_CHECKSUM_CLASSIC = 0,  /* Classic checksum (data only) */
-    LIN_CHECKSUM_ENHANCED      /* Enhanced checksum (ID + data) */
+    LIN_CHECKSUM_CLASSIC = 0, /* Classic checksum (data only) */
+    LIN_CHECKSUM_ENHANCED     /* Enhanced checksum (ID + data) */
 } LinChecksumType_t;
 
 /* LIN frame structure */
 typedef struct {
-    uint8_t id;                     /* Protected ID (6-bit ID + 2-bit parity) */
+    uint8_t id;     /* Protected ID (6-bit ID + 2-bit parity) */
     uint8_t data[LIN_MAX_DATA_LENGTH];
-    uint8_t length;                 /* Data length (1-8 bytes) */
+    uint8_t length; /* Data length (1-8 bytes) */
     uint8_t checksum;
     LinChecksumType_t checksumType;
 } LinFrame_t;

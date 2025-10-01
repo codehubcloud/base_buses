@@ -4,39 +4,39 @@
 #include <stdint.h>
 
 /* CAN FD Default Bit Rates */
-#define CANFD_DEFAULT_NOMINAL_BITRATE 500000    /* Nominal bit rate: 500 kbps */
-#define CANFD_DEFAULT_DATA_BITRATE    2000000   /* Data phase bit rate: 2 Mbps */
+#define CANFD_DEFAULT_NOMINAL_BITRATE 500000 /* Nominal bit rate: 500 kbps */
+#define CANFD_DEFAULT_DATA_BITRATE 2000000   /* Data phase bit rate: 2 Mbps */
 
 /* CAN FD Maximum Data Length */
 #define CANFD_MAX_DATA_LENGTH 64
 
 /* CAN FD Frame Type Flags */
-#define CANFD_FRAME_TYPE_CLASSIC 0x00  /* Classic CAN frame (up to 8 bytes) */
-#define CANFD_FRAME_TYPE_FD      0x01  /* CAN FD frame (up to 64 bytes) */
+#define CANFD_FRAME_TYPE_CLASSIC 0x00 /* Classic CAN frame (up to 8 bytes) */
+#define CANFD_FRAME_TYPE_FD 0x01      /* CAN FD frame (up to 64 bytes) */
 
 /* CAN ID Type Flags */
-#define CANFD_ID_TYPE_STANDARD   0x00  /* Standard 11-bit ID */
-#define CANFD_ID_TYPE_EXTENDED   0x01  /* Extended 29-bit ID */
+#define CANFD_ID_TYPE_STANDARD 0x00 /* Standard 11-bit ID */
+#define CANFD_ID_TYPE_EXTENDED 0x01 /* Extended 29-bit ID */
 
 /* CAN FD BRS Flag (Bit Rate Switch) */
-#define CANFD_BRS_DISABLED       0x00  /* No bit rate switching */
-#define CANFD_BRS_ENABLED        0x01  /* Enable bit rate switching */
+#define CANFD_BRS_DISABLED 0x00 /* No bit rate switching */
+#define CANFD_BRS_ENABLED 0x01  /* Enable bit rate switching */
 
 /* CAN FD ESI Flag (Error State Indicator) */
-#define CANFD_ESI_ERROR_ACTIVE   0x00  /* Transmitter is error active */
-#define CANFD_ESI_ERROR_PASSIVE  0x01  /* Transmitter is error passive */
+#define CANFD_ESI_ERROR_ACTIVE 0x00  /* Transmitter is error active */
+#define CANFD_ESI_ERROR_PASSIVE 0x01 /* Transmitter is error passive */
 
 /******************************************************************************
  * CAN FD Frame Structure
  *****************************************************************************/
 typedef struct {
-    uint32_t id;                        /* CAN message ID (11-bit or 29-bit) */
+    uint32_t id;                         /* CAN message ID (11-bit or 29-bit) */
     uint8_t data[CANFD_MAX_DATA_LENGTH]; /* Data payload */
-    uint8_t dataLength;                 /* Number of data bytes (0-64) */
-    uint8_t frameType;                  /* CANFD_FRAME_TYPE_CLASSIC or CANFD_FRAME_TYPE_FD */
-    uint8_t idType;                     /* CANFD_ID_TYPE_STANDARD or CANFD_ID_TYPE_EXTENDED */
-    uint8_t brsFlag;                    /* CANFD_BRS_DISABLED or CANFD_BRS_ENABLED */
-    uint8_t esiFlag;                    /* CANFD_ESI_ERROR_ACTIVE or CANFD_ESI_ERROR_PASSIVE */
+    uint8_t dataLength;                  /* Number of data bytes (0-64) */
+    uint8_t frameType;                   /* CANFD_FRAME_TYPE_CLASSIC or CANFD_FRAME_TYPE_FD */
+    uint8_t idType;                      /* CANFD_ID_TYPE_STANDARD or CANFD_ID_TYPE_EXTENDED */
+    uint8_t brsFlag;                     /* CANFD_BRS_DISABLED or CANFD_BRS_ENABLED */
+    uint8_t esiFlag;                     /* CANFD_ESI_ERROR_ACTIVE or CANFD_ESI_ERROR_PASSIVE */
 } CanFdFrame;
 
 /******************************************************************************

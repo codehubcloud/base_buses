@@ -1,6 +1,7 @@
-#include "securec.h"
-#include "rs232_hal.h"
 #include "platform_config.h"
+#include "rs232_hal.h"
+#include "securec.h"
+
 
 /* NOTE: RS232 is implemented using UART physical layer
  * All platforms use their respective UART hardware
@@ -16,7 +17,7 @@ static UART_HandleTypeDef g_rs232Handle;
 #endif
 
 #ifdef PLATFORM_ESP32
-static const int g_rs232UartNum = UART_NUM_2;  /* Using UART2 for RS232 */
+static const int g_rs232UartNum = UART_NUM_2; /* Using UART2 for RS232 */
 #endif
 
 #ifdef PLATFORM_LINUX
@@ -136,9 +137,9 @@ int32_t Rs232TxBufferEmpty(void)
 #elif defined(PLATFORM_STM32F1)
     return (__HAL_UART_GET_FLAG(&g_rs232Handle, UART_FLAG_TXE) != RESET) ? 1 : 0;
 #elif defined(PLATFORM_ESP32)
-    return 1;  /* ESP32 driver handles buffering */
+    return 1; /* ESP32 driver handles buffering */
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux driver handles buffering */
+    return 1; /* Linux driver handles buffering */
 #else
     return 1;
 #endif
@@ -254,13 +255,11 @@ int32_t Rs232ConfigureBaudRate(uint32_t baudRate)
     g_rs232Handle.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     return (HAL_UART_Init(&g_rs232Handle) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_ESP32)
-    uart_config_t uartConfig = {
-        .baud_rate = (int)baudRate,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
-    };
+    uart_config_t uartConfig = {.baud_rate = (int)baudRate,
+                                .data_bits = UART_DATA_8_BITS,
+                                .parity = UART_PARITY_DISABLE,
+                                .stop_bits = UART_STOP_BITS_1,
+                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE};
     uart_param_config(g_rs232UartNum, &uartConfig);
     uart_set_pin(g_rs232UartNum, 17, 16, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     return 0;
@@ -273,11 +272,17 @@ int32_t Rs232ConfigureBaudRate(uint32_t baudRate)
     tcgetattr(g_rs232Fd, &options);
 
     speed_t speed = B115200;
-    if (baudRate == 9600) { speed = B9600; }
-    else if (baudRate == 19200) { speed = B19200; }
-    else if (baudRate == 38400) { speed = B38400; }
-    else if (baudRate == 57600) { speed = B57600; }
-    else if (baudRate == 115200) { speed = B115200; }
+    if (baudRate == 9600) {
+        speed = B9600;
+    } else if (baudRate == 19200) {
+        speed = B19200;
+    } else if (baudRate == 38400) {
+        speed = B38400;
+    } else if (baudRate == 57600) {
+        speed = B57600;
+    } else if (baudRate == 115200) {
+        speed = B115200;
+    }
 
     cfsetispeed(&options, speed);
     cfsetospeed(&options, speed);

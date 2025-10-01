@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "apb_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4

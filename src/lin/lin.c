@@ -4,11 +4,7 @@
 #include "securec.h"
 
 /* Global LIN configuration */
-static LinConfig_t g_linConfig = {
-    .baudRate = LIN_DEFAULT_BAUDRATE,
-    .version = LIN_VERSION_2_0,
-    .defaultChecksumType = LIN_CHECKSUM_ENHANCED
-};
+static LinConfig_t g_linConfig = {.baudRate = LIN_DEFAULT_BAUDRATE, .version = LIN_VERSION_2_0, .defaultChecksumType = LIN_CHECKSUM_ENHANCED};
 
 /* Current frame being processed */
 static uint8_t g_currentId = 0;
@@ -98,7 +94,7 @@ int32_t LinSendBreak(void)
  *****************************************************************************/
 uint8_t LinCalculateProtectedId(uint8_t id)
 {
-    uint8_t protectedId = id & 0x3F;  /* Ensure only 6 bits */
+    uint8_t protectedId = id & 0x3F; /* Ensure only 6 bits */
     uint8_t p0, p1;
 
     /* P0 = ID0 XOR ID1 XOR ID2 XOR ID4 */
@@ -106,7 +102,7 @@ uint8_t LinCalculateProtectedId(uint8_t id)
 
     /* P1 = NOT(ID1 XOR ID3 XOR ID4 XOR ID5) */
     p1 = ~(((id >> 1) & 1) ^ ((id >> 3) & 1) ^ ((id >> 4) & 1) ^ ((id >> 5) & 1));
-    p1 &= 1;  /* Ensure single bit */
+    p1 &= 1; /* Ensure single bit */
 
     /* Combine: [P1][P0][ID5][ID4][ID3][ID2][ID1][ID0] */
     protectedId |= (p0 << 6) | (p1 << 7);
@@ -148,7 +144,7 @@ int32_t LinSendHeader(uint8_t id)
     uint8_t protectedId;
     int32_t result;
 
-    if (id > 0x3F) {  /* ID must be 6 bits (0-63) */
+    if (id > 0x3F) { /* ID must be 6 bits (0-63) */
         return -1;
     }
 
@@ -241,8 +237,7 @@ int32_t LinSendResponse(const uint8_t* data, uint8_t length)
     }
 
     /* Calculate and send checksum */
-    checksum = LinCalculateChecksum(g_currentId, data, length,
-                                     g_linConfig.defaultChecksumType == LIN_CHECKSUM_ENHANCED);
+    checksum = LinCalculateChecksum(g_currentId, data, length, g_linConfig.defaultChecksumType == LIN_CHECKSUM_ENHANCED);
     result = LinWriteByte(checksum);
     if (result != 0) {
         return -1;
@@ -272,14 +267,14 @@ int32_t LinReceiveResponse(uint8_t* data, uint8_t length)
 
     /* Receive data bytes with timeout */
     for (i = 0; i < length; i++) {
-        timeout = 10000;  /* Timeout counter */
+        timeout = 10000; /* Timeout counter */
         while (LinRxBufferHasData() == 0 && timeout > 0) {
             LinDelayUs(10);
             timeout--;
         }
 
         if (timeout == 0) {
-            return -1;  /* Timeout */
+            return -1; /* Timeout */
         }
 
         result = LinReadByte(&data[i]);
@@ -296,7 +291,7 @@ int32_t LinReceiveResponse(uint8_t* data, uint8_t length)
     }
 
     if (timeout == 0) {
-        return -1;  /* Timeout */
+        return -1; /* Timeout */
     }
 
     result = LinReadByte(&receivedChecksum);
@@ -305,11 +300,10 @@ int32_t LinReceiveResponse(uint8_t* data, uint8_t length)
     }
 
     /* Validate checksum */
-    calculatedChecksum = LinCalculateChecksum(g_currentId, data, length,
-                                               g_linConfig.defaultChecksumType == LIN_CHECKSUM_ENHANCED);
+    calculatedChecksum = LinCalculateChecksum(g_currentId, data, length, g_linConfig.defaultChecksumType == LIN_CHECKSUM_ENHANCED);
 
     if (receivedChecksum != calculatedChecksum) {
-        return -1;  /* Checksum mismatch */
+        return -1; /* Checksum mismatch */
     }
 
     return (int32_t)length;
@@ -374,7 +368,7 @@ int32_t LinReceiveFrame(LinFrame_t* frame, uint8_t expectedLength)
     }
 
     if (timeout == 0) {
-        return -1;  /* Timeout */
+        return -1; /* Timeout */
     }
 
     result = LinReadByte(&syncByte);
@@ -390,7 +384,7 @@ int32_t LinReceiveFrame(LinFrame_t* frame, uint8_t expectedLength)
     }
 
     if (timeout == 0) {
-        return -1;  /* Timeout */
+        return -1; /* Timeout */
     }
 
     result = LinReadByte(&protectedId);
@@ -400,7 +394,7 @@ int32_t LinReceiveFrame(LinFrame_t* frame, uint8_t expectedLength)
 
     /* Validate protected ID */
     if (LinValidateProtectedId(protectedId) == 0) {
-        return -1;  /* Invalid parity */
+        return -1; /* Invalid parity */
     }
 
     frame->id = protectedId & 0x3F;

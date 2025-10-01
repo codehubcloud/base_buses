@@ -9,17 +9,10 @@
 #define APB_VERSION_APB4 4
 
 /* APB Transfer States */
-typedef enum {
-    APB_STATE_IDLE = 0,
-    APB_STATE_SETUP = 1,
-    APB_STATE_ACCESS = 2
-} ApbState_E;
+typedef enum { APB_STATE_IDLE = 0, APB_STATE_SETUP = 1, APB_STATE_ACCESS = 2 } ApbState_E;
 
 /* APB Transfer Type */
-typedef enum {
-    APB_TRANSFER_READ = 0,
-    APB_TRANSFER_WRITE = 1
-} ApbTransferType_E;
+typedef enum { APB_TRANSFER_READ = 0, APB_TRANSFER_WRITE = 1 } ApbTransferType_E;
 
 /* APB Protection Signals (PPROT) */
 #define APB_PPROT_NORMAL 0x00

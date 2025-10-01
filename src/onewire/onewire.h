@@ -17,16 +17,16 @@
  ******************************************************************************/
 
 typedef enum {
-    ONEWIRE_SPEED_STANDARD = 0,    /* Standard speed mode */
-    ONEWIRE_SPEED_OVERDRIVE        /* Overdrive speed mode */
+    ONEWIRE_SPEED_STANDARD = 0, /* Standard speed mode */
+    ONEWIRE_SPEED_OVERDRIVE     /* Overdrive speed mode */
 } OneWireSpeed_E;
 
 typedef enum {
-    ONEWIRE_CMD_SEARCH_ROM = 0xF0,      /* Search ROM command */
-    ONEWIRE_CMD_READ_ROM = 0x33,        /* Read ROM command */
-    ONEWIRE_CMD_MATCH_ROM = 0x55,       /* Match ROM command */
-    ONEWIRE_CMD_SKIP_ROM = 0xCC,        /* Skip ROM command */
-    ONEWIRE_CMD_ALARM_SEARCH = 0xEC     /* Alarm search command */
+    ONEWIRE_CMD_SEARCH_ROM = 0xF0,  /* Search ROM command */
+    ONEWIRE_CMD_READ_ROM = 0x33,    /* Read ROM command */
+    ONEWIRE_CMD_MATCH_ROM = 0x55,   /* Match ROM command */
+    ONEWIRE_CMD_SKIP_ROM = 0xCC,    /* Skip ROM command */
+    ONEWIRE_CMD_ALARM_SEARCH = 0xEC /* Alarm search command */
 } OneWireCommand_E;
 
 /******************************************************************************

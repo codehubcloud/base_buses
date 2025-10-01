@@ -4,11 +4,11 @@
 #include <stdint.h>
 
 /* Standard baud rate definitions */
-#define RS422_BAUDRATE_9600    9600
-#define RS422_BAUDRATE_19200   19200
-#define RS422_BAUDRATE_38400   38400
-#define RS422_BAUDRATE_57600   57600
-#define RS422_BAUDRATE_115200  115200
+#define RS422_BAUDRATE_9600 9600
+#define RS422_BAUDRATE_19200 19200
+#define RS422_BAUDRATE_38400 38400
+#define RS422_BAUDRATE_57600 57600
+#define RS422_BAUDRATE_115200 115200
 #define RS422_DEFAULT_BAUDRATE RS422_BAUDRATE_9600
 
 /* Data bits configuration */
@@ -17,7 +17,7 @@
 
 /* Parity configuration */
 #define RS422_PARITY_NONE 0
-#define RS422_PARITY_ODD  1
+#define RS422_PARITY_ODD 1
 #define RS422_PARITY_EVEN 2
 
 /* Stop bits configuration */

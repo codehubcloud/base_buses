@@ -60,7 +60,8 @@ int32_t DmaHalConfigureChannel(const DmaConfig* config);
 
 /******************************************************************************
  * @brief     : Start DMA transfer at hardware level
- * @param[in] : controller - DMA controller number, channel - DMA channel/stream number, srcAddr - Source address, destAddr - Destination address, dataLength - Number of data items
+ * @param[in] : controller - DMA controller number, channel - DMA channel/stream number, srcAddr - Source address, destAddr - Destination
+ *address, dataLength - Number of data items
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required

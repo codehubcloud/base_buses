@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "onewire_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* 1-Wire GPIO引脚定义 / 1-Wire GPIO pin definitions */
 /* STM32: PA0, ESP32: GPIO15, Linux: GPIO4 (可配置) */
@@ -22,7 +23,7 @@ static const int g_onewireGpio = 15;
 #endif
 
 #ifdef PLATFORM_LINUX
-static int g_onewireGpioNum = 4;  /* 默认使用GPIO4 / Default use GPIO4 */
+static int g_onewireGpioNum = 4; /* 默认使用GPIO4 / Default use GPIO4 */
 static int g_onewireExported = 0;
 static char g_gpioPath[64];
 static char g_gpioValuePath[64];
@@ -53,8 +54,8 @@ int32_t OnewireInitGpio(void)
     /* 配置PA0为开漏输出，带上拉，高速 */
     /* Configure PA0 as open-drain output with pull-up, high speed */
     gpioInit.Pin = g_onewirePin;
-    gpioInit.Mode = GPIO_MODE_OUTPUT_OD;  /* 开漏输出 / Open-drain output */
-    gpioInit.Pull = GPIO_PULLUP;          /* 内部上拉 / Internal pull-up */
+    gpioInit.Mode = GPIO_MODE_OUTPUT_OD; /* 开漏输出 / Open-drain output */
+    gpioInit.Pull = GPIO_PULLUP;         /* 内部上拉 / Internal pull-up */
     gpioInit.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(g_onewirePort, &gpioInit);
 
@@ -71,7 +72,7 @@ int32_t OnewireInitGpio(void)
     /* 配置PA0为开漏输出，50MHz */
     /* Configure PA0 as open-drain output, 50MHz */
     gpioInit.Pin = g_onewirePin;
-    gpioInit.Mode = GPIO_MODE_OUTPUT_OD;  /* 开漏输出 / Open-drain output */
+    gpioInit.Mode = GPIO_MODE_OUTPUT_OD; /* 开漏输出 / Open-drain output */
     gpioInit.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(g_onewirePort, &gpioInit);
 
@@ -85,8 +86,8 @@ int32_t OnewireInitGpio(void)
     /* 配置GPIO15为输入输出模式，带上拉 */
     /* Configure GPIO15 as input/output mode with pull-up */
     ioConfig.pin_bit_mask = (1ULL << g_onewireGpio);
-    ioConfig.mode = GPIO_MODE_INPUT_OUTPUT_OD;  /* 开漏模式 / Open-drain mode */
-    ioConfig.pull_up_en = GPIO_PULLUP_ENABLE;   /* 使能上拉 / Enable pull-up */
+    ioConfig.mode = GPIO_MODE_INPUT_OUTPUT_OD; /* 开漏模式 / Open-drain mode */
+    ioConfig.pull_up_en = GPIO_PULLUP_ENABLE;  /* 使能上拉 / Enable pull-up */
     ioConfig.pull_down_en = GPIO_PULLDOWN_DISABLE;
     ioConfig.intr_type = GPIO_INTR_DISABLE;
 
@@ -114,15 +115,13 @@ int32_t OnewireInitGpio(void)
     g_onewireExported = 1;
 
     /* 等待系统创建GPIO文件 / Wait for system to create GPIO files */
-    usleep(100000);  /* 100ms延时 / 100ms delay */
+    usleep(100000); /* 100ms延时 / 100ms delay */
 
     /* 设置GPIO路径 / Set GPIO paths */
-    snprintf_s(g_gpioPath, sizeof(g_gpioPath), sizeof(g_gpioPath) - 1,
-               "/sys/class/gpio/gpio%d", g_onewireGpioNum);
-    snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1,
-               "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
-    snprintf_s(g_gpioDirectionPath, sizeof(g_gpioDirectionPath), sizeof(g_gpioDirectionPath) - 1,
-               "/sys/class/gpio/gpio%d/direction", g_onewireGpioNum);
+    snprintf_s(g_gpioPath, sizeof(g_gpioPath), sizeof(g_gpioPath) - 1, "/sys/class/gpio/gpio%d", g_onewireGpioNum);
+    snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1, "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
+    snprintf_s(g_gpioDirectionPath, sizeof(g_gpioDirectionPath), sizeof(g_gpioDirectionPath) - 1, "/sys/class/gpio/gpio%d/direction",
+               g_onewireGpioNum);
 
     /* 配置为输出模式 / Configure as output mode */
     fp = fopen(g_gpioDirectionPath, "w");

@@ -6,10 +6,11 @@
  * @version : V1.0
  ******************************************************************************/
 
+#include <stddef.h>
 #include "onewire.h"
 #include "onewire_hal.h"
 #include "securec.h"
-#include <stddef.h>
+
 
 /******************************************************************************
  * Private Variables

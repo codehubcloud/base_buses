@@ -1,6 +1,7 @@
-#include "securec.h"
-#include "rs422_hal.h"
 #include "platform_config.h"
+#include "rs422_hal.h"
+#include "securec.h"
+
 
 /* NOTE: RS422 uses differential signaling (TX+/TX-, RX+/RX-) for full-duplex communication
  * Unlike RS485, RS422 does NOT require DE (Driver Enable) control
@@ -17,7 +18,7 @@ static UART_HandleTypeDef g_rs422Handle;
 #endif
 
 #ifdef PLATFORM_ESP32
-static const int g_rs422UartNum = UART_NUM_1;  /* Using UART1 for RS422 */
+static const int g_rs422UartNum = UART_NUM_1; /* Using UART1 for RS422 */
 #endif
 
 #ifdef PLATFORM_LINUX
@@ -110,13 +111,11 @@ int32_t Rs422ConfigureGpio(void)
     return 0;
 #elif defined(PLATFORM_ESP32)
     /* ESP32 GPIO configured by uart_param_config and uart_set_pin */
-    uart_config_t uartConfig = {
-        .baud_rate = 9600,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
-    };
+    uart_config_t uartConfig = {.baud_rate = 9600,
+                                .data_bits = UART_DATA_8_BITS,
+                                .parity = UART_PARITY_DISABLE,
+                                .stop_bits = UART_STOP_BITS_1,
+                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE};
     uart_param_config(g_rs422UartNum, &uartConfig);
     /* Configure GPIO pins for RS422: TX=GPIO17, RX=GPIO16 */
     uart_set_pin(g_rs422UartNum, 17, 16, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
@@ -187,8 +186,8 @@ void Rs422Enable(void)
     tcflush(g_rs422Fd, TCIFLUSH);
     tcsetattr(g_rs422Fd, TCSANOW, &newTermios);
 
-    /* Set RS422 mode using ioctl (if supported by driver) */
-    #ifdef TIOCGRS485
+/* Set RS422 mode using ioctl (if supported by driver) */
+#ifdef TIOCGRS485
     struct serial_rs485 rs422Config;
     if (memset_s(&rs422Config, sizeof(rs422Config), 0, sizeof(rs422Config)) != EOK) {
         return;
@@ -196,7 +195,7 @@ void Rs422Enable(void)
     /* RS422 is full-duplex, no special flags needed */
     rs422Config.flags = 0;
     (void)ioctl(g_rs422Fd, TIOCSRS485, &rs422Config);
-    #endif
+#endif
 
     fcntl(g_rs422Fd, F_SETFL, FNDELAY);
 #endif
@@ -242,9 +241,9 @@ int32_t Rs422TxBufferEmpty(void)
 #elif defined(PLATFORM_STM32F1)
     return (__HAL_UART_GET_FLAG(&g_rs422Handle, UART_FLAG_TXE) != RESET) ? 1 : 0;
 #elif defined(PLATFORM_ESP32)
-    return 1;  /* ESP32 driver handles buffering */
+    return 1; /* ESP32 driver handles buffering */
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux driver handles buffering */
+    return 1; /* Linux driver handles buffering */
 #else
     return 1;
 #endif
@@ -361,12 +360,23 @@ int32_t Rs422ConfigureBaudRate(uint32_t baudRate)
 
     /* Map baud rate to speed_t */
     switch (baudRate) {
-        case 9600:   speed = B9600;   break;
-        case 19200:  speed = B19200;  break;
-        case 38400:  speed = B38400;  break;
-        case 57600:  speed = B57600;  break;
-        case 115200: speed = B115200; break;
-        default:     return -1;
+        case 9600:
+            speed = B9600;
+            break;
+        case 19200:
+            speed = B19200;
+            break;
+        case 38400:
+            speed = B38400;
+            break;
+        case 57600:
+            speed = B57600;
+            break;
+        case 115200:
+            speed = B115200;
+            break;
+        default:
+            return -1;
     }
 
     tcgetattr(g_rs422Fd, &options);

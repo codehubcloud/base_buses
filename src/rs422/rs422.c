@@ -122,9 +122,7 @@ int32_t Rs422ConfigureFormat(uint8_t dataBits, uint8_t parity, uint8_t stopBits)
         return -1;
     }
 
-    if ((parity != RS422_PARITY_NONE) &&
-        (parity != RS422_PARITY_ODD) &&
-        (parity != RS422_PARITY_EVEN)) {
+    if ((parity != RS422_PARITY_NONE) && (parity != RS422_PARITY_ODD) && (parity != RS422_PARITY_EVEN)) {
         return -1;
     }
 

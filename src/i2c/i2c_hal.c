@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "i2c_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -12,14 +13,12 @@ static I2C_HandleTypeDef g_i2cHandle;
 #endif
 
 #ifdef PLATFORM_ESP32
-static i2c_config_t g_i2cConfig = {
-    .mode = I2C_MODE_MASTER,
-    .sda_io_num = GPIO_NUM_21,
-    .scl_io_num = GPIO_NUM_22,
-    .sda_pullup_en = GPIO_PULLUP_ENABLE,
-    .scl_pullup_en = GPIO_PULLUP_ENABLE,
-    .master.clk_speed = 100000
-};
+static i2c_config_t g_i2cConfig = {.mode = I2C_MODE_MASTER,
+                                   .sda_io_num = GPIO_NUM_21,
+                                   .scl_io_num = GPIO_NUM_22,
+                                   .sda_pullup_en = GPIO_PULLUP_ENABLE,
+                                   .scl_pullup_en = GPIO_PULLUP_ENABLE,
+                                   .master.clk_speed = 100000};
 #endif
 
 #ifdef PLATFORM_LINUX

@@ -8,10 +8,11 @@
  *          - Linux (simulated with memory mapping)
  */
 
-#include "axi_hal.h"
-#include "axi.h"
-#include "../platform_config.h"
 #include <string.h>
+#include "../platform_config.h"
+#include "axi.h"
+#include "axi_hal.h"
+
 
 #if defined(PLATFORM_STM32F4)
 /* STM32F4 Platform - Memory-mapped AXI peripheral access */
@@ -40,16 +41,16 @@
 #define AXI_STATUS_BUSY (1 << 0)
 #define AXI_STATUS_ERROR (1 << 1)
 
-static volatile uint32_t *g_axiBase = NULL;
+static volatile uint32_t* g_axiBase = NULL;
 static AxiConfig g_axiHalConfig = {0};
 
-int AxiHalInit(const AxiConfig *config)
+int AxiHalInit(const AxiConfig* config)
 {
     if (config == NULL) {
         return -1;
     }
 
-    g_axiBase = (volatile uint32_t *)AXI_BASE_ADDRESS;
+    g_axiBase = (volatile uint32_t*)AXI_BASE_ADDRESS;
     memcpy(&g_axiHalConfig, config, sizeof(AxiConfig));
 
     RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN;
@@ -71,7 +72,7 @@ int AxiHalDeinit(void)
     return 0;
 }
 
-int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
+int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (g_axiBase == NULL || writeAddr == NULL) {
         return -1;
@@ -84,19 +85,18 @@ int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
     return 0;
 }
 
-int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
+int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     if (g_axiBase == NULL || writeData == NULL || writeData->data == NULL) {
         return -1;
     }
 
     for (uint8_t i = 0; i < dataWidth / 4; i++) {
-        g_axiBase[(AXI_WDATA_OFFSET / 4) + i] =
-            ((uint32_t *)writeData->data)[i];
+        g_axiBase[(AXI_WDATA_OFFSET / 4) + i] = ((uint32_t*)writeData->data)[i];
     }
 
     if (writeData->strobe != NULL) {
-        g_axiBase[AXI_WSTRB_OFFSET / 4] = *(uint32_t *)writeData->strobe;
+        g_axiBase[AXI_WSTRB_OFFSET / 4] = *(uint32_t*)writeData->strobe;
     } else {
         g_axiBase[AXI_WSTRB_OFFSET / 4] = 0xFFFFFFFF;
     }
@@ -104,7 +104,7 @@ int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
     return 0;
 }
 
-int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
+int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     if (g_axiBase == NULL || writeResp == NULL) {
         return -1;
@@ -112,21 +112,21 @@ int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
 
     uint32_t timeout = g_axiHalConfig.timeout * 1000;
     while ((g_axiBase[AXI_STATUS_OFFSET / 4] & AXI_STATUS_BUSY) && timeout--) {
-        for (volatile int i = 0; i < 100; i++) {}
+        for (volatile int i = 0; i < 100; i++) {
+        }
     }
 
     if (timeout == 0) {
         return -1;
     }
 
-    writeResp->response =
-        (AxiResponseType)(g_axiBase[AXI_BRESP_OFFSET / 4] & 0x03);
+    writeResp->response = (AxiResponseType)(g_axiBase[AXI_BRESP_OFFSET / 4] & 0x03);
     writeResp->id = (uint16_t)((g_axiBase[AXI_BRESP_OFFSET / 4] >> 16) & 0xFFFF);
 
     return 0;
 }
 
-int AxiHalReadAddress(const AxiReadAddress *readAddr)
+int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     if (g_axiBase == NULL || readAddr == NULL) {
         return -1;
@@ -139,7 +139,7 @@ int AxiHalReadAddress(const AxiReadAddress *readAddr)
     return 0;
 }
 
-int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
+int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     if (g_axiBase == NULL || readData == NULL || readData->data == NULL) {
         return -1;
@@ -147,7 +147,8 @@ int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
 
     uint32_t timeout = g_axiHalConfig.timeout * 1000;
     while ((g_axiBase[AXI_STATUS_OFFSET / 4] & AXI_STATUS_BUSY) && timeout--) {
-        for (volatile int i = 0; i < 100; i++) {}
+        for (volatile int i = 0; i < 100; i++) {
+        }
     }
 
     if (timeout == 0) {
@@ -155,17 +156,16 @@ int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
     }
 
     for (uint8_t i = 0; i < dataWidth / 4; i++) {
-        ((uint32_t *)readData->data)[i] = g_axiBase[(AXI_RDATA_OFFSET / 4) + i];
+        ((uint32_t*)readData->data)[i] = g_axiBase[(AXI_RDATA_OFFSET / 4) + i];
     }
 
-    readData->response =
-        (AxiResponseType)(g_axiBase[AXI_RRESP_OFFSET / 4] & 0x03);
+    readData->response = (AxiResponseType)(g_axiBase[AXI_RRESP_OFFSET / 4] & 0x03);
     readData->id = (uint16_t)((g_axiBase[AXI_RRESP_OFFSET / 4] >> 16) & 0xFFFF);
 
     return 0;
 }
 
-int AxiHalStreamSend(const AxiStreamData *streamData)
+int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     if (g_axiBase == NULL || streamData == NULL) {
         return -1;
@@ -174,7 +174,7 @@ int AxiHalStreamSend(const AxiStreamData *streamData)
     return -1;
 }
 
-int AxiHalStreamReceive(AxiStreamData *streamData, size_t maxLength)
+int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     if (g_axiBase == NULL || streamData == NULL) {
         return -1;
@@ -200,7 +200,8 @@ int AxiHalWaitComplete(uint32_t timeoutMs)
 
     uint32_t timeout = timeoutMs * 1000;
     while ((g_axiBase[AXI_STATUS_OFFSET / 4] & AXI_STATUS_BUSY) && timeout--) {
-        for (volatile int i = 0; i < 100; i++) {}
+        for (volatile int i = 0; i < 100; i++) {
+        }
     }
 
     return (timeout == 0) ? -1 : 0;
@@ -229,7 +230,7 @@ int AxiHalReset(void)
 #elif defined(PLATFORM_STM32F1)
 /* STM32F1 Platform - No AXI hardware support */
 
-int AxiHalInit(const AxiConfig *config)
+int AxiHalInit(const AxiConfig* config)
 {
     (void)config;
     return -1;
@@ -240,45 +241,45 @@ int AxiHalDeinit(void)
     return -1;
 }
 
-int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
+int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     (void)writeAddr;
     return -1;
 }
 
-int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
+int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     (void)writeData;
     (void)dataWidth;
     return -1;
 }
 
-int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
+int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     (void)writeResp;
     return -1;
 }
 
-int AxiHalReadAddress(const AxiReadAddress *readAddr)
+int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     (void)readAddr;
     return -1;
 }
 
-int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
+int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     (void)readData;
     (void)dataWidth;
     return -1;
 }
 
-int AxiHalStreamSend(const AxiStreamData *streamData)
+int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     (void)streamData;
     return -1;
 }
 
-int AxiHalStreamReceive(AxiStreamData *streamData, size_t maxLength)
+int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     (void)streamData;
     (void)maxLength;
@@ -310,7 +311,7 @@ int AxiHalReset(void)
 #elif defined(PLATFORM_ESP32)
 /* ESP32 Platform - No AXI hardware support */
 
-int AxiHalInit(const AxiConfig *config)
+int AxiHalInit(const AxiConfig* config)
 {
     (void)config;
     return -1;
@@ -321,45 +322,45 @@ int AxiHalDeinit(void)
     return -1;
 }
 
-int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
+int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     (void)writeAddr;
     return -1;
 }
 
-int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
+int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     (void)writeData;
     (void)dataWidth;
     return -1;
 }
 
-int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
+int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     (void)writeResp;
     return -1;
 }
 
-int AxiHalReadAddress(const AxiReadAddress *readAddr)
+int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     (void)readAddr;
     return -1;
 }
 
-int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
+int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     (void)readData;
     (void)dataWidth;
     return -1;
 }
 
-int AxiHalStreamSend(const AxiStreamData *streamData)
+int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     (void)streamData;
     return -1;
 }
 
-int AxiHalStreamReceive(AxiStreamData *streamData, size_t maxLength)
+int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     (void)streamData;
     (void)maxLength;
@@ -412,23 +413,23 @@ typedef struct {
     uint32_t qos;
 } AxiSimulatedRegs;
 
-static AxiSimulatedRegs *g_axiRegs = NULL;
-static uint8_t *g_simulatedMemory = NULL;
+static AxiSimulatedRegs* g_axiRegs = NULL;
+static uint8_t* g_simulatedMemory = NULL;
 static size_t g_memorySize = 1024 * 1024;
 static AxiConfig g_axiHalConfig = {0};
 
-int AxiHalInit(const AxiConfig *config)
+int AxiHalInit(const AxiConfig* config)
 {
     if (config == NULL) {
         return -1;
     }
 
-    g_axiRegs = (AxiSimulatedRegs *)malloc(sizeof(AxiSimulatedRegs));
+    g_axiRegs = (AxiSimulatedRegs*)malloc(sizeof(AxiSimulatedRegs));
     if (g_axiRegs == NULL) {
         return -1;
     }
 
-    g_simulatedMemory = (uint8_t *)malloc(g_memorySize);
+    g_simulatedMemory = (uint8_t*)malloc(g_memorySize);
     if (g_simulatedMemory == NULL) {
         free(g_axiRegs);
         g_axiRegs = NULL;
@@ -457,7 +458,7 @@ int AxiHalDeinit(void)
     return 0;
 }
 
-int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
+int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (g_axiRegs == NULL || writeAddr == NULL) {
         return -1;
@@ -471,7 +472,7 @@ int AxiHalWriteAddress(const AxiWriteAddress *writeAddr)
     return 0;
 }
 
-int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
+int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     if (g_axiRegs == NULL || writeData == NULL || writeData->data == NULL) {
         return -1;
@@ -486,8 +487,7 @@ int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
 
     size_t writeSize = (1U << g_axiRegs->awSize);
     if (g_axiRegs->awAddr + writeSize <= g_memorySize) {
-        memcpy(&g_simulatedMemory[g_axiRegs->awAddr], writeData->data,
-               writeSize);
+        memcpy(&g_simulatedMemory[g_axiRegs->awAddr], writeData->data, writeSize);
         g_axiRegs->bResp = AXI_RESP_OKAY;
     } else {
         g_axiRegs->bResp = AXI_RESP_SLVERR;
@@ -498,7 +498,7 @@ int AxiHalWriteData(const AxiWriteData *writeData, uint8_t dataWidth)
     return 0;
 }
 
-int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
+int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     if (g_axiRegs == NULL || writeResp == NULL) {
         return -1;
@@ -511,7 +511,7 @@ int AxiHalReadWriteResponse(AxiWriteResponse *writeResp)
     return 0;
 }
 
-int AxiHalReadAddress(const AxiReadAddress *readAddr)
+int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     if (g_axiRegs == NULL || readAddr == NULL) {
         return -1;
@@ -525,7 +525,7 @@ int AxiHalReadAddress(const AxiReadAddress *readAddr)
     return 0;
 }
 
-int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
+int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     if (g_axiRegs == NULL || readData == NULL || readData->data == NULL) {
         return -1;
@@ -539,8 +539,7 @@ int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
 
     size_t readSize = (1U << g_axiRegs->arSize);
     if (g_axiRegs->arAddr + readSize <= g_memorySize) {
-        memcpy(readData->data, &g_simulatedMemory[g_axiRegs->arAddr],
-               readSize);
+        memcpy(readData->data, &g_simulatedMemory[g_axiRegs->arAddr], readSize);
         memcpy(g_axiRegs->rData, readData->data, dataWidth);
         g_axiRegs->rResp = AXI_RESP_OKAY;
         readData->response = AXI_RESP_OKAY;
@@ -558,7 +557,7 @@ int AxiHalReadData(AxiReadData *readData, uint8_t dataWidth)
     return 0;
 }
 
-int AxiHalStreamSend(const AxiStreamData *streamData)
+int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     if (g_axiRegs == NULL || streamData == NULL) {
         return -1;
@@ -567,7 +566,7 @@ int AxiHalStreamSend(const AxiStreamData *streamData)
     return 0;
 }
 
-int AxiHalStreamReceive(AxiStreamData *streamData, size_t maxLength)
+int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     if (g_axiRegs == NULL || streamData == NULL) {
         return -1;

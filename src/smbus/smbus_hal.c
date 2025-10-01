@@ -1,6 +1,7 @@
+#include "platform_config.h"
 #include "securec.h"
 #include "smbus_hal.h"
-#include "platform_config.h"
+
 
 /* NOTE: SMBus is a subset of I2C with additional features
  * SMBus uses PEC (Packet Error Code) for error checking
@@ -26,7 +27,7 @@ static i2c_config_t g_smbusConfig = {
     .scl_io_num = GPIO_NUM_22,
     .sda_pullup_en = GPIO_PULLUP_ENABLE,
     .scl_pullup_en = GPIO_PULLUP_ENABLE,
-    .master.clk_speed = 100000  /* SMBus default 100kHz */
+    .master.clk_speed = 100000 /* SMBus default 100kHz */
 };
 static uint8_t g_smbusDeviceAddr = 0;
 #endif
@@ -53,7 +54,7 @@ static uint8_t SmBusCalculatePEC(uint8_t* data, uint16_t length)
         crc ^= data[i];
         for (j = 0; j < 8; j++) {
             if (crc & 0x80) {
-                crc = (crc << 1) ^ 0x07;  /* SMBus polynomial */
+                crc = (crc << 1) ^ 0x07; /* SMBus polynomial */
             } else {
                 crc = crc << 1;
             }

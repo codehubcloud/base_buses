@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "emmc_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific includes and definitions */
 #ifdef PLATFORM_STM32F4
@@ -14,23 +15,25 @@ static SD_HandleTypeDef g_emmcHandle;
 #endif
 
 #ifdef PLATFORM_ESP32
-#include "driver/sdmmc_host.h"
 #include "driver/sdmmc_defs.h"
-#include "sdmmc_cmd.h"
+#include "driver/sdmmc_host.h"
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "sdmmc_cmd.h"
+
 static sdmmc_card_t* g_emmcCard = NULL;
 static sdmmc_host_t g_emmcHost = SDMMC_HOST_DEFAULT();
 #endif
 
 #ifdef PLATFORM_LINUX
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <linux/mmc/ioctl.h>
 #include <errno.h>
+#include <linux/mmc/ioctl.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
 static int g_emmcFd = -1;
 static const char* g_emmcDevicePath = "/dev/mmcblk0";
 #endif
@@ -73,7 +76,7 @@ int32_t EmmcHalInit(void)
     g_emmcHandle.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
     g_emmcHandle.Init.BusWide = SDMMC_BUS_WIDE_1B;
     g_emmcHandle.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
-    g_emmcHandle.Init.ClockDiv = 118;  /* ~400 kHz for initialization */
+    g_emmcHandle.Init.ClockDiv = 118; /* ~400 kHz for initialization */
 
     if (HAL_SD_Init(&g_emmcHandle) != HAL_OK) {
         return -1;
@@ -107,7 +110,7 @@ int32_t EmmcHalInit(void)
     g_emmcHandle.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_DISABLE;
     g_emmcHandle.Init.BusWide = SDIO_BUS_WIDE_1B;
     g_emmcHandle.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
-    g_emmcHandle.Init.ClockDiv = 118;  /* ~400 kHz for initialization */
+    g_emmcHandle.Init.ClockDiv = 118; /* ~400 kHz for initialization */
 
     if (HAL_SD_Init(&g_emmcHandle) != HAL_OK) {
         return -1;
@@ -123,7 +126,7 @@ int32_t EmmcHalInit(void)
 
     /* Initialize SDMMC slot */
     sdmmc_slot_config_t slotConfig = SDMMC_SLOT_CONFIG_DEFAULT();
-    slotConfig.width = 8;  /* 8-bit bus width */
+    slotConfig.width = 8; /* 8-bit bus width */
     slotConfig.flags |= SDMMC_SLOT_FLAG_INTERNAL_PULLUP;
 
     esp_err_t ret = sdmmc_host_init();
@@ -324,15 +327,7 @@ int32_t EmmcHalSendCommand(uint8_t cmd, uint32_t arg, uint32_t* response)
         return -1;
     }
 
-    sdmmc_command_t sdmmcCmd = {
-        .opcode = cmd,
-        .arg = arg,
-        .flags = 0,
-        .data = NULL,
-        .datalen = 0,
-        .blklen = 0,
-        .timeout_ms = 1000
-    };
+    sdmmc_command_t sdmmcCmd = {.opcode = cmd, .arg = arg, .flags = 0, .data = NULL, .datalen = 0, .blklen = 0, .timeout_ms = 1000};
 
     /* Set response flags based on command */
     if (cmd == EMMC_CMD0_GO_IDLE_STATE) {
@@ -669,7 +664,7 @@ int32_t EmmcHalSetBusWidth(EmmcBusWidth_E busWidth)
             sdioBusWidth = SDIO_BUS_WIDE_4B;
             break;
         case EMMC_BUS_WIDTH_8BIT:
-            return -1;  /* 8-bit not supported on STM32F1 */
+            return -1; /* 8-bit not supported on STM32F1 */
         default:
             return -1;
     }
@@ -725,19 +720,19 @@ int32_t EmmcHalSetClockSpeed(EmmcSpeedMode_E speedMode)
 
     switch (speedMode) {
         case EMMC_SPEED_MODE_LEGACY:
-            clockDiv = 4;  /* ~25 MHz */
+            clockDiv = 4; /* ~25 MHz */
             break;
         case EMMC_SPEED_MODE_HIGH_SPEED:
-            clockDiv = 2;  /* ~50 MHz */
+            clockDiv = 2; /* ~50 MHz */
             break;
         case EMMC_SPEED_MODE_HS200:
-            clockDiv = 0;  /* ~200 MHz */
+            clockDiv = 0; /* ~200 MHz */
             break;
         case EMMC_SPEED_MODE_HS400:
-            clockDiv = 0;  /* ~200 MHz DDR */
+            clockDiv = 0; /* ~200 MHz DDR */
             break;
         case EMMC_SPEED_MODE_DDR52:
-            clockDiv = 2;  /* ~50 MHz DDR */
+            clockDiv = 2; /* ~50 MHz DDR */
             break;
         default:
             return -1;
@@ -751,13 +746,13 @@ int32_t EmmcHalSetClockSpeed(EmmcSpeedMode_E speedMode)
 
     switch (speedMode) {
         case EMMC_SPEED_MODE_LEGACY:
-            clockDiv = 4;  /* ~25 MHz */
+            clockDiv = 4; /* ~25 MHz */
             break;
         case EMMC_SPEED_MODE_HIGH_SPEED:
-            clockDiv = 2;  /* ~48 MHz max on STM32F1 */
+            clockDiv = 2; /* ~48 MHz max on STM32F1 */
             break;
         default:
-            return -1;  /* HS200/HS400/DDR52 not supported on STM32F1 */
+            return -1; /* HS200/HS400/DDR52 not supported on STM32F1 */
     }
 
     MODIFY_REG(SDIO->CLKCR, SDIO_CLKCR_CLKDIV, clockDiv);

@@ -1,27 +1,28 @@
+#include "platform_config.h"
 #include "securec.h"
 #include "swd_hal.h"
-#include "platform_config.h"
+
 
 /* Platform-specific includes and definitions */
 #ifdef PLATFORM_STM32F4
 /* SWCLK: PA14 (TCK), SWDIO: PA13 (TMS) */
-#define SWD_GPIO_PORT      GPIOA
-#define SWD_SWCLK_PIN      GPIO_PIN_14
-#define SWD_SWDIO_PIN      GPIO_PIN_13
+#define SWD_GPIO_PORT GPIOA
+#define SWD_SWCLK_PIN GPIO_PIN_14
+#define SWD_SWDIO_PIN GPIO_PIN_13
 #endif
 
 #ifdef PLATFORM_STM32F1
 /* SWCLK: PA14 (TCK), SWDIO: PA13 (TMS) */
-#define SWD_GPIO_PORT      GPIOA
-#define SWD_SWCLK_PIN      GPIO_PIN_14
-#define SWD_SWDIO_PIN      GPIO_PIN_13
+#define SWD_GPIO_PORT GPIOA
+#define SWD_SWCLK_PIN GPIO_PIN_14
+#define SWD_SWDIO_PIN GPIO_PIN_13
 #endif
 
 #ifdef PLATFORM_ESP32
 /* SWCLK: GPIO18, SWDIO: GPIO19 */
 #include "driver/gpio.h"
-#define SWD_SWCLK_GPIO     GPIO_NUM_18
-#define SWD_SWDIO_GPIO     GPIO_NUM_19
+#define SWD_SWCLK_GPIO GPIO_NUM_18
+#define SWD_SWDIO_GPIO GPIO_NUM_19
 #endif
 
 #ifdef PLATFORM_LINUX
@@ -41,16 +42,18 @@ static void SwdDelayHalfClock(void)
 {
 #ifdef PLATFORM_STM32F4
     /* Approx 1 MHz SWD clock (168 MHz CPU) */
-    for (volatile int i = 0; i < 20; i++) { }
+    for (volatile int i = 0; i < 20; i++) {
+    }
 #elif defined(PLATFORM_STM32F1)
     /* Approx 1 MHz SWD clock (72 MHz CPU) */
-    for (volatile int i = 0; i < 10; i++) { }
+    for (volatile int i = 0; i < 10; i++) {
+    }
 #elif defined(PLATFORM_ESP32)
     /* Approx 1 MHz SWD clock */
     ets_delay_us(0);
 #elif defined(PLATFORM_LINUX)
     /* Use nanosleep for more accurate timing */
-    struct timespec ts = {0, 500};  /* 500 ns */
+    struct timespec ts = {0, 500}; /* 500 ns */
     nanosleep(&ts, NULL);
 #endif
 }
@@ -293,8 +296,8 @@ int32_t SwdConfigureGpio(void)
     /* Export GPIO pins */
     int exportFd = open("/sys/class/gpio/export", O_WRONLY);
     if (exportFd >= 0) {
-        (void)write(exportFd, "17", 2);  /* SWCLK */
-        (void)write(exportFd, "27", 2);  /* SWDIO */
+        (void)write(exportFd, "17", 2); /* SWCLK */
+        (void)write(exportFd, "27", 2); /* SWDIO */
         close(exportFd);
     }
 

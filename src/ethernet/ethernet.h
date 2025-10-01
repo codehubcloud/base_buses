@@ -4,32 +4,32 @@
 #include <stdint.h>
 
 /* Ethernet speed definitions */
-#define ETHERNET_SPEED_10M      10000000    /* 10 Mbps */
-#define ETHERNET_SPEED_100M     100000000   /* 100 Mbps */
-#define ETHERNET_SPEED_1000M    1000000000  /* 1000 Mbps (1 Gbps) */
+#define ETHERNET_SPEED_10M 10000000     /* 10 Mbps */
+#define ETHERNET_SPEED_100M 100000000   /* 100 Mbps */
+#define ETHERNET_SPEED_1000M 1000000000 /* 1000 Mbps (1 Gbps) */
 
 /* Ethernet duplex modes */
-#define ETHERNET_DUPLEX_HALF    0
-#define ETHERNET_DUPLEX_FULL    1
+#define ETHERNET_DUPLEX_HALF 0
+#define ETHERNET_DUPLEX_FULL 1
 
 /* Ethernet frame size limits */
-#define ETHERNET_MTU            1500
-#define ETHERNET_HEADER_SIZE    14
-#define ETHERNET_CRC_SIZE       4
+#define ETHERNET_MTU 1500
+#define ETHERNET_HEADER_SIZE 14
+#define ETHERNET_CRC_SIZE 4
 #define ETHERNET_MIN_FRAME_SIZE 60
 #define ETHERNET_MAX_FRAME_SIZE (ETHERNET_MTU + ETHERNET_HEADER_SIZE + ETHERNET_CRC_SIZE)
 
 /* MAC address length */
-#define ETHERNET_MAC_ADDR_LEN   6
+#define ETHERNET_MAC_ADDR_LEN 6
 
 /* Ethernet link status */
-#define ETHERNET_LINK_DOWN      0
-#define ETHERNET_LINK_UP        1
+#define ETHERNET_LINK_DOWN 0
+#define ETHERNET_LINK_UP 1
 
 /* EtherType definitions */
-#define ETHERNET_TYPE_IPV4      0x0800
-#define ETHERNET_TYPE_ARP       0x0806
-#define ETHERNET_TYPE_IPV6      0x86DD
+#define ETHERNET_TYPE_IPV4 0x0800
+#define ETHERNET_TYPE_ARP 0x0806
+#define ETHERNET_TYPE_IPV6 0x86DD
 
 /**
  * @brief MAC address structure

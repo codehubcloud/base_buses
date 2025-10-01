@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "ethernet_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -24,13 +25,14 @@ static uint8_t g_rxBuffer[ETHERNET_MAX_FRAME_SIZE];
 #endif
 
 #ifdef PLATFORM_LINUX
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <linux/if_packet.h>
 #include <net/ethernet.h>
+#include <net/if.h>
+#include <netinet/in.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+
 static int g_sockFd = -1;
 static struct ifreq g_ifr;
 #endif
@@ -174,8 +176,7 @@ int32_t EthernetConfigureMac(const EthernetMacAddress_t* macAddress)
 
 #ifdef PLATFORM_STM32F4
     g_ethHandle.Instance = ETH;
-    if (memcpy_s(g_ethHandle.Init.MACAddr, ETHERNET_MAC_ADDR_LEN,
-                 macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
+    if (memcpy_s(g_ethHandle.Init.MACAddr, ETHERNET_MAC_ADDR_LEN, macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
         return -1;
     }
     g_ethHandle.Init.MediaInterface = HAL_ETH_RMII_MODE;
@@ -184,8 +185,7 @@ int32_t EthernetConfigureMac(const EthernetMacAddress_t* macAddress)
     return (HAL_ETH_Init(&g_ethHandle) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_STM32F1)
     g_ethHandle.Instance = ETH;
-    if (memcpy_s(g_ethHandle.Init.MACAddr, ETHERNET_MAC_ADDR_LEN,
-                 macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
+    if (memcpy_s(g_ethHandle.Init.MACAddr, ETHERNET_MAC_ADDR_LEN, macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
         return -1;
     }
     g_ethHandle.Init.MediaInterface = HAL_ETH_RMII_MODE;
@@ -201,8 +201,7 @@ int32_t EthernetConfigureMac(const EthernetMacAddress_t* macAddress)
         return -1;
     }
 
-    if (esp_eth_ioctl(g_ethHandle, ETH_CMD_S_MAC_ADDR,
-                      (void*)macAddress->addr) != ESP_OK) {
+    if (esp_eth_ioctl(g_ethHandle, ETH_CMD_S_MAC_ADDR, (void*)macAddress->addr) != ESP_OK) {
         return -1;
     }
 
@@ -225,8 +224,7 @@ int32_t EthernetConfigureMac(const EthernetMacAddress_t* macAddress)
     }
 
     /* Set MAC address */
-    if (memcpy_s(g_ifr.ifr_hwaddr.sa_data, ETHERNET_MAC_ADDR_LEN,
-                 macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
+    if (memcpy_s(g_ifr.ifr_hwaddr.sa_data, ETHERNET_MAC_ADDR_LEN, macAddress->addr, ETHERNET_MAC_ADDR_LEN) != EOK) {
         return -1;
     }
     g_ifr.ifr_hwaddr.sa_family = ARPHRD_ETHER;
@@ -251,10 +249,8 @@ int32_t EthernetConfigureMac(const EthernetMacAddress_t* macAddress)
 int32_t EthernetConfigurePhy(uint32_t speed, uint8_t duplexMode)
 {
 #ifdef PLATFORM_STM32F4
-    uint32_t phySpeed = (speed == ETHERNET_SPEED_100M) ?
-                        ETH_SPEED_100M : ETH_SPEED_10M;
-    uint32_t phyDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ?
-                         ETH_FULLDUPLEX_MODE : ETH_HALFDUPLEX_MODE;
+    uint32_t phySpeed = (speed == ETHERNET_SPEED_100M) ? ETH_SPEED_100M : ETH_SPEED_10M;
+    uint32_t phyDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ? ETH_FULLDUPLEX_MODE : ETH_HALFDUPLEX_MODE;
 
     g_ethHandle.Init.Speed = phySpeed;
     g_ethHandle.Init.DuplexMode = phyDuplex;
@@ -262,10 +258,8 @@ int32_t EthernetConfigurePhy(uint32_t speed, uint8_t duplexMode)
 
     return 0;
 #elif defined(PLATFORM_STM32F1)
-    uint32_t phySpeed = (speed == ETHERNET_SPEED_100M) ?
-                        ETH_SPEED_100M : ETH_SPEED_10M;
-    uint32_t phyDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ?
-                         ETH_FULLDUPLEX_MODE : ETH_HALFDUPLEX_MODE;
+    uint32_t phySpeed = (speed == ETHERNET_SPEED_100M) ? ETH_SPEED_100M : ETH_SPEED_10M;
+    uint32_t phyDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ? ETH_FULLDUPLEX_MODE : ETH_HALFDUPLEX_MODE;
 
     g_ethHandle.Init.Speed = phySpeed;
     g_ethHandle.Init.DuplexMode = phyDuplex;
@@ -273,10 +267,8 @@ int32_t EthernetConfigurePhy(uint32_t speed, uint8_t duplexMode)
 
     return 0;
 #elif defined(PLATFORM_ESP32)
-    eth_speed_t espSpeed = (speed == ETHERNET_SPEED_100M) ?
-                           ETH_SPEED_100M : ETH_SPEED_10M;
-    eth_duplex_t espDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ?
-                             ETH_DUPLEX_FULL : ETH_DUPLEX_HALF;
+    eth_speed_t espSpeed = (speed == ETHERNET_SPEED_100M) ? ETH_SPEED_100M : ETH_SPEED_10M;
+    eth_duplex_t espDuplex = (duplexMode == ETHERNET_DUPLEX_FULL) ? ETH_DUPLEX_FULL : ETH_DUPLEX_HALF;
 
     if (esp_eth_ioctl(g_ethHandle, ETH_CMD_S_SPEED, &espSpeed) != ESP_OK) {
         return -1;
@@ -393,9 +385,9 @@ int32_t EthernetTxBufferAvailable(void)
 #elif defined(PLATFORM_STM32F1)
     return (HAL_ETH_GetState(&g_ethHandle) == HAL_ETH_STATE_READY) ? 1 : 0;
 #elif defined(PLATFORM_ESP32)
-    return 1;  /* ESP32 driver handles buffering */
+    return 1; /* ESP32 driver handles buffering */
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux socket handles buffering */
+    return 1; /* Linux socket handles buffering */
 #else
     return 0;
 #endif
@@ -415,14 +407,12 @@ int32_t EthernetWriteFrame(const uint8_t* frame, uint16_t length)
     }
 
 #ifdef PLATFORM_STM32F4
-    if (memcpy_s(g_txBuffer, ETHERNET_MAX_FRAME_SIZE,
-                 frame, length) != EOK) {
+    if (memcpy_s(g_txBuffer, ETHERNET_MAX_FRAME_SIZE, frame, length) != EOK) {
         return -1;
     }
     return (HAL_ETH_TransmitFrame(&g_ethHandle, length) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_STM32F1)
-    if (memcpy_s(g_txBuffer, ETHERNET_MAX_FRAME_SIZE,
-                 frame, length) != EOK) {
+    if (memcpy_s(g_txBuffer, ETHERNET_MAX_FRAME_SIZE, frame, length) != EOK) {
         return -1;
     }
     return (HAL_ETH_TransmitFrame(&g_ethHandle, length) == HAL_OK) ? 0 : -1;
@@ -443,8 +433,7 @@ int32_t EthernetWriteFrame(const uint8_t* frame, uint16_t length)
     sockAddr.sll_ifindex = g_ifr.ifr_ifindex;
     sockAddr.sll_halen = ETH_ALEN;
 
-    ssize_t sent = sendto(g_sockFd, frame, length, 0,
-                          (struct sockaddr*)&sockAddr, sizeof(sockAddr));
+    ssize_t sent = sendto(g_sockFd, frame, length, 0, (struct sockaddr*)&sockAddr, sizeof(sockAddr));
     return (sent == length) ? 0 : -1;
 #else
     return -1;

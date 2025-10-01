@@ -1,7 +1,8 @@
 #include <string.h>
+#include "securec.h"
 #include "usb.h"
 #include "usb_hal.h"
-#include "securec.h"
+
 
 /* USB Module State */
 static struct {
@@ -14,22 +15,20 @@ static struct {
 } g_usbState = {0};
 
 /* Device Descriptor - Default Configuration */
-static UsbDeviceDescriptor_t g_deviceDescriptor = {
-    .bLength = sizeof(UsbDeviceDescriptor_t),
-    .bDescriptorType = USB_DESC_TYPE_DEVICE,
-    .bcdUSB = 0x0200,  /* USB 2.0 */
-    .bDeviceClass = 0x00,
-    .bDeviceSubClass = 0x00,
-    .bDeviceProtocol = 0x00,
-    .bMaxPacketSize0 = USB_MAX_PACKET_SIZE,
-    .idVendor = 0x1234,
-    .idProduct = 0x5678,
-    .bcdDevice = 0x0100,
-    .iManufacturer = 0x01,
-    .iProduct = 0x02,
-    .iSerialNumber = 0x03,
-    .bNumConfigurations = 0x01
-};
+static UsbDeviceDescriptor_t g_deviceDescriptor = {.bLength = sizeof(UsbDeviceDescriptor_t),
+                                                   .bDescriptorType = USB_DESC_TYPE_DEVICE,
+                                                   .bcdUSB = 0x0200, /* USB 2.0 */
+                                                   .bDeviceClass = 0x00,
+                                                   .bDeviceSubClass = 0x00,
+                                                   .bDeviceProtocol = 0x00,
+                                                   .bMaxPacketSize0 = USB_MAX_PACKET_SIZE,
+                                                   .idVendor = 0x1234,
+                                                   .idProduct = 0x5678,
+                                                   .bcdDevice = 0x0100,
+                                                   .iManufacturer = 0x01,
+                                                   .iProduct = 0x02,
+                                                   .iSerialNumber = 0x03,
+                                                   .bNumConfigurations = 0x01};
 
 /******************************************************************************
  * @brief     : Initialize USB peripheral
@@ -71,13 +70,11 @@ int32_t UsbInit(uint8_t mode)
     }
 
     /* Configure default control endpoint (EP0) */
-    UsbEndpointConfig_t ep0Config = {
-        .endpointNumber = 0,
-        .endpointType = USB_EP_TYPE_CONTROL,
-        .direction = USB_EP_DIR_OUT,
-        .maxPacketSize = USB_MAX_PACKET_SIZE,
-        .interval = 0
-    };
+    UsbEndpointConfig_t ep0Config = {.endpointNumber = 0,
+                                     .endpointType = USB_EP_TYPE_CONTROL,
+                                     .direction = USB_EP_DIR_OUT,
+                                     .maxPacketSize = USB_MAX_PACKET_SIZE,
+                                     .interval = 0};
     UsbHalConfigureEndpoint(&ep0Config);
 
     g_usbState.isInitialized = 1;
@@ -265,8 +262,7 @@ int32_t UsbSetupControlTransfer(uint8_t* setupPacket)
             if ((setup->wValue >> 8) == USB_DESC_TYPE_DEVICE) {
                 /* Send device descriptor */
                 UsbSendData(0, (uint8_t*)&g_deviceDescriptor,
-                           (setup->wLength < sizeof(g_deviceDescriptor)) ?
-                           setup->wLength : sizeof(g_deviceDescriptor));
+                            (setup->wLength < sizeof(g_deviceDescriptor)) ? setup->wLength : sizeof(g_deviceDescriptor));
             } else {
                 /* Unsupported descriptor type */
                 UsbStallEndpoint(0);
@@ -291,19 +287,15 @@ int32_t UsbSetupControlTransfer(uint8_t* setupPacket)
             UsbSendData(0, NULL, 0);
             break;
 
-        case USB_REQ_GET_CONFIGURATION:
-            {
-                uint8_t config = (g_usbState.deviceState == USB_STATE_CONFIGURED) ? 1 : 0;
-                UsbSendData(0, &config, 1);
-            }
-            break;
+        case USB_REQ_GET_CONFIGURATION: {
+            uint8_t config = (g_usbState.deviceState == USB_STATE_CONFIGURED) ? 1 : 0;
+            UsbSendData(0, &config, 1);
+        } break;
 
-        case USB_REQ_GET_STATUS:
-            {
-                uint16_t status = 0x0000;  /* Self-powered, no remote wakeup */
-                UsbSendData(0, (uint8_t*)&status, 2);
-            }
-            break;
+        case USB_REQ_GET_STATUS: {
+            uint16_t status = 0x0000; /* Self-powered, no remote wakeup */
+            UsbSendData(0, (uint8_t*)&status, 2);
+        } break;
 
         case USB_REQ_SET_FEATURE:
         case USB_REQ_CLEAR_FEATURE:
@@ -333,8 +325,7 @@ int32_t UsbGetDeviceDescriptor(uint8_t* descriptor, uint16_t maxLength)
         return -1;
     }
 
-    uint16_t copySize = (maxLength < sizeof(g_deviceDescriptor)) ?
-                        maxLength : sizeof(g_deviceDescriptor);
+    uint16_t copySize = (maxLength < sizeof(g_deviceDescriptor)) ? maxLength : sizeof(g_deviceDescriptor);
 
     if (memcpy_s(descriptor, maxLength, &g_deviceDescriptor, copySize) != EOK) {
         return -1;

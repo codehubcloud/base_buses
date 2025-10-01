@@ -8,9 +8,10 @@
  ******************************************************************************/
 
 #include <string.h>
-#include "securec.h"
 #include "sdio.h"
 #include "sdio_hal.h"
+#include "securec.h"
+
 
 /******************************************************************************
  * Static Variables

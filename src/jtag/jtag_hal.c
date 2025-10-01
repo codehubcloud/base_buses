@@ -1,47 +1,48 @@
-#include "securec.h"
 #include "jtag_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific GPIO pin definitions */
 #ifdef PLATFORM_STM32F4
 /* STM32F4: Using GPIO pins for bit-banging */
-#define JTAG_TCK_PIN    GPIO_PIN_13
-#define JTAG_TCK_PORT   GPIOA
-#define JTAG_TMS_PIN    GPIO_PIN_14
-#define JTAG_TMS_PORT   GPIOA
-#define JTAG_TDI_PIN    GPIO_PIN_15
-#define JTAG_TDI_PORT   GPIOA
-#define JTAG_TDO_PIN    GPIO_PIN_12
-#define JTAG_TDO_PORT   GPIOA
-#define JTAG_TRST_PIN   GPIO_PIN_11
-#define JTAG_TRST_PORT  GPIOA
+#define JTAG_TCK_PIN GPIO_PIN_13
+#define JTAG_TCK_PORT GPIOA
+#define JTAG_TMS_PIN GPIO_PIN_14
+#define JTAG_TMS_PORT GPIOA
+#define JTAG_TDI_PIN GPIO_PIN_15
+#define JTAG_TDI_PORT GPIOA
+#define JTAG_TDO_PIN GPIO_PIN_12
+#define JTAG_TDO_PORT GPIOA
+#define JTAG_TRST_PIN GPIO_PIN_11
+#define JTAG_TRST_PORT GPIOA
 
 static uint32_t g_clockDelayUs = 1;
 #endif
 
 #ifdef PLATFORM_STM32F1
 /* STM32F1: Using GPIO pins for bit-banging */
-#define JTAG_TCK_PIN    GPIO_PIN_13
-#define JTAG_TCK_PORT   GPIOA
-#define JTAG_TMS_PIN    GPIO_PIN_14
-#define JTAG_TMS_PORT   GPIOA
-#define JTAG_TDI_PIN    GPIO_PIN_15
-#define JTAG_TDI_PORT   GPIOA
-#define JTAG_TDO_PIN    GPIO_PIN_12
-#define JTAG_TDO_PORT   GPIOA
-#define JTAG_TRST_PIN   GPIO_PIN_11
-#define JTAG_TRST_PORT  GPIOA
+#define JTAG_TCK_PIN GPIO_PIN_13
+#define JTAG_TCK_PORT GPIOA
+#define JTAG_TMS_PIN GPIO_PIN_14
+#define JTAG_TMS_PORT GPIOA
+#define JTAG_TDI_PIN GPIO_PIN_15
+#define JTAG_TDI_PORT GPIOA
+#define JTAG_TDO_PIN GPIO_PIN_12
+#define JTAG_TDO_PORT GPIOA
+#define JTAG_TRST_PIN GPIO_PIN_11
+#define JTAG_TRST_PORT GPIOA
 
 static uint32_t g_clockDelayUs = 1;
 #endif
 
 #ifdef PLATFORM_ESP32
 /* ESP32: Using GPIO pins for bit-banging */
-#define JTAG_TCK_GPIO   GPIO_NUM_25
-#define JTAG_TMS_GPIO   GPIO_NUM_26
-#define JTAG_TDI_GPIO   GPIO_NUM_27
-#define JTAG_TDO_GPIO   GPIO_NUM_14
-#define JTAG_TRST_GPIO  GPIO_NUM_13
+#define JTAG_TCK_GPIO GPIO_NUM_25
+#define JTAG_TMS_GPIO GPIO_NUM_26
+#define JTAG_TDI_GPIO GPIO_NUM_27
+#define JTAG_TDO_GPIO GPIO_NUM_14
+#define JTAG_TRST_GPIO GPIO_NUM_13
 
 #include "driver/gpio.h"
 #include "esp_timer.h"
@@ -54,11 +55,11 @@ static uint32_t g_clockDelayUs = 1;
 #include <sys/time.h>
 #include <time.h>
 
-#define JTAG_TCK_GPIO   23
-#define JTAG_TMS_GPIO   24
-#define JTAG_TDI_GPIO   25
-#define JTAG_TDO_GPIO   8
-#define JTAG_TRST_GPIO  7
+#define JTAG_TCK_GPIO 23
+#define JTAG_TMS_GPIO 24
+#define JTAG_TDI_GPIO 25
+#define JTAG_TDO_GPIO 8
+#define JTAG_TRST_GPIO 7
 
 static int g_tckFd = -1;
 static int g_tmsFd = -1;
@@ -171,8 +172,7 @@ int32_t JtagConfigureGpio(void)
     gpio_config_t ioConfig = {0};
 
     /* Configure TCK, TMS, TDI as output */
-    ioConfig.pin_bit_mask = (1ULL << JTAG_TCK_GPIO) | (1ULL << JTAG_TMS_GPIO) |
-                            (1ULL << JTAG_TDI_GPIO) | (1ULL << JTAG_TRST_GPIO);
+    ioConfig.pin_bit_mask = (1ULL << JTAG_TCK_GPIO) | (1ULL << JTAG_TMS_GPIO) | (1ULL << JTAG_TDI_GPIO) | (1ULL << JTAG_TRST_GPIO);
     ioConfig.mode = GPIO_MODE_OUTPUT;
     ioConfig.pull_up_en = GPIO_PULLUP_DISABLE;
     ioConfig.pull_down_en = GPIO_PULLDOWN_DISABLE;
@@ -194,7 +194,7 @@ int32_t JtagConfigureGpio(void)
     LinuxExportGpio(JTAG_TDO_GPIO);
     LinuxExportGpio(JTAG_TRST_GPIO);
 
-    usleep(100000);  /* Wait for sysfs to be ready */
+    usleep(100000); /* Wait for sysfs to be ready */
 
     /* Set directions */
     LinuxSetGpioDirection(JTAG_TCK_GPIO, "out");
@@ -255,12 +255,10 @@ int32_t JtagConfigureGpio(void)
 int32_t JtagReleaseGpio(void)
 {
 #ifdef PLATFORM_STM32F4
-    HAL_GPIO_DeInit(GPIOA, JTAG_TCK_PIN | JTAG_TMS_PIN | JTAG_TDI_PIN |
-                           JTAG_TDO_PIN | JTAG_TRST_PIN);
+    HAL_GPIO_DeInit(GPIOA, JTAG_TCK_PIN | JTAG_TMS_PIN | JTAG_TDI_PIN | JTAG_TDO_PIN | JTAG_TRST_PIN);
     return 0;
 #elif defined(PLATFORM_STM32F1)
-    HAL_GPIO_DeInit(GPIOA, JTAG_TCK_PIN | JTAG_TMS_PIN | JTAG_TDI_PIN |
-                           JTAG_TDO_PIN | JTAG_TRST_PIN);
+    HAL_GPIO_DeInit(GPIOA, JTAG_TCK_PIN | JTAG_TMS_PIN | JTAG_TDI_PIN | JTAG_TDO_PIN | JTAG_TRST_PIN);
     return 0;
 #elif defined(PLATFORM_ESP32)
     gpio_reset_pin(JTAG_TCK_GPIO);
@@ -270,11 +268,16 @@ int32_t JtagReleaseGpio(void)
     gpio_reset_pin(JTAG_TRST_GPIO);
     return 0;
 #elif defined(PLATFORM_LINUX)
-    if (g_tckFd >= 0) close(g_tckFd);
-    if (g_tmsFd >= 0) close(g_tmsFd);
-    if (g_tdiFd >= 0) close(g_tdiFd);
-    if (g_tdoFd >= 0) close(g_tdoFd);
-    if (g_trstFd >= 0) close(g_trstFd);
+    if (g_tckFd >= 0)
+        close(g_tckFd);
+    if (g_tmsFd >= 0)
+        close(g_tmsFd);
+    if (g_tdiFd >= 0)
+        close(g_tdiFd);
+    if (g_tdoFd >= 0)
+        close(g_tdoFd);
+    if (g_trstFd >= 0)
+        close(g_trstFd);
 
     g_tckFd = g_tmsFd = g_tdiFd = g_tdoFd = g_trstFd = -1;
     return 0;
@@ -446,13 +449,13 @@ void JtagDelayUs(uint32_t us)
 {
 #ifdef PLATFORM_STM32F4
     /* Simple delay loop for STM32F4 at 168MHz */
-    volatile uint32_t count = us * 42;  /* Approximate cycles */
+    volatile uint32_t count = us * 42; /* Approximate cycles */
     while (count--) {
         __NOP();
     }
 #elif defined(PLATFORM_STM32F1)
     /* Simple delay loop for STM32F1 at 72MHz */
-    volatile uint32_t count = us * 18;  /* Approximate cycles */
+    volatile uint32_t count = us * 18; /* Approximate cycles */
     while (count--) {
         __NOP();
     }
@@ -479,7 +482,7 @@ int32_t JtagConfigureClockSpeed(uint32_t frequency)
     /* Calculate delay based on frequency */
     /* delay = 1 / (2 * frequency) converted to microseconds */
     if (frequency >= 1000000) {
-        g_clockDelayUs = 1;  /* Minimum 1us delay */
+        g_clockDelayUs = 1; /* Minimum 1us delay */
     } else {
         g_clockDelayUs = 500000 / frequency;
     }

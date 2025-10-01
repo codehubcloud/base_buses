@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "can_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -24,10 +25,11 @@ static twai_filter_config_t g_filterConfig = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 #endif
 
 #ifdef PLATFORM_LINUX
-#include <sys/socket.h>
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <net/if.h>
+#include <sys/socket.h>
+
 static int g_canFd = -1;
 #endif
 
@@ -140,7 +142,7 @@ void CanEnable(void)
             }
             addr.can_family = AF_CAN;
             addr.can_ifindex = ifr.ifr_ifindex;
-            if (bind(g_canFd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+            if (bind(g_canFd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
                 close(g_canFd);
                 g_canFd = -1;
                 return;
@@ -168,7 +170,7 @@ int32_t CanTxBufferEmpty(void)
     twai_get_status_info(&status);
     return (status.msgs_to_tx == 0) ? 1 : 0;
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux driver handles buffering */
+    return 1; /* Linux driver handles buffering */
 #else
     return 1;
 #endif
@@ -354,7 +356,7 @@ int32_t CanConfigureBaudRate(uint32_t baudRate)
 {
 #ifdef PLATFORM_STM32F4
     g_canHandle.Instance = CAN1;
-    g_canHandle.Init.Prescaler = 6;  /* For 500kbps with 42MHz APB1 */
+    g_canHandle.Init.Prescaler = 6; /* For 500kbps with 42MHz APB1 */
     g_canHandle.Init.Mode = CAN_MODE_NORMAL;
     g_canHandle.Init.SyncJumpWidth = CAN_SJW_1TQ;
     g_canHandle.Init.TimeSeg1 = CAN_BS1_11TQ;
@@ -379,7 +381,7 @@ int32_t CanConfigureBaudRate(uint32_t baudRate)
     return (HAL_CAN_Init(&g_canHandle) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_STM32F1)
     g_canHandle.Instance = CAN1;
-    g_canHandle.Init.Prescaler = 9;  /* For 500kbps with 36MHz APB1 */
+    g_canHandle.Init.Prescaler = 9; /* For 500kbps with 36MHz APB1 */
     g_canHandle.Init.Mode = CAN_MODE_NORMAL;
     g_canHandle.Init.SyncJumpWidth = CAN_SJW_1TQ;
     g_canHandle.Init.TimeSeg1 = CAN_BS1_6TQ;

@@ -4,59 +4,59 @@
 #include <stdint.h>
 
 /* USB Speed Modes */
-#define USB_SPEED_FULL      0  /* Full-Speed: 12 Mbps */
-#define USB_SPEED_HIGH      1  /* High-Speed: 480 Mbps */
+#define USB_SPEED_FULL 0 /* Full-Speed: 12 Mbps */
+#define USB_SPEED_HIGH 1 /* High-Speed: 480 Mbps */
 
 /* USB Operating Modes */
-#define USB_MODE_DEVICE     0  /* Device mode */
-#define USB_MODE_HOST       1  /* Host mode */
+#define USB_MODE_DEVICE 0 /* Device mode */
+#define USB_MODE_HOST 1   /* Host mode */
 
 /* USB Endpoint Types */
-#define USB_EP_TYPE_CONTROL     0  /* Control endpoint */
-#define USB_EP_TYPE_BULK        1  /* Bulk endpoint */
-#define USB_EP_TYPE_INTERRUPT   2  /* Interrupt endpoint */
-#define USB_EP_TYPE_ISOCHRONOUS 3  /* Isochronous endpoint */
+#define USB_EP_TYPE_CONTROL 0     /* Control endpoint */
+#define USB_EP_TYPE_BULK 1        /* Bulk endpoint */
+#define USB_EP_TYPE_INTERRUPT 2   /* Interrupt endpoint */
+#define USB_EP_TYPE_ISOCHRONOUS 3 /* Isochronous endpoint */
 
 /* USB Endpoint Directions */
-#define USB_EP_DIR_OUT      0  /* OUT endpoint (host to device) */
-#define USB_EP_DIR_IN       1  /* IN endpoint (device to host) */
+#define USB_EP_DIR_OUT 0 /* OUT endpoint (host to device) */
+#define USB_EP_DIR_IN 1  /* IN endpoint (device to host) */
 
 /* USB Standard Request Codes */
-#define USB_REQ_GET_STATUS          0x00
-#define USB_REQ_CLEAR_FEATURE       0x01
-#define USB_REQ_SET_FEATURE         0x03
-#define USB_REQ_SET_ADDRESS         0x05
-#define USB_REQ_GET_DESCRIPTOR      0x06
-#define USB_REQ_SET_DESCRIPTOR      0x07
-#define USB_REQ_GET_CONFIGURATION   0x08
-#define USB_REQ_SET_CONFIGURATION   0x09
-#define USB_REQ_GET_INTERFACE       0x0A
-#define USB_REQ_SET_INTERFACE       0x0B
-#define USB_REQ_SYNCH_FRAME         0x0C
+#define USB_REQ_GET_STATUS 0x00
+#define USB_REQ_CLEAR_FEATURE 0x01
+#define USB_REQ_SET_FEATURE 0x03
+#define USB_REQ_SET_ADDRESS 0x05
+#define USB_REQ_GET_DESCRIPTOR 0x06
+#define USB_REQ_SET_DESCRIPTOR 0x07
+#define USB_REQ_GET_CONFIGURATION 0x08
+#define USB_REQ_SET_CONFIGURATION 0x09
+#define USB_REQ_GET_INTERFACE 0x0A
+#define USB_REQ_SET_INTERFACE 0x0B
+#define USB_REQ_SYNCH_FRAME 0x0C
 
 /* USB Descriptor Types */
-#define USB_DESC_TYPE_DEVICE        0x01
+#define USB_DESC_TYPE_DEVICE 0x01
 #define USB_DESC_TYPE_CONFIGURATION 0x02
-#define USB_DESC_TYPE_STRING        0x03
-#define USB_DESC_TYPE_INTERFACE     0x04
-#define USB_DESC_TYPE_ENDPOINT      0x05
+#define USB_DESC_TYPE_STRING 0x03
+#define USB_DESC_TYPE_INTERFACE 0x04
+#define USB_DESC_TYPE_ENDPOINT 0x05
 
 /* USB Device States */
-#define USB_STATE_DEFAULT       0
-#define USB_STATE_ADDRESSED     1
-#define USB_STATE_CONFIGURED    2
-#define USB_STATE_SUSPENDED     3
+#define USB_STATE_DEFAULT 0
+#define USB_STATE_ADDRESSED 1
+#define USB_STATE_CONFIGURED 2
+#define USB_STATE_SUSPENDED 3
 
 /* USB Transfer Status */
-#define USB_TRANSFER_IDLE       0
-#define USB_TRANSFER_PENDING    1
-#define USB_TRANSFER_COMPLETE   2
-#define USB_TRANSFER_ERROR      3
+#define USB_TRANSFER_IDLE 0
+#define USB_TRANSFER_PENDING 1
+#define USB_TRANSFER_COMPLETE 2
+#define USB_TRANSFER_ERROR 3
 
 /* USB Default Configuration */
-#define USB_MAX_PACKET_SIZE     64
-#define USB_MAX_ENDPOINTS       8
-#define USB_SETUP_PACKET_SIZE   8
+#define USB_MAX_PACKET_SIZE 64
+#define USB_MAX_ENDPOINTS 8
+#define USB_SETUP_PACKET_SIZE 8
 
 /* USB Setup Packet Structure */
 typedef struct {

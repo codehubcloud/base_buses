@@ -32,7 +32,8 @@ int32_t SmBusInit(void)
 
 /******************************************************************************
  * @brief     : Send data to SMBus device
- * @param[in] : deviceAddr - SMBus device address, command - Command byte, data - Pointer to data buffer to send, length - Number of bytes to send
+ * @param[in] : deviceAddr - SMBus device address, command - Command byte, data - Pointer to data buffer to send, length - Number of bytes
+ *to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes data to SMBus device

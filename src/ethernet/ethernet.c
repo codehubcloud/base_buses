@@ -1,15 +1,14 @@
 #include <string.h>
-#include "securec.h"
 #include "ethernet.h"
 #include "ethernet_hal.h"
+#include "securec.h"
+
 
 /* Default Ethernet configuration */
-static EthernetConfig_t g_ethernetConfig = {
-    .speed = ETHERNET_SPEED_100M,
-    .duplexMode = ETHERNET_DUPLEX_FULL,
-    .macAddress = {{0x00, 0x11, 0x22, 0x33, 0x44, 0x55}},
-    .promiscuousMode = 0
-};
+static EthernetConfig_t g_ethernetConfig = {.speed = ETHERNET_SPEED_100M,
+                                            .duplexMode = ETHERNET_DUPLEX_FULL,
+                                            .macAddress = {{0x00, 0x11, 0x22, 0x33, 0x44, 0x55}},
+                                            .promiscuousMode = 0};
 
 /******************************************************************************
  * @brief     : Initialize Ethernet peripheral with default settings
@@ -117,8 +116,7 @@ int32_t EthernetSetMacAddress(const EthernetMacAddress_t* macAddress)
         return -1;
     }
 
-    if (memcpy_s(&g_ethernetConfig.macAddress, sizeof(EthernetMacAddress_t),
-                 macAddress, sizeof(EthernetMacAddress_t)) != EOK) {
+    if (memcpy_s(&g_ethernetConfig.macAddress, sizeof(EthernetMacAddress_t), macAddress, sizeof(EthernetMacAddress_t)) != EOK) {
         return -1;
     }
 
@@ -146,8 +144,7 @@ int32_t EthernetGetLinkStatus(void)
  *****************************************************************************/
 int32_t EthernetSetSpeed(uint32_t speed, uint8_t duplexMode)
 {
-    if ((speed != ETHERNET_SPEED_10M) && (speed != ETHERNET_SPEED_100M) &&
-        (speed != ETHERNET_SPEED_1000M)) {
+    if ((speed != ETHERNET_SPEED_10M) && (speed != ETHERNET_SPEED_100M) && (speed != ETHERNET_SPEED_1000M)) {
         return -1;
     }
 

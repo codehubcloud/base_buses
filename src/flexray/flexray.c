@@ -25,7 +25,7 @@ int32_t FlexRayInit(void)
     int32_t result = 0;
 
     if (g_flexrayInitialized) {
-        return 0;  /* Already initialized */
+        return 0; /* Already initialized */
     }
 
     /* Enable clock and configure GPIO */
@@ -123,8 +123,8 @@ int32_t FlexRayConfigureSlot(uint16_t slotId, uint8_t channel, uint16_t payloadL
     g_slotConfigs[slotId].slotId = slotId;
     g_slotConfigs[slotId].channel = channel;
     g_slotConfigs[slotId].payloadLength = payloadLength;
-    g_slotConfigs[slotId].segmentType = FLEXRAY_SEGMENT_STATIC;  /* Default to static */
-    g_slotConfigs[slotId].cycleRepetition = 1;  /* Transmit every cycle */
+    g_slotConfigs[slotId].segmentType = FLEXRAY_SEGMENT_STATIC; /* Default to static */
+    g_slotConfigs[slotId].cycleRepetition = 1;                  /* Transmit every cycle */
 
     /* Configure slot in hardware */
     return FlexRayHalConfigureSlot(slotId, channel, payloadLength);
@@ -154,7 +154,7 @@ int32_t FlexRaySendFrame(uint16_t slotId, uint8_t* data, uint16_t length)
 
     /* Check if slot is configured */
     if (g_slotConfigs[slotId].slotId != slotId) {
-        return -1;  /* Slot not configured */
+        return -1; /* Slot not configured */
     }
 
     /* Verify length matches configured payload length */
@@ -168,7 +168,7 @@ int32_t FlexRaySendFrame(uint16_t slotId, uint8_t* data, uint16_t length)
     }
     frame.slotId = slotId;
     frame.channel = g_slotConfigs[slotId].channel;
-    frame.payloadLength = (uint8_t)(length / 2);  /* Convert bytes to words */
+    frame.payloadLength = (uint8_t)(length / 2); /* Convert bytes to words */
     frame.cycleCount = g_flexrayStatus.cycleCounter;
 
     /* Copy payload data */
@@ -215,12 +215,12 @@ int32_t FlexRayReceiveFrame(uint16_t slotId, uint8_t* data, uint16_t maxLength)
 
     /* Check if slot is configured */
     if (g_slotConfigs[slotId].slotId != slotId) {
-        return -1;  /* Slot not configured */
+        return -1; /* Slot not configured */
     }
 
     /* Check if data is available */
     if (FlexRayHalRxSlotHasData(slotId) == 0) {
-        return 0;  /* No data available */
+        return 0; /* No data available */
     }
 
     /* Receive frame from HAL */
@@ -234,17 +234,17 @@ int32_t FlexRayReceiveFrame(uint16_t slotId, uint8_t* data, uint16_t maxLength)
 
     /* Verify CRCs */
     if (frame.headerCrc != FlexRayCalculateHeaderCrc(&frame)) {
-        g_flexrayStatus.errorFlags |= 0x01;  /* Header CRC error */
+        g_flexrayStatus.errorFlags |= 0x01; /* Header CRC error */
         return -1;
     }
 
     if (frame.frameCrc != FlexRayCalculateFrameCrc(&frame)) {
-        g_flexrayStatus.errorFlags |= 0x02;  /* Frame CRC error */
+        g_flexrayStatus.errorFlags |= 0x02; /* Frame CRC error */
         return -1;
     }
 
     /* Copy payload to output buffer */
-    uint16_t payloadBytes = frame.payloadLength * 2;  /* Convert words to bytes */
+    uint16_t payloadBytes = frame.payloadLength * 2; /* Convert words to bytes */
     if (payloadBytes > maxLength) {
         payloadBytes = maxLength;
     }
@@ -273,7 +273,7 @@ int32_t FlexRayStartCommunication(void)
     }
 
     if (g_flexrayStatus.state == FLEXRAY_STATUS_ACTIVE) {
-        return 0;  /* Already active */
+        return 0; /* Already active */
     }
 
     /* Start communication via HAL */
@@ -283,7 +283,7 @@ int32_t FlexRayStartCommunication(void)
     }
 
     g_flexrayStatus.state = FLEXRAY_STATUS_ACTIVE;
-    g_flexrayStatus.syncState = 1;  /* Synchronized */
+    g_flexrayStatus.syncState = 1; /* Synchronized */
     g_flexrayStatus.slotCounter = 0;
     g_flexrayStatus.cycleCounter = 0;
     g_flexrayStatus.errorFlags = 0;
@@ -305,7 +305,7 @@ int32_t FlexRayStopCommunication(void)
     }
 
     if (g_flexrayStatus.state != FLEXRAY_STATUS_ACTIVE) {
-        return 0;  /* Not active */
+        return 0; /* Not active */
     }
 
     /* Stop communication via HAL */
@@ -354,7 +354,7 @@ int32_t FlexRaySetBitRate(uint32_t bitRate)
 {
     /* Validate bit rate (FlexRay standard is 10 Mbps) */
     if (bitRate != FLEXRAY_DEFAULT_BITRATE) {
-        return -1;  /* FlexRay only supports 10 Mbps */
+        return -1; /* FlexRay only supports 10 Mbps */
     }
 
     return FlexRayHalConfigureBitRate(bitRate);
@@ -439,14 +439,14 @@ static uint16_t FlexRayCalculateHeaderCrc(FlexRayFrame_t* frame)
 {
     /* Simplified CRC-11 calculation */
     /* In production, use FlexRay specification CRC-11 polynomial: 0x5A5 */
-    uint16_t crc = 0x01A;  /* Initial value */
+    uint16_t crc = 0x01A; /* Initial value */
     uint16_t data = 0;
 
     data = (frame->slotId << 5) | (frame->payloadLength & 0x1F);
     crc ^= data;
     crc ^= (frame->channel << 8);
 
-    return crc & 0x7FF;  /* 11-bit CRC */
+    return crc & 0x7FF; /* 11-bit CRC */
 }
 
 /******************************************************************************
@@ -460,14 +460,14 @@ static uint32_t FlexRayCalculateFrameCrc(FlexRayFrame_t* frame)
 {
     /* Simplified CRC-24 calculation */
     /* In production, use FlexRay specification CRC-24 polynomial: 0x5D6DCB */
-    uint32_t crc = 0xFEDCBA;  /* Initial value */
+    uint32_t crc = 0xFEDCBA; /* Initial value */
     uint16_t payloadBytes = frame->payloadLength * 2;
 
     for (uint16_t i = 0; i < payloadBytes; i++) {
         crc ^= (uint32_t)frame->payload[i] << (16 - (i % 3) * 8);
     }
 
-    return crc & 0xFFFFFF;  /* 24-bit CRC */
+    return crc & 0xFFFFFF; /* 24-bit CRC */
 }
 
 /******************************************************************************
@@ -487,9 +487,7 @@ static int32_t FlexRayValidateSlotConfig(uint16_t slotId, uint8_t channel, uint1
     }
 
     /* Validate channel */
-    if (channel != FLEXRAY_CHANNEL_A &&
-        channel != FLEXRAY_CHANNEL_B &&
-        channel != FLEXRAY_CHANNEL_AB) {
+    if (channel != FLEXRAY_CHANNEL_A && channel != FLEXRAY_CHANNEL_B && channel != FLEXRAY_CHANNEL_AB) {
         return -1;
     }
 

@@ -1,7 +1,8 @@
 #include <string.h>
-#include "securec.h"
 #include "apb.h"
 #include "apb_hal.h"
+#include "securec.h"
+
 
 /* Global APB state management */
 static ApbState_E g_apbState = APB_STATE_IDLE;

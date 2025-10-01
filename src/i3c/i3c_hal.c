@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "i3c_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* NOTE: I3C hardware support is limited in most platforms.
  * This implementation uses I2C compatibility mode for platforms without native I3C support.
@@ -9,12 +10,12 @@
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
-static I2C_HandleTypeDef g_i3cHandle;  /* I2C compatibility mode */
+static I2C_HandleTypeDef g_i3cHandle; /* I2C compatibility mode */
 static uint8_t g_i3cDeviceAddr = 0;
 #endif
 
 #ifdef PLATFORM_STM32F1
-static I2C_HandleTypeDef g_i3cHandle;  /* I2C compatibility mode */
+static I2C_HandleTypeDef g_i3cHandle; /* I2C compatibility mode */
 static uint8_t g_i3cDeviceAddr = 0;
 #endif
 
@@ -25,7 +26,7 @@ static i2c_config_t g_i3cConfig = {
     .scl_io_num = GPIO_NUM_22,
     .sda_pullup_en = GPIO_PULLUP_ENABLE,
     .scl_pullup_en = GPIO_PULLUP_ENABLE,
-    .master.clk_speed = 100000  /* I3C SDR mode compatible speed */
+    .master.clk_speed = 100000 /* I3C SDR mode compatible speed */
 };
 static uint8_t g_i3cDeviceAddr = 0;
 #endif

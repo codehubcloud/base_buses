@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "i2s_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -218,8 +219,7 @@ int32_t I2sSetDataFormat(uint8_t dataFormat, uint8_t channelMode)
 #elif defined(PLATFORM_LINUX)
     const char* formatName[] = {"16-bit", "24-bit", "32-bit"};
     const char* channelName[] = {"Stereo", "Mono-L", "Mono-R"};
-    printf("[I2S HAL] Format set: %s, %s (simulated)\n",
-           formatName[dataFormat], channelName[channelMode]);
+    printf("[I2S HAL] Format set: %s, %s (simulated)\n", formatName[dataFormat], channelName[channelMode]);
     g_currentDataFormat = dataFormat;
     return 0;
 #else
@@ -256,28 +256,21 @@ int32_t I2sConfigureSampleRate(uint32_t sampleRate)
     g_i2sHandle.Init.CPOL = I2S_CPOL_LOW;
     return (HAL_I2S_Init(&g_i2sHandle) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_ESP32)
-    i2s_config_t i2sConfig = {
-        .mode = I2S_MODE_MASTER | I2S_MODE_TX,
-        .sample_rate = sampleRate,
-        .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-        .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
-        .communication_format = I2S_COMM_FORMAT_I2S,
-        .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
-        .dma_buf_count = 8,
-        .dma_buf_len = 64,
-        .use_apll = false,
-        .tx_desc_auto_clear = true,
-        .fixed_mclk = 0
-    };
+    i2s_config_t i2sConfig = {.mode = I2S_MODE_MASTER | I2S_MODE_TX,
+                              .sample_rate = sampleRate,
+                              .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
+                              .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+                              .communication_format = I2S_COMM_FORMAT_I2S,
+                              .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+                              .dma_buf_count = 8,
+                              .dma_buf_len = 64,
+                              .use_apll = false,
+                              .tx_desc_auto_clear = true,
+                              .fixed_mclk = 0};
 
     i2s_driver_install(g_i2sNum, &i2sConfig, 0, NULL);
 
-    i2s_pin_config_t pinConfig = {
-        .bck_io_num = 26,
-        .ws_io_num = 25,
-        .data_out_num = 22,
-        .data_in_num = I2S_PIN_NO_CHANGE
-    };
+    i2s_pin_config_t pinConfig = {.bck_io_num = 26, .ws_io_num = 25, .data_out_num = 22, .data_in_num = I2S_PIN_NO_CHANGE};
     i2s_set_pin(g_i2sNum, &pinConfig);
 
     g_currentSampleRate = sampleRate;

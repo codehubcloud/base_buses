@@ -1,7 +1,8 @@
 #include <string.h>
-#include "securec.h"
 #include "ahb.h"
 #include "ahb_hal.h"
+#include "securec.h"
+
 
 /******************************************************************************
  * @brief     : Initialize AHB bus controller

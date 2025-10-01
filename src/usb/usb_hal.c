@@ -1,6 +1,7 @@
+#include "platform_config.h"
 #include "securec.h"
 #include "usb_hal.h"
-#include "platform_config.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -18,10 +19,11 @@ static uint8_t g_usbTxBuffer[USB_MAX_ENDPOINTS][USB_MAX_PACKET_SIZE];
 #endif
 
 #ifdef PLATFORM_ESP32
-#include "esp_system.h"
 #include "driver/gpio.h"
 #include "esp_private/usb_phy.h"
+#include "esp_system.h"
 #include "soc/usb_periph.h"
+
 #if defined(CONFIG_IDF_TARGET_ESP32S2) || defined(CONFIG_IDF_TARGET_ESP32S3) || defined(CONFIG_IDF_TARGET_ESP32C3)
 #include "hal/usb_hal.h"
 static usb_hal_context_t g_usbHalContext;
@@ -178,7 +180,7 @@ int32_t UsbHalInitController(uint8_t mode, uint8_t speed)
 #elif defined(PLATFORM_STM32F1)
     g_usbHandle.Instance = USB;
     g_usbHandle.Init.dev_endpoints = USB_MAX_ENDPOINTS;
-    g_usbHandle.Init.speed = PCD_SPEED_FULL;  /* STM32F1 supports only Full-Speed */
+    g_usbHandle.Init.speed = PCD_SPEED_FULL; /* STM32F1 supports only Full-Speed */
     g_usbHandle.Init.phy_itface = PCD_PHY_EMBEDDED;
     g_usbHandle.Init.low_power_enable = DISABLE;
     g_usbHandle.Init.lpm_enable = DISABLE;
@@ -189,8 +191,8 @@ int32_t UsbHalInitController(uint8_t mode, uint8_t speed)
     }
 
     /* Configure PMA (Packet Memory Area) */
-    HAL_PCDEx_PMAConfig(&g_usbHandle, 0x00, PCD_SNG_BUF, 0x18);  /* EP0 TX */
-    HAL_PCDEx_PMAConfig(&g_usbHandle, 0x80, PCD_SNG_BUF, 0x58);  /* EP0 RX */
+    HAL_PCDEx_PMAConfig(&g_usbHandle, 0x00, PCD_SNG_BUF, 0x18); /* EP0 TX */
+    HAL_PCDEx_PMAConfig(&g_usbHandle, 0x80, PCD_SNG_BUF, 0x58); /* EP0 RX */
 
     return 0;
 #elif defined(PLATFORM_ESP32)
@@ -347,11 +349,20 @@ int32_t UsbHalConfigureEndpoint(UsbEndpointConfig_t* config)
 
     uint8_t epType;
     switch (config->endpointType) {
-        case USB_EP_TYPE_CONTROL:     epType = EP_TYPE_CTRL; break;
-        case USB_EP_TYPE_BULK:        epType = EP_TYPE_BULK; break;
-        case USB_EP_TYPE_INTERRUPT:   epType = EP_TYPE_INTR; break;
-        case USB_EP_TYPE_ISOCHRONOUS: epType = EP_TYPE_ISOC; break;
-        default: return -1;
+        case USB_EP_TYPE_CONTROL:
+            epType = EP_TYPE_CTRL;
+            break;
+        case USB_EP_TYPE_BULK:
+            epType = EP_TYPE_BULK;
+            break;
+        case USB_EP_TYPE_INTERRUPT:
+            epType = EP_TYPE_INTR;
+            break;
+        case USB_EP_TYPE_ISOCHRONOUS:
+            epType = EP_TYPE_ISOC;
+            break;
+        default:
+            return -1;
     }
 
     return (HAL_PCD_EP_Open(&g_usbHandle, epAddr, config->maxPacketSize, epType) == HAL_OK) ? 0 : -1;
@@ -363,11 +374,20 @@ int32_t UsbHalConfigureEndpoint(UsbEndpointConfig_t* config)
 
     uint8_t epType;
     switch (config->endpointType) {
-        case USB_EP_TYPE_CONTROL:     epType = EP_TYPE_CTRL; break;
-        case USB_EP_TYPE_BULK:        epType = EP_TYPE_BULK; break;
-        case USB_EP_TYPE_INTERRUPT:   epType = EP_TYPE_INTR; break;
-        case USB_EP_TYPE_ISOCHRONOUS: epType = EP_TYPE_ISOC; break;
-        default: return -1;
+        case USB_EP_TYPE_CONTROL:
+            epType = EP_TYPE_CTRL;
+            break;
+        case USB_EP_TYPE_BULK:
+            epType = EP_TYPE_BULK;
+            break;
+        case USB_EP_TYPE_INTERRUPT:
+            epType = EP_TYPE_INTR;
+            break;
+        case USB_EP_TYPE_ISOCHRONOUS:
+            epType = EP_TYPE_ISOC;
+            break;
+        default:
+            return -1;
     }
 
     return (HAL_PCD_EP_Open(&g_usbHandle, epAddr, config->maxPacketSize, epType) == HAL_OK) ? 0 : -1;
@@ -418,7 +438,7 @@ int32_t UsbHalSetDeviceAddress(uint8_t address)
 int32_t UsbHalTransmitData(uint8_t endpoint, uint8_t* data, uint16_t length)
 {
 #ifdef PLATFORM_STM32F4
-    uint8_t epAddr = endpoint | 0x80;  /* IN endpoint */
+    uint8_t epAddr = endpoint | 0x80; /* IN endpoint */
 
     if (length > 0 && data != NULL) {
         if (memcpy_s(g_usbTxBuffer[endpoint], USB_MAX_PACKET_SIZE, data, length) != EOK) {
@@ -426,15 +446,13 @@ int32_t UsbHalTransmitData(uint8_t endpoint, uint8_t* data, uint16_t length)
         }
     }
 
-    if (HAL_PCD_EP_Transmit(&g_usbHandle, epAddr,
-                           (length > 0) ? g_usbTxBuffer[endpoint] : NULL,
-                           length) != HAL_OK) {
+    if (HAL_PCD_EP_Transmit(&g_usbHandle, epAddr, (length > 0) ? g_usbTxBuffer[endpoint] : NULL, length) != HAL_OK) {
         return -1;
     }
 
     return (int32_t)length;
 #elif defined(PLATFORM_STM32F1)
-    uint8_t epAddr = endpoint | 0x80;  /* IN endpoint */
+    uint8_t epAddr = endpoint | 0x80; /* IN endpoint */
 
     if (length > 0 && data != NULL) {
         if (memcpy_s(g_usbTxBuffer[endpoint], USB_MAX_PACKET_SIZE, data, length) != EOK) {
@@ -442,9 +460,7 @@ int32_t UsbHalTransmitData(uint8_t endpoint, uint8_t* data, uint16_t length)
         }
     }
 
-    if (HAL_PCD_EP_Transmit(&g_usbHandle, epAddr,
-                           (length > 0) ? g_usbTxBuffer[endpoint] : NULL,
-                           length) != HAL_OK) {
+    if (HAL_PCD_EP_Transmit(&g_usbHandle, epAddr, (length > 0) ? g_usbTxBuffer[endpoint] : NULL, length) != HAL_OK) {
         return -1;
     }
 
@@ -455,8 +471,7 @@ int32_t UsbHalTransmitData(uint8_t endpoint, uint8_t* data, uint16_t length)
 #elif defined(PLATFORM_LINUX)
     if (g_usbDevHandle != NULL && data != NULL) {
         int transferred = 0;
-        int result = libusb_bulk_transfer(g_usbDevHandle, endpoint | 0x80,
-                                         data, length, &transferred, 1000);
+        int result = libusb_bulk_transfer(g_usbDevHandle, endpoint | 0x80, data, length, &transferred, 1000);
         return (result == 0) ? transferred : -1;
     }
     return -1;
@@ -479,10 +494,9 @@ int32_t UsbHalReceiveData(uint8_t endpoint, uint8_t* data, uint16_t maxLength)
     }
 
 #ifdef PLATFORM_STM32F4
-    uint8_t epAddr = endpoint & 0x7F;  /* OUT endpoint */
+    uint8_t epAddr = endpoint & 0x7F; /* OUT endpoint */
 
-    if (HAL_PCD_EP_Receive(&g_usbHandle, epAddr, g_usbRxBuffer[endpoint],
-                          maxLength) != HAL_OK) {
+    if (HAL_PCD_EP_Receive(&g_usbHandle, epAddr, g_usbRxBuffer[endpoint], maxLength) != HAL_OK) {
         return -1;
     }
 
@@ -497,10 +511,9 @@ int32_t UsbHalReceiveData(uint8_t endpoint, uint8_t* data, uint16_t maxLength)
     }
     return (int32_t)rxLength;
 #elif defined(PLATFORM_STM32F1)
-    uint8_t epAddr = endpoint & 0x7F;  /* OUT endpoint */
+    uint8_t epAddr = endpoint & 0x7F; /* OUT endpoint */
 
-    if (HAL_PCD_EP_Receive(&g_usbHandle, epAddr, g_usbRxBuffer[endpoint],
-                          maxLength) != HAL_OK) {
+    if (HAL_PCD_EP_Receive(&g_usbHandle, epAddr, g_usbRxBuffer[endpoint], maxLength) != HAL_OK) {
         return -1;
     }
 
@@ -520,8 +533,7 @@ int32_t UsbHalReceiveData(uint8_t endpoint, uint8_t* data, uint16_t maxLength)
 #elif defined(PLATFORM_LINUX)
     if (g_usbDevHandle != NULL) {
         int transferred = 0;
-        int result = libusb_bulk_transfer(g_usbDevHandle, endpoint & 0x7F,
-                                         data, maxLength, &transferred, 1000);
+        int result = libusb_bulk_transfer(g_usbDevHandle, endpoint & 0x7F, data, maxLength, &transferred, 1000);
         return (result == 0) ? transferred : -1;
     }
     return -1;
@@ -541,10 +553,10 @@ int32_t UsbHalIsEndpointReady(uint8_t endpoint)
 {
 #ifdef PLATFORM_STM32F4
     /* Check if endpoint is not busy */
-    return 1;  /* Simplified - actual implementation would check PCD state */
+    return 1; /* Simplified - actual implementation would check PCD state */
 #elif defined(PLATFORM_STM32F1)
     /* Check if endpoint is not busy */
-    return 1;  /* Simplified - actual implementation would check PCD state */
+    return 1; /* Simplified - actual implementation would check PCD state */
 #elif defined(PLATFORM_ESP32)
     return 1;
 #elif defined(PLATFORM_LINUX)
@@ -565,10 +577,10 @@ int32_t UsbHalIsDataAvailable(uint8_t endpoint)
 {
 #ifdef PLATFORM_STM32F4
     /* Check RX FIFO status */
-    return 1;  /* Simplified - would check actual FIFO status */
+    return 1; /* Simplified - would check actual FIFO status */
 #elif defined(PLATFORM_STM32F1)
     /* Check RX buffer status */
-    return 1;  /* Simplified - would check actual buffer status */
+    return 1; /* Simplified - would check actual buffer status */
 #elif defined(PLATFORM_ESP32)
     return 1;
 #elif defined(PLATFORM_LINUX)

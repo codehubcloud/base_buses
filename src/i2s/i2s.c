@@ -1,7 +1,8 @@
 #include <string.h>
-#include "securec.h"
 #include "i2s.h"
 #include "i2s_hal.h"
+#include "securec.h"
+
 
 /******************************************************************************
  * @brief     : Initialize I2S peripheral with default settings
@@ -62,8 +63,7 @@ int32_t I2sDeinit(void)
  *****************************************************************************/
 int32_t I2sConfigureFormat(uint8_t dataFormat, uint8_t channelMode)
 {
-    if ((dataFormat > I2S_DATA_FORMAT_32BIT) ||
-        (channelMode > I2S_CHANNEL_MONO_RIGHT)) {
+    if ((dataFormat > I2S_DATA_FORMAT_32BIT) || (channelMode > I2S_CHANNEL_MONO_RIGHT)) {
         return -1;
     }
 
@@ -112,8 +112,7 @@ int32_t I2sReceiveData(uint8_t* buffer, uint32_t maxLength)
  *****************************************************************************/
 int32_t I2sSetSampleRate(uint32_t sampleRate)
 {
-    if ((sampleRate < I2S_SAMPLE_RATE_8KHZ) ||
-        (sampleRate > I2S_SAMPLE_RATE_192KHZ)) {
+    if ((sampleRate < I2S_SAMPLE_RATE_8KHZ) || (sampleRate > I2S_SAMPLE_RATE_192KHZ)) {
         return -1;
     }
 

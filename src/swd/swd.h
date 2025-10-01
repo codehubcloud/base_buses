@@ -4,27 +4,27 @@
 #include <stdint.h>
 
 /* SWD ACK Responses */
-#define SWD_ACK_OK    0x01  /* Operation successful */
-#define SWD_ACK_WAIT  0x02  /* Target not ready, retry */
-#define SWD_ACK_FAULT 0x04  /* Transaction fault occurred */
+#define SWD_ACK_OK 0x01    /* Operation successful */
+#define SWD_ACK_WAIT 0x02  /* Target not ready, retry */
+#define SWD_ACK_FAULT 0x04 /* Transaction fault occurred */
 
 /* SWD DP (Debug Port) Register Addresses */
-#define SWD_DP_IDCODE  0x00  /* IDCODE register */
-#define SWD_DP_ABORT   0x00  /* Abort register (write) */
-#define SWD_DP_CTRL    0x04  /* Control/Status register */
-#define SWD_DP_SELECT  0x08  /* AP Select register */
-#define SWD_DP_RDBUFF  0x0C  /* Read Buffer register */
+#define SWD_DP_IDCODE 0x00 /* IDCODE register */
+#define SWD_DP_ABORT 0x00  /* Abort register (write) */
+#define SWD_DP_CTRL 0x04   /* Control/Status register */
+#define SWD_DP_SELECT 0x08 /* AP Select register */
+#define SWD_DP_RDBUFF 0x0C /* Read Buffer register */
 
 /* SWD AP (Access Port) Register Addresses */
-#define SWD_AP_CSW  0x00  /* Control/Status Word */
-#define SWD_AP_TAR  0x04  /* Transfer Address Register */
-#define SWD_AP_DRW  0x0C  /* Data Read/Write */
-#define SWD_AP_IDR  0xFC  /* Identification Register */
+#define SWD_AP_CSW 0x00 /* Control/Status Word */
+#define SWD_AP_TAR 0x04 /* Transfer Address Register */
+#define SWD_AP_DRW 0x0C /* Data Read/Write */
+#define SWD_AP_IDR 0xFC /* Identification Register */
 
 /* SWD Request Bits */
-#define SWD_REQ_PARK_START   0x01
-#define SWD_REQ_AP_DP        0x02  /* 0=DP, 1=AP */
-#define SWD_REQ_READ_WRITE   0x04  /* 0=Write, 1=Read */
+#define SWD_REQ_PARK_START 0x01
+#define SWD_REQ_AP_DP 0x02      /* 0=DP, 1=AP */
+#define SWD_REQ_READ_WRITE 0x04 /* 0=Write, 1=Read */
 
 /* SWD Protocol Constants */
 #define SWD_RETRY_COUNT 100

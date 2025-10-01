@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "lin_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -23,9 +24,10 @@ static UART_HandleTypeDef g_linUartHandle;
 #endif
 
 #ifdef PLATFORM_ESP32
-#include "driver/uart.h"
 #include "driver/gpio.h"
+#include "driver/uart.h"
 #include "esp_timer.h"
+
 #define LIN_UART_NUM UART_NUM_2
 #define LIN_TX_PIN GPIO_NUM_17
 #define LIN_RX_PIN GPIO_NUM_16
@@ -34,14 +36,15 @@ static QueueHandle_t g_linUartQueue;
 #endif
 
 #ifdef PLATFORM_LINUX
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <termios.h>
 #include <sys/ioctl.h>
+#include <termios.h>
 #include <time.h>
+#include <unistd.h>
+
 static int g_linFd = -1;
 static struct termios g_oldTermios;
 #endif
@@ -208,10 +211,18 @@ int32_t LinConfigureUart(uint32_t baudRate)
     /* Set baud rate */
     speed_t speed;
     switch (baudRate) {
-        case 9600:   speed = B9600; break;
-        case 19200:  speed = B19200; break;
-        case 38400:  speed = B38400; break;
-        default:     speed = B19200; break;
+        case 9600:
+            speed = B9600;
+            break;
+        case 19200:
+            speed = B19200;
+            break;
+        case 38400:
+            speed = B38400;
+            break;
+        default:
+            speed = B19200;
+            break;
     }
     cfsetospeed(&tty, speed);
     cfsetispeed(&tty, speed);
@@ -232,7 +243,7 @@ int32_t LinConfigureUart(uint32_t baudRate)
 
     /* Read settings */
     tty.c_cc[VMIN] = 0;
-    tty.c_cc[VTIME] = 1;  /* 0.1 second timeout */
+    tty.c_cc[VTIME] = 1; /* 0.1 second timeout */
 
     if (tcsetattr(g_linFd, TCSANOW, &tty) != 0) {
         close(g_linFd);
@@ -555,7 +566,7 @@ void LinFlushTxBuffer(void)
 int32_t LinSetBreakLength(uint8_t breakLength)
 {
     /* Most platforms use fixed break length, this is for future expansion */
-    (void)breakLength;  /* Unused parameter */
+    (void)breakLength; /* Unused parameter */
     return 0;
 }
 

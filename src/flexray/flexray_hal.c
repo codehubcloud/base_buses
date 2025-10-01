@@ -1,7 +1,8 @@
-#include "securec.h"
+#include <string.h>
 #include "flexray_hal.h"
 #include "platform_config.h"
-#include <string.h>
+#include "securec.h"
+
 
 /* Platform-specific global variables and structures */
 #ifdef PLATFORM_STM32F4
@@ -25,11 +26,12 @@ static uint16_t g_slotBufferStatus[FLEXRAY_MAX_SLOTS] = {0};
 
 #ifdef PLATFORM_LINUX
 /* Linux FlexRay support via socketcan or character device */
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
 #include <fcntl.h>
+#include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <unistd.h>
+
 static int g_flexrayFd = -1;
 static uint16_t g_slotBufferStatus[FLEXRAY_MAX_SLOTS] = {0};
 static uint8_t g_slotBuffers[FLEXRAY_MAX_SLOTS][FLEXRAY_MAX_PAYLOAD_LENGTH] = {0};
@@ -263,7 +265,7 @@ int32_t FlexRayHalConfigureSlot(uint16_t slotId, uint8_t channel, uint16_t paylo
     if (slotId >= FLEXRAY_MAX_SLOTS) {
         return -1;
     }
-    g_slotBufferStatus[slotId] = 0x01;  /* Mark as configured */
+    g_slotBufferStatus[slotId] = 0x01; /* Mark as configured */
     return 0;
 #elif defined(PLATFORM_STM32F1)
     if (slotId >= FLEXRAY_MAX_SLOTS) {
@@ -305,7 +307,7 @@ int32_t FlexRayHalSendFrame(uint16_t slotId, FlexRayFrame_t* frame)
         return -1;
     }
     if ((g_slotBufferStatus[slotId] & 0x01) == 0) {
-        return -1;  /* Slot not configured */
+        return -1; /* Slot not configured */
     }
     /* Placeholder: Write frame data to controller via SPI */
     /* In real implementation, this would involve:
@@ -314,7 +316,7 @@ int32_t FlexRayHalSendFrame(uint16_t slotId, FlexRayFrame_t* frame)
      * 3. Transfer frame header and payload
      * 4. Deselect chip
      */
-    g_slotBufferStatus[slotId] |= 0x02;  /* Mark as pending TX */
+    g_slotBufferStatus[slotId] |= 0x02; /* Mark as pending TX */
     return 0;
 #elif defined(PLATFORM_STM32F1)
     if (slotId >= FLEXRAY_MAX_SLOTS || frame == NULL) {
@@ -422,7 +424,7 @@ int32_t FlexRayHalReceiveFrame(uint16_t slotId, FlexRayFrame_t* frame)
         return -1;
     }
     if ((g_slotBufferStatus[slotId] & 0x04) == 0) {
-        return -1;  /* No data available */
+        return -1; /* No data available */
     }
     /* Placeholder: Read frame data from controller via SPI */
     /* In real implementation:
@@ -431,7 +433,7 @@ int32_t FlexRayHalReceiveFrame(uint16_t slotId, FlexRayFrame_t* frame)
      * 3. Read frame header and payload
      * 4. Deselect chip
      */
-    g_slotBufferStatus[slotId] &= ~0x04;  /* Clear RX flag */
+    g_slotBufferStatus[slotId] &= ~0x04; /* Clear RX flag */
     return 0;
 #elif defined(PLATFORM_STM32F1)
     if (slotId >= FLEXRAY_MAX_SLOTS || frame == NULL) {
@@ -456,7 +458,7 @@ int32_t FlexRayHalReceiveFrame(uint16_t slotId, FlexRayFrame_t* frame)
         return -1;
     }
     if (g_slotDataLengths[slotId] == 0) {
-        return -1;  /* No data */
+        return -1; /* No data */
     }
     /* Copy stored data to frame */
     frame->slotId = slotId;

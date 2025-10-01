@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "canfd_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -22,14 +23,15 @@ static twai_filter_config_t g_filterConfig = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 #endif
 
 #ifdef PLATFORM_LINUX
-#include <sys/socket.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
+#include <fcntl.h>
 #include <linux/can.h>
 #include <linux/can/raw.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include <net/if.h>
 #include <string.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <unistd.h>
+
 
 /* Linux CAN FD structures */
 #ifndef CANFD_MTU
@@ -68,14 +70,22 @@ static uint8_t DlcToDataLength(uint8_t dlc)
         return dlc;
     }
     switch (dlc) {
-        case 9:  return 12;
-        case 10: return 16;
-        case 11: return 20;
-        case 12: return 24;
-        case 13: return 32;
-        case 14: return 48;
-        case 15: return 64;
-        default: return 0;
+        case 9:
+            return 12;
+        case 10:
+            return 16;
+        case 11:
+            return 20;
+        case 12:
+            return 24;
+        case 13:
+            return 32;
+        case 14:
+            return 48;
+        case 15:
+            return 64;
+        default:
+            return 0;
     }
 }
 
@@ -254,7 +264,7 @@ int32_t CanFdEnable(void)
 
         addr.can_family = AF_CAN;
         addr.can_ifindex = ifr.ifr_ifindex;
-        if (bind(g_canFdFd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+        if (bind(g_canFdFd, (struct sockaddr*)&addr, sizeof(addr)) < 0) {
             close(g_canFdFd);
             g_canFdFd = -1;
             return -1;
@@ -323,7 +333,7 @@ int32_t CanFdTxBufferEmpty(void)
     }
     return 0;
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux driver handles buffering */
+    return 1; /* Linux driver handles buffering */
 #else
     return 1;
 #endif
@@ -359,7 +369,7 @@ int32_t CanFdWriteFrame(const CanFdFrame* frame)
     return -1;
 #elif defined(PLATFORM_ESP32)
     if (frame == NULL || frame->dataLength > 8) {
-        return -1;  /* ESP32 TWAI limited to 8 bytes */
+        return -1; /* ESP32 TWAI limited to 8 bytes */
     }
 
     twai_message_t message;
@@ -485,7 +495,7 @@ int32_t CanFdReadFrame(CanFdFrame* frame)
     frame->id = message.identifier;
     frame->idType = (message.flags & TWAI_MSG_FLAG_EXTD) ? CANFD_ID_TYPE_EXTENDED : CANFD_ID_TYPE_STANDARD;
     frame->dataLength = message.data_length_code;
-    frame->frameType = CANFD_FRAME_TYPE_CLASSIC;  /* ESP32 TWAI doesn't support FD */
+    frame->frameType = CANFD_FRAME_TYPE_CLASSIC; /* ESP32 TWAI doesn't support FD */
     frame->brsFlag = CANFD_BRS_DISABLED;
     frame->esiFlag = CANFD_ESI_ERROR_ACTIVE;
 

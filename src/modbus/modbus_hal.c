@@ -1,6 +1,7 @@
-#include "securec.h"
 #include "modbus_hal.h"
 #include "platform_config.h"
+#include "securec.h"
+
 
 /* NOTE: Modbus is implemented on top of UART/RS485
  * Modbus RTU uses CRC16 for error checking
@@ -49,7 +50,7 @@ int32_t ModbusUartInit(void)
 
     /* Configure UART */
     g_modbusHandle.Instance = USART2;
-    g_modbusHandle.Init.BaudRate = 9600;  /* Default Modbus baud rate */
+    g_modbusHandle.Init.BaudRate = 9600; /* Default Modbus baud rate */
     g_modbusHandle.Init.WordLength = UART_WORDLENGTH_8B;
     g_modbusHandle.Init.StopBits = UART_STOPBITS_1;
     g_modbusHandle.Init.Parity = UART_PARITY_NONE;
@@ -86,13 +87,11 @@ int32_t ModbusUartInit(void)
 
     return (HAL_UART_Init(&g_modbusHandle) == HAL_OK) ? 0 : -1;
 #elif defined(PLATFORM_ESP32)
-    uart_config_t uartConfig = {
-        .baud_rate = 9600,
-        .data_bits = UART_DATA_8_BITS,
-        .parity = UART_PARITY_DISABLE,
-        .stop_bits = UART_STOP_BITS_1,
-        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
-    };
+    uart_config_t uartConfig = {.baud_rate = 9600,
+                                .data_bits = UART_DATA_8_BITS,
+                                .parity = UART_PARITY_DISABLE,
+                                .stop_bits = UART_STOP_BITS_1,
+                                .flow_ctrl = UART_HW_FLOWCTRL_DISABLE};
     uart_param_config(g_modbusUartNum, &uartConfig);
     uart_set_pin(g_modbusUartNum, 17, 16, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     uart_driver_install(g_modbusUartNum, 256, 0, 0, NULL, 0);

@@ -4,10 +4,11 @@
  * @details Provides protocol-layer implementation for PCIe communication
  */
 
+#include <string.h>
 #include "pcie.h"
 #include "pcie_hal.h"
-#include <string.h>
 #include "securec.h"
+
 
 /* Internal state tracking */
 static uint8_t pcieInitialized = 0;
@@ -56,25 +57,21 @@ static int ValidateConfigAccess(uint16_t offset, uint8_t size)
  * @param config Pointer to PCIe configuration structure
  * @return 0 on success, -1 on error
  */
-int PcieInit(const PcieConfig *config)
+int PcieInit(const PcieConfig* config)
 {
     if (config == NULL) {
         return -1;
     }
 
     /* Validate configuration parameters */
-    if (config->targetGeneration < PCIE_GEN1 ||
-        config->targetGeneration > PCIE_GEN4) {
+    if (config->targetGeneration < PCIE_GEN1 || config->targetGeneration > PCIE_GEN4) {
         return -1;
     }
 
     /* Validate link width */
-    if (config->targetLinkWidth != PCIE_LINK_WIDTH_X1 &&
-        config->targetLinkWidth != PCIE_LINK_WIDTH_X2 &&
-        config->targetLinkWidth != PCIE_LINK_WIDTH_X4 &&
-        config->targetLinkWidth != PCIE_LINK_WIDTH_X8 &&
-        config->targetLinkWidth != PCIE_LINK_WIDTH_X16 &&
-        config->targetLinkWidth != PCIE_LINK_WIDTH_X32) {
+    if (config->targetLinkWidth != PCIE_LINK_WIDTH_X1 && config->targetLinkWidth != PCIE_LINK_WIDTH_X2
+        && config->targetLinkWidth != PCIE_LINK_WIDTH_X4 && config->targetLinkWidth != PCIE_LINK_WIDTH_X8
+        && config->targetLinkWidth != PCIE_LINK_WIDTH_X16 && config->targetLinkWidth != PCIE_LINK_WIDTH_X32) {
         return -1;
     }
 
@@ -84,8 +81,7 @@ int PcieInit(const PcieConfig *config)
     }
 
     /* Save current configuration */
-    if (memcpy_s(&currentConfig, sizeof(PcieConfig),
-                 config, sizeof(PcieConfig)) != EOK) {
+    if (memcpy_s(&currentConfig, sizeof(PcieConfig), config, sizeof(PcieConfig)) != EOK) {
         PcieHalDeinit();
         return -1;
     }
@@ -126,8 +122,7 @@ int PcieDeinit(void)
  * @param size Size of data to read (1, 2, or 4 bytes)
  * @return 0 on success, -1 on error
  */
-int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function,
-                   uint16_t offset, uint32_t *data, uint8_t size)
+int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -160,8 +155,7 @@ int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function,
  * @param size Size of data to write (1, 2, or 4 bytes)
  * @return 0 on success, -1 on error
  */
-int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function,
-                    uint16_t offset, uint32_t data, uint8_t size)
+int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -185,7 +179,7 @@ int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function,
  * @param packet Pointer to TLP packet structure
  * @return 0 on success, -1 on error
  */
-int PcieSendTlp(const PcieTlpPacket *packet)
+int PcieSendTlp(const PcieTlpPacket* packet)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -210,7 +204,7 @@ int PcieSendTlp(const PcieTlpPacket *packet)
  * @param timeoutMs Timeout in milliseconds
  * @return 0 on success, -1 on error or timeout
  */
-int PcieReceiveTlp(PcieTlpPacket *packet, uint32_t timeoutMs)
+int PcieReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -234,7 +228,7 @@ int PcieReceiveTlp(PcieTlpPacket *packet, uint32_t timeoutMs)
  * @param status Pointer to link status structure
  * @return 0 on success, -1 on error
  */
-int PcieGetLinkStatus(PcieLinkStatus *status)
+int PcieGetLinkStatus(PcieLinkStatus* status)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -260,8 +254,7 @@ int PcieGetLinkStatus(PcieLinkStatus *status)
  * @param deviceCount Pointer to store actual number of devices found
  * @return 0 on success, -1 on error
  */
-int PcieEnumerateDevices(PcieDeviceInfo *devices, uint32_t maxDevices,
-                         uint32_t *deviceCount)
+int PcieEnumerateDevices(PcieDeviceInfo* devices, uint32_t maxDevices, uint32_t* deviceCount)
 {
     uint8_t bus, device, function;
     uint32_t vendorDevice;
@@ -283,14 +276,10 @@ int PcieEnumerateDevices(PcieDeviceInfo *devices, uint32_t maxDevices,
 
     /* Scan all buses, devices, and functions */
     for (bus = 0; bus < PCIE_MAX_BUS && count < maxDevices; bus++) {
-        for (device = 0; device < PCIE_MAX_DEVICE && count < maxDevices;
-             device++) {
-            for (function = 0; function < PCIE_MAX_FUNCTION &&
-                 count < maxDevices; function++) {
+        for (device = 0; device < PCIE_MAX_DEVICE && count < maxDevices; device++) {
+            for (function = 0; function < PCIE_MAX_FUNCTION && count < maxDevices; function++) {
                 /* Read vendor ID and device ID */
-                if (PcieConfigRead(bus, device, function,
-                                   PCIE_CFG_VENDOR_ID,
-                                   &vendorDevice, 4) != 0) {
+                if (PcieConfigRead(bus, device, function, PCIE_CFG_VENDOR_ID, &vendorDevice, 4) != 0) {
                     continue;
                 }
 
@@ -313,9 +302,7 @@ int PcieEnumerateDevices(PcieDeviceInfo *devices, uint32_t maxDevices,
 
                 /* Read class code */
                 uint32_t classData;
-                if (PcieConfigRead(bus, device, function,
-                                   PCIE_CFG_CLASS_CODE,
-                                   &classData, 4) == 0) {
+                if (PcieConfigRead(bus, device, function, PCIE_CFG_CLASS_CODE, &classData, 4) == 0) {
                     devices[count].classCode[0] = (uint8_t)((classData >> 24) & 0xFF);
                     devices[count].classCode[1] = (uint8_t)((classData >> 16) & 0xFF);
                     devices[count].classCode[2] = (uint8_t)((classData >> 8) & 0xFF);
@@ -323,17 +310,14 @@ int PcieEnumerateDevices(PcieDeviceInfo *devices, uint32_t maxDevices,
 
                 /* Read header type */
                 uint32_t headerData;
-                if (PcieConfigRead(bus, device, function,
-                                   PCIE_CFG_HEADER_TYPE,
-                                   &headerData, 1) == 0) {
+                if (PcieConfigRead(bus, device, function, PCIE_CFG_HEADER_TYPE, &headerData, 1) == 0) {
                     devices[count].headerType = (uint8_t)(headerData & 0xFF);
                 }
 
                 count++;
 
                 /* If this is function 0 and not multi-function, skip */
-                if (function == 0 &&
-                    (devices[count - 1].headerType & 0x80) == 0) {
+                if (function == 0 && (devices[count - 1].headerType & 0x80) == 0) {
                     break;
                 }
             }
@@ -351,7 +335,7 @@ int PcieEnumerateDevices(PcieDeviceInfo *devices, uint32_t maxDevices,
  * @param size Number of bytes to read
  * @return 0 on success, -1 on error
  */
-int PcieMemoryRead(uint64_t address, uint8_t *data, uint32_t size)
+int PcieMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     if (pcieInitialized == 0) {
         return -1;
@@ -371,7 +355,7 @@ int PcieMemoryRead(uint64_t address, uint8_t *data, uint32_t size)
  * @param size Number of bytes to write
  * @return 0 on success, -1 on error
  */
-int PcieMemoryWrite(uint64_t address, const uint8_t *data, uint32_t size)
+int PcieMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     if (pcieInitialized == 0) {
         return -1;

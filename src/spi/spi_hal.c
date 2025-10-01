@@ -1,6 +1,7 @@
+#include "platform_config.h"
 #include "securec.h"
 #include "spi_hal.h"
-#include "platform_config.h"
+
 
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
@@ -13,20 +14,13 @@ static SPI_HandleTypeDef g_spiHandle;
 
 #ifdef PLATFORM_ESP32
 static spi_device_handle_t g_spiDevice;
-static spi_bus_config_t g_busConfig = {
-    .mosi_io_num = GPIO_NUM_23,
-    .miso_io_num = GPIO_NUM_19,
-    .sclk_io_num = GPIO_NUM_18,
-    .quadwp_io_num = -1,
-    .quadhd_io_num = -1,
-    .max_transfer_sz = 4096
-};
-static spi_device_interface_config_t g_devConfig = {
-    .clock_speed_hz = 1000000,
-    .mode = 0,
-    .spics_io_num = GPIO_NUM_5,
-    .queue_size = 7
-};
+static spi_bus_config_t g_busConfig = {.mosi_io_num = GPIO_NUM_23,
+                                       .miso_io_num = GPIO_NUM_19,
+                                       .sclk_io_num = GPIO_NUM_18,
+                                       .quadwp_io_num = -1,
+                                       .quadhd_io_num = -1,
+                                       .max_transfer_sz = 4096};
+static spi_device_interface_config_t g_devConfig = {.clock_speed_hz = 1000000, .mode = 0, .spics_io_num = GPIO_NUM_5, .queue_size = 7};
 #endif
 
 #ifdef PLATFORM_LINUX
@@ -158,7 +152,7 @@ int32_t SpiIsReady(void)
 #elif defined(PLATFORM_STM32F1)
     return (__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_TXE) != RESET) ? 1 : 0;
 #elif defined(PLATFORM_ESP32)
-    return 1;  /* ESP32 driver handles readiness */
+    return 1; /* ESP32 driver handles readiness */
 #elif defined(PLATFORM_LINUX)
     return (g_spiFd >= 0) ? 1 : 0;
 #else
@@ -180,9 +174,9 @@ int32_t SpiTransferComplete(void)
 #elif defined(PLATFORM_STM32F1)
     return (__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_BSY) == RESET) ? 1 : 0;
 #elif defined(PLATFORM_ESP32)
-    return 1;  /* ESP32 driver handles transfer completion */
+    return 1; /* ESP32 driver handles transfer completion */
 #elif defined(PLATFORM_LINUX)
-    return 1;  /* Linux transfers are blocking */
+    return 1; /* Linux transfers are blocking */
 #else
     return 1;
 #endif
@@ -198,17 +192,15 @@ int32_t SpiTransferComplete(void)
 void SpiWriteData(uint8_t data)
 {
 #ifdef PLATFORM_STM32F4
-    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_TXE)));
-    *(__IO uint8_t *)&g_spiHandle.Instance->DR = data;
+    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_TXE)))
+        ;
+    *(__IO uint8_t*)&g_spiHandle.Instance->DR = data;
 #elif defined(PLATFORM_STM32F1)
-    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_TXE)));
-    *(__IO uint8_t *)&g_spiHandle.Instance->DR = data;
+    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_TXE)))
+        ;
+    *(__IO uint8_t*)&g_spiHandle.Instance->DR = data;
 #elif defined(PLATFORM_ESP32)
-    spi_transaction_t trans = {
-        .length = 8,
-        .tx_buffer = &data,
-        .rx_buffer = NULL
-    };
+    spi_transaction_t trans = {.length = 8, .tx_buffer = &data, .rx_buffer = NULL};
     spi_device_transmit(g_spiDevice, &trans);
 #elif defined(PLATFORM_LINUX)
     if (g_spiFd >= 0) {
@@ -227,19 +219,17 @@ void SpiWriteData(uint8_t data)
 uint8_t SpiReadData(void)
 {
 #ifdef PLATFORM_STM32F4
-    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_RXNE)));
+    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_RXNE)))
+        ;
     return (uint8_t)g_spiHandle.Instance->DR;
 #elif defined(PLATFORM_STM32F1)
-    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_RXNE)));
+    while (!(__HAL_SPI_GET_FLAG(&g_spiHandle, SPI_FLAG_RXNE)))
+        ;
     return (uint8_t)g_spiHandle.Instance->DR;
 #elif defined(PLATFORM_ESP32)
     uint8_t data = 0;
     uint8_t dummy = 0xFF;
-    spi_transaction_t trans = {
-        .length = 8,
-        .tx_buffer = &dummy,
-        .rx_buffer = &data
-    };
+    spi_transaction_t trans = {.length = 8, .tx_buffer = &dummy, .rx_buffer = &data};
     spi_device_transmit(g_spiDevice, &trans);
     return data;
 #elif defined(PLATFORM_LINUX)

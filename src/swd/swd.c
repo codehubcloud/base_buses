@@ -168,11 +168,11 @@ int32_t SwdReadDP(uint8_t address, uint32_t* data)
 
     /* Build request: Start(1) + AP/DP(0) + R/W(1) + A[2:3] + Parity + Stop(0) + Park(1) */
     request = SWD_REQ_PARK_START;
-    request |= SWD_REQ_READ_WRITE;  /* Read operation */
-    request |= ((address >> 2) & 0x03) << 3;  /* Address bits A[2:3] */
+    request |= SWD_REQ_READ_WRITE;           /* Read operation */
+    request |= ((address >> 2) & 0x03) << 3; /* Address bits A[2:3] */
 
     /* Calculate parity for request */
-    uint8_t parityBits = ((request >> 1) & 0x0F);  /* AP/DP + R/W + A[2:3] */
+    uint8_t parityBits = ((request >> 1) & 0x0F); /* AP/DP + R/W + A[2:3] */
     uint8_t reqParity = 0;
     for (int32_t i = 0; i < 4; i++) {
         if (parityBits & (1 << i)) {
@@ -212,10 +212,10 @@ int32_t SwdWriteDP(uint8_t address, uint32_t data)
     /* Build request: Start(1) + AP/DP(0) + R/W(0) + A[2:3] + Parity + Stop(0) + Park(1) */
     request = SWD_REQ_PARK_START;
     /* R/W bit is 0 for write */
-    request |= ((address >> 2) & 0x03) << 3;  /* Address bits A[2:3] */
+    request |= ((address >> 2) & 0x03) << 3; /* Address bits A[2:3] */
 
     /* Calculate parity for request */
-    uint8_t parityBits = ((request >> 1) & 0x0F);  /* AP/DP + R/W + A[2:3] */
+    uint8_t parityBits = ((request >> 1) & 0x0F); /* AP/DP + R/W + A[2:3] */
     uint8_t reqParity = 0;
     for (int32_t i = 0; i < 4; i++) {
         if (parityBits & (1 << i)) {
@@ -258,12 +258,12 @@ int32_t SwdReadAP(uint8_t address, uint32_t* data)
 
     /* Build request: Start(1) + AP/DP(1) + R/W(1) + A[2:3] + Parity + Stop(0) + Park(1) */
     request = SWD_REQ_PARK_START;
-    request |= SWD_REQ_AP_DP;       /* AP access */
-    request |= SWD_REQ_READ_WRITE;  /* Read operation */
-    request |= ((address >> 2) & 0x03) << 3;  /* Address bits A[2:3] */
+    request |= SWD_REQ_AP_DP;                /* AP access */
+    request |= SWD_REQ_READ_WRITE;           /* Read operation */
+    request |= ((address >> 2) & 0x03) << 3; /* Address bits A[2:3] */
 
     /* Calculate parity for request */
-    uint8_t parityBits = ((request >> 1) & 0x0F);  /* AP/DP + R/W + A[2:3] */
+    uint8_t parityBits = ((request >> 1) & 0x0F); /* AP/DP + R/W + A[2:3] */
     uint8_t reqParity = 0;
     for (int32_t i = 0; i < 4; i++) {
         if (parityBits & (1 << i)) {
@@ -307,12 +307,12 @@ int32_t SwdWriteAP(uint8_t address, uint32_t data)
 
     /* Build request: Start(1) + AP/DP(1) + R/W(0) + A[2:3] + Parity + Stop(0) + Park(1) */
     request = SWD_REQ_PARK_START;
-    request |= SWD_REQ_AP_DP;  /* AP access */
+    request |= SWD_REQ_AP_DP; /* AP access */
     /* R/W bit is 0 for write */
-    request |= ((address >> 2) & 0x03) << 3;  /* Address bits A[2:3] */
+    request |= ((address >> 2) & 0x03) << 3; /* Address bits A[2:3] */
 
     /* Calculate parity for request */
-    uint8_t parityBits = ((request >> 1) & 0x0F);  /* AP/DP + R/W + A[2:3] */
+    uint8_t parityBits = ((request >> 1) & 0x0F); /* AP/DP + R/W + A[2:3] */
     uint8_t reqParity = 0;
     for (int32_t i = 0; i < 4; i++) {
         if (parityBits & (1 << i)) {

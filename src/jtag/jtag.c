@@ -1,21 +1,20 @@
 #include <string.h>
-#include "securec.h"
 #include "jtag.h"
 #include "jtag_hal.h"
+#include "securec.h"
+
 
 /* Internal state tracking */
 static JtagState_E g_currentState = JTAG_STATE_TEST_LOGIC_RESET;
-static JtagConfig_T g_jtagConfig = {
-    .clockFrequency = JTAG_DEFAULT_CLOCK_FREQ,
-    .irLength = JTAG_DEFAULT_IR_LENGTH,
-    .tapCount = 1,
-    .enableTrst = 0
-};
+static JtagConfig_T g_jtagConfig = {.clockFrequency = JTAG_DEFAULT_CLOCK_FREQ,
+                                    .irLength = JTAG_DEFAULT_IR_LENGTH,
+                                    .tapCount = 1,
+                                    .enableTrst = 0};
 
 /* TAP State Transition Table (TMS values to reach target state) */
 static const uint8_t g_stateTransitions[16][16] = {
     /* From TEST_LOGIC_RESET */ {0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03},
-    /* From RUN_TEST_IDLE */    {0x07, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03},
+    /* From RUN_TEST_IDLE */ {0x07, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03},
     /* Continue for all 16 states... */
 };
 
@@ -326,10 +325,7 @@ int32_t JtagReadIdcode(uint32_t* idcode)
     }
 
     /* Convert byte array to 32-bit value */
-    *idcode = ((uint32_t)rxData[0]) |
-              ((uint32_t)rxData[1] << 8) |
-              ((uint32_t)rxData[2] << 16) |
-              ((uint32_t)rxData[3] << 24);
+    *idcode = ((uint32_t)rxData[0]) | ((uint32_t)rxData[1] << 8) | ((uint32_t)rxData[2] << 16) | ((uint32_t)rxData[3] << 24);
 
     return 0;
 }

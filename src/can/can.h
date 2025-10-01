@@ -16,9 +16,7 @@ int32_t CanInit(void);
 
 /******************************************************************************
  * @brief     : Send data through CAN interface
- * @param[in] : id - CAN message ID
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send (0-8)
+ * @param[in] : id - CAN message ID, data - Pointer to data buffer to send, length - Number of bytes to send (0-8)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer to be empty
@@ -27,11 +25,8 @@ int32_t CanSendData(uint32_t id, uint8_t* data, uint8_t length);
 
 /******************************************************************************
  * @brief     : Receive data from CAN interface
- * @param[in] : id - Pointer to store received message ID
- * @param[in] : buffer - Pointer to buffer to store received data
  * @param[in] : maxLength - Maximum number of bytes to receive (should be 8)
- * @param[out]: id - Received message ID
- * @param[out]: buffer - Received data
+ * @param[out]: id - Received message ID, buffer - Received data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Non-blocking function that returns immediately if no data
  *****************************************************************************/

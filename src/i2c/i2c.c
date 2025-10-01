@@ -32,10 +32,7 @@ int32_t I2cInit(void)
 
 /******************************************************************************
  * @brief     : Send data to I2C device
- * @param[in] : deviceAddr - I2C device address
- * @param[in] : regAddr - Register address (can be NULL for direct write)
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : deviceAddr - I2C device address, regAddr - Register address (can be NULL for direct write), data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes data to I2C device
@@ -71,7 +68,7 @@ int32_t I2cWriteData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* data, uint16
             return -1;
         }
 
-        if (!I2cCheckAck()) {
+        if (I2cCheckAck() == 0) {
             I2cGenerateStop();
             return -1;
         }
@@ -84,7 +81,7 @@ int32_t I2cWriteData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* data, uint16
             return -1;
         }
 
-        if (!I2cCheckAck()) {
+        if (I2cCheckAck() == 0) {
             I2cGenerateStop();
             return -1;
         }
@@ -96,10 +93,7 @@ int32_t I2cWriteData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* data, uint16
 
 /******************************************************************************
  * @brief     : Read data from I2C device
- * @param[in] : deviceAddr - I2C device address
- * @param[in] : regAddr - Register address (can be NULL for direct read)
- * @param[in] : buffer - Pointer to buffer to store received data
- * @param[in] : length - Number of bytes to read
+ * @param[in] : deviceAddr - I2C device address, regAddr - Register address (can be NULL for direct read), length - Number of bytes to read
  * @param[out]: buffer - Received data
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that reads data from I2C device
@@ -124,7 +118,7 @@ int32_t I2cReadData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* buffer, uint1
             return -1;
         }
 
-        if (!I2cCheckAck()) {
+        if (I2cCheckAck() == 0) {
             I2cGenerateStop();
             return -1;
         }
@@ -135,7 +129,7 @@ int32_t I2cReadData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* buffer, uint1
             return -1;
         }
 
-        if (!I2cCheckAck()) {
+        if (I2cCheckAck() == 0) {
             I2cGenerateStop();
             return -1;
         }
@@ -158,7 +152,7 @@ int32_t I2cReadData(uint8_t deviceAddr, uint8_t* regAddr, uint8_t* buffer, uint1
         return -1;
     }
 
-    if (!I2cCheckAck()) {
+    if (I2cCheckAck() == 0) {
         I2cGenerateStop();
         return -1;
     }
@@ -214,7 +208,7 @@ int32_t I2cCheckDevice(uint8_t deviceAddr)
         return -1;
     }
 
-    if (!I2cCheckAck()) {
+    if (I2cCheckAck() == 0) {
         I2cGenerateStop();
         return -1;
     }

@@ -34,9 +34,7 @@ int32_t SpiInit(void)
 
 /******************************************************************************
  * @brief     : Send and receive data through SPI interface
- * @param[in] : txData - Pointer to transmit data buffer
- * @param[in] : rxData - Pointer to receive data buffer
- * @param[in] : length - Number of bytes to transfer
+ * @param[in] : txData - Pointer to transmit data buffer, length - Number of bytes to transfer
  * @param[out]: rxData - Received data
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that performs full-duplex transfer
@@ -48,10 +46,10 @@ int32_t SpiTransfer(uint8_t* txData, uint8_t* rxData, uint16_t length)
     }
 
     for (uint16_t i = 0; i < length; i++) {
-        while (!SpiIsReady()) {
+        while (SpiIsReady() == 0) {
         }
         SpiWriteData(txData[i]);
-        while (!SpiTransferComplete()) {
+        while (SpiTransferComplete() == 0) {
         }
         rxData[i] = SpiReadData();
     }
@@ -61,8 +59,7 @@ int32_t SpiTransfer(uint8_t* txData, uint8_t* rxData, uint16_t length)
 
 /******************************************************************************
  * @brief     : Send data through SPI interface
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that sends data and ignores received data
@@ -76,10 +73,10 @@ int32_t SpiSendData(uint8_t* data, uint16_t length)
     }
 
     for (uint16_t i = 0; i < length; i++) {
-        while (!SpiIsReady()) {
+        while (SpiIsReady() == 0) {
         }
         SpiWriteData(data[i]);
-        while (!SpiTransferComplete()) {
+        while (SpiTransferComplete() == 0) {
         }
         dummyRx = SpiReadData();
         (void)dummyRx;
@@ -90,7 +87,6 @@ int32_t SpiSendData(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from SPI interface
- * @param[in] : rxData - Pointer to buffer to store received data
  * @param[in] : length - Number of bytes to receive
  * @param[out]: rxData - Received data
  * @return    : 0 if success, -1 if error
@@ -103,10 +99,10 @@ int32_t SpiReceiveData(uint8_t* rxData, uint16_t length)
     }
 
     for (uint16_t i = 0; i < length; i++) {
-        while (!SpiIsReady()) {
+        while (SpiIsReady() == 0) {
         }
         SpiWriteData(0xFF);
-        while (!SpiTransferComplete()) {
+        while (SpiTransferComplete() == 0) {
         }
         rxData[i] = SpiReadData();
     }
@@ -136,7 +132,7 @@ int32_t SpiSetClockSpeed(uint32_t clockSpeed)
  * @return    : 0 if success, -1 if error
  * @note      : Configures SPI as master or slave
  *****************************************************************************/
-int32_t SpiSetMode(SpiModeEnum mode)
+int32_t SpiSetMode(SpiMode_E mode)
 {
     if (SpiConfigureMode(mode) != 0) {
         return -1;

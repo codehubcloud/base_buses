@@ -32,8 +32,7 @@ int32_t UartInit(void)
 
 /******************************************************************************
  * @brief     : Send data through UART interface
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer to be empty
@@ -45,7 +44,7 @@ int32_t UartSendData(uint8_t* data, uint16_t length)
     }
 
     for (uint16_t i = 0; i < length; i++) {
-        while (!UartTxBufferEmpty()) {
+        while (UartTxBufferEmpty() == 0) {
         }
         UartWriteByte(data[i]);
     }
@@ -55,7 +54,6 @@ int32_t UartSendData(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from UART interface
- * @param[in] : buffer - Pointer to buffer to store received data
  * @param[in] : maxLength - Maximum number of bytes to receive
  * @param[out]: buffer - Received data
  * @return    : Number of bytes actually received, -1 if error

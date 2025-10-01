@@ -83,7 +83,7 @@ int32_t SpiConfigureClockSpeed(uint32_t clockSpeed);
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
  *****************************************************************************/
-int32_t SpiConfigureMode(SpiModeEnum mode);
+int32_t SpiConfigureMode(SpiMode_E mode);
 
 /******************************************************************************
  * @brief     : Set SPI data format
@@ -92,6 +92,6 @@ int32_t SpiConfigureMode(SpiModeEnum mode);
  * @return    : None
  * @note      : Platform-specific implementation required
  *****************************************************************************/
-void SpiSetDataFormat(SpiDataFormatEnum format);
+void SpiSetDataFormat(SpiDataFormat_E format);
 
 #endif // SPI_HAL_H

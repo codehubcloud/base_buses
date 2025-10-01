@@ -24,54 +24,50 @@ int32_t ModbusInit(void)
 
 /******************************************************************************
  * @brief     : Send Modbus RTU request and receive response
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : functionCode - Modbus function code
- * @param[in] : data - Pointer to data buffer
- * @param[in] : dataLength - Length of data in bytes
+ * @param[in] : request - Pointer to Modbus request structure
  * @param[out]: response - Pointer to response buffer
- * @param[in] : responseMaxLength - Maximum length of response buffer
  * @return    : Number of bytes received, -1 if error
  * @note      : Blocking function that sends request and waits for response
  *****************************************************************************/
-int32_t ModbusSendReceive(uint8_t slaveAddr, uint8_t functionCode, uint8_t* data, uint16_t dataLength, uint8_t* response, uint16_t responseMaxLength)
+int32_t ModbusSendReceive(ModbusRequest_S* request, uint8_t* response)
 {
-    uint8_t request[256];
+    uint8_t requestBuffer[256];
     uint16_t requestLength = 0;
     int32_t result = 0;
     int32_t responseLength = 0;
 
-    if ((data == NULL) || (response == NULL) || (dataLength == 0) || (responseMaxLength == 0)) {
+    if ((request == NULL) || (request->data == NULL) || (response == NULL) || (request->dataLength == 0) || (request->responseMaxLength == 0)) {
         return -1;
     }
 
-    if ((dataLength + 4) > (sizeof(request) / sizeof(request[0]))) {
+    if ((request->dataLength + 4) > (sizeof(requestBuffer) / sizeof(requestBuffer[0]))) {
         return -1;
     }
 
-    request[0] = slaveAddr;
-    request[1] = functionCode;
+    requestBuffer[0] = request->slaveAddr;
+    requestBuffer[1] = request->functionCode;
 
     // Copy data to request
-    for (uint16_t i = 0; i < dataLength; i++) {
-        request[2 + i] = data[i];
+    for (uint16_t i = 0; i < request->dataLength; i++) {
+        requestBuffer[2 + i] = request->data[i];
     }
 
-    requestLength = 2 + dataLength;
+    requestLength = 2 + request->dataLength;
 
     // Calculate and append CRC
-    uint16_t crc = ModbusCalculateCRC(request, requestLength);
-    request[requestLength] = (uint8_t)(crc & 0xFF);
-    request[requestLength + 1] = (uint8_t)((crc >> 8) & 0xFF);
+    uint16_t crc = ModbusCalculateCRC(requestBuffer, requestLength);
+    requestBuffer[requestLength] = (uint8_t)(crc & 0xFF);
+    requestBuffer[requestLength + 1] = (uint8_t)((crc >> 8) & 0xFF);
     requestLength += 2;
 
     // Send request
-    result = ModbusUartSendData(request, requestLength);
+    result = ModbusUartSendData(requestBuffer, requestLength);
     if (result != 0) {
         return -1;
     }
 
     // Receive response
-    responseLength = ModbusUartReceiveData(response, responseMaxLength);
+    responseLength = ModbusUartReceiveData(response, request->responseMaxLength);
     if (responseLength <= 0) {
         return -1;
     }
@@ -87,9 +83,7 @@ int32_t ModbusSendReceive(uint8_t slaveAddr, uint8_t functionCode, uint8_t* data
 
 /******************************************************************************
  * @brief     : Read Modbus coils (function code 0x01)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : startAddr - Starting address
- * @param[in] : quantity - Number of coils to read
+ * @param[in] : slaveAddr - Slave device address, startAddr - Starting address, quantity - Number of coils to read
  * @param[out]: coilStatus - Pointer to coil status buffer
  * @return    : 0 if success, -1 if error
  * @note      : Reads discrete outputs (coils)
@@ -131,9 +125,7 @@ int32_t ModbusReadCoils(uint8_t slaveAddr, uint16_t startAddr, uint16_t quantity
 
 /******************************************************************************
  * @brief     : Read Modbus input discretes (function code 0x02)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : startAddr - Starting address
- * @param[in] : quantity - Number of inputs to read
+ * @param[in] : slaveAddr - Slave device address, startAddr - Starting address, quantity - Number of inputs to read
  * @param[out]: inputStatus - Pointer to input status buffer
  * @return    : 0 if success, -1 if error
  * @note      : Reads discrete inputs
@@ -174,9 +166,7 @@ int32_t ModbusReadDiscreteInputs(uint8_t slaveAddr, uint16_t startAddr, uint16_t
 
 /******************************************************************************
  * @brief     : Read Modbus holding registers (function code 0x03)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : startAddr - Starting address
- * @param[in] : quantity - Number of registers to read
+ * @param[in] : slaveAddr - Slave device address, startAddr - Starting address, quantity - Number of registers to read
  * @param[out]: registerValues - Pointer to register values buffer
  * @return    : 0 if success, -1 if error
  * @note      : Reads holding registers
@@ -217,9 +207,7 @@ int32_t ModbusReadHoldingRegisters(uint8_t slaveAddr, uint16_t startAddr, uint16
 
 /******************************************************************************
  * @brief     : Read Modbus input registers (function code 0x04)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : startAddr - Starting address
- * @param[in] : quantity - Number of registers to read
+ * @param[in] : slaveAddr - Slave device address, startAddr - Starting address, quantity - Number of registers to read
  * @param[out]: inputRegisters - Pointer to input registers buffer
  * @return    : 0 if success, -1 if error
  * @note      : Reads input registers
@@ -260,9 +248,7 @@ int32_t ModbusReadInputRegisters(uint8_t slaveAddr, uint16_t startAddr, uint16_t
 
 /******************************************************************************
  * @brief     : Write single Modbus coil (function code 0x05)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : coilAddr - Coil address
- * @param[in] : coilValue - Coil value (0x0000 or 0xFF00)
+ * @param[in] : slaveAddr - Slave device address, coilAddr - Coil address, coilValue - Coil value (0x0000 or 0xFF00)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes single coil
@@ -293,9 +279,7 @@ int32_t ModbusWriteSingleCoil(uint8_t slaveAddr, uint16_t coilAddr, uint16_t coi
 
 /******************************************************************************
  * @brief     : Write single Modbus register (function code 0x06)
- * @param[in] : slaveAddr - Slave device address
- * @param[in] : registerAddr - Register address
- * @param[in] : registerValue - Register value
+ * @param[in] : slaveAddr - Slave device address, registerAddr - Register address, registerValue - Register value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes single register

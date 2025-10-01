@@ -1,0 +1,100 @@
+/******************************************************************************
+ * @brief     : Test APB functionality
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : Tests APB bus read/write operations
+ *****************************************************************************/
+int32_t TestApb(void)
+{
+    uint32_t writeData = 0xDEADBEEF;
+    uint32_t readData = 0;
+    uint32_t writeBuffer[4] = {0x11111111, 0x22222222, 0x33333333, 0x44444444};
+    uint32_t readBuffer[4] = {0};
+    uint32_t testAddress = 0x40000000;
+    int32_t result = 0;
+    ApbState_E state;
+
+    printf("Testing APB...\n");
+
+    result = ApbInit();
+    if (result != 0) {
+        printf("APB initialization failed!\n");
+        return -1;
+    }
+
+    state = ApbGetState();
+    if (state != APB_STATE_IDLE) {
+        printf("APB state is not IDLE after init!\n");
+        return -1;
+    }
+    printf("APB initialized to IDLE state\n");
+
+    result = ApbSetTimeout(5000);
+    if (result != 0) {
+        printf("APB timeout configuration failed!\n");
+        return -1;
+    }
+
+    result = ApbWrite(testAddress, writeData, APB_PPROT_NORMAL);
+    if (result != 0) {
+        printf("APB write failed!\n");
+        return -1;
+    }
+    printf("APB write successful: 0x%08X to address 0x%08X\n", writeData, testAddress);
+
+    result = ApbRead(testAddress, &readData, APB_PPROT_NORMAL);
+    if (result != 0) {
+        printf("APB read failed!\n");
+        return -1;
+    }
+    printf("APB read successful: 0x%08X from address 0x%08X\n", readData, testAddress);
+
+    if (readData == writeData) {
+        printf("APB read/write verification passed\n");
+    }
+
+    result = ApbWriteWithStrobe(testAddress + 0x100, 0xAABBCCDD, 0x0F, APB_PPROT_NORMAL);
+    if (result == 0) {
+        printf("APB write with strobe (APB4) successful\n");
+    }
+
+    result = ApbWriteMultiple(testAddress + 0x200, writeBuffer, 4, APB_PPROT_PRIVILEGED);
+    if (result == 4) {
+        printf("APB multiple write successful: %d words written\n", result);
+    } else {
+        printf("APB multiple write partial: %d words written\n", result);
+    }
+
+    result = ApbReadMultiple(testAddress + 0x200, readBuffer, 4, APB_PPROT_PRIVILEGED);
+    if (result == 4) {
+        printf("APB multiple read successful: %d words read\n", result);
+        for (int i = 0; i < 4; i++) {
+            printf("  readBuffer[%d] = 0x%08X\n", i, readBuffer[i]);
+        }
+    } else {
+        printf("APB multiple read partial: %d words read\n", result);
+    }
+
+    int32_t errorStatus = ApbGetError();
+    printf("APB last error status: %s\n",
+           (errorStatus == APB_PSLVERR_OK) ? "OK" : "ERROR");
+
+    result = ApbDeinit();
+    if (result != 0) {
+        printf("APB deinitialization failed!\n");
+        return -1;
+    }
+
+    printf("APB test completed.\n");
+    return 0;
+}
+
+Call this function in main() before the final printf.
+Also need to add this to main():
+
+    testResult = TestApb();
+    if (testResult != 0) {
+        printf("APB test failed!\n");
+        return -1;
+    }

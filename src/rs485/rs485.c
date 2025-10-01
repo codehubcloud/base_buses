@@ -33,8 +33,7 @@ int32_t Rs485Init(void)
 
 /******************************************************************************
  * @brief     : Send data through RS485 interface
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer to be empty
@@ -55,13 +54,13 @@ int32_t Rs485SendData(uint8_t* data, uint16_t length)
 
     // Send data
     for (uint16_t i = 0; i < length; i++) {
-        while (!Rs485TxBufferEmpty()) {
+        while (Rs485TxBufferEmpty() == 0) {
         }
         Rs485WriteByte(data[i]);
     }
 
     // Wait for transmission to complete
-    while (!Rs485TxBufferEmpty()) {
+    while (Rs485TxBufferEmpty() == 0) {
     }
 
     // Set back to receive mode
@@ -75,7 +74,6 @@ int32_t Rs485SendData(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from RS485 interface
- * @param[in] : buffer - Pointer to buffer to store received data
  * @param[in] : maxLength - Maximum number of bytes to receive
  * @param[out]: buffer - Received data
  * @return    : Number of bytes actually received, -1 if error

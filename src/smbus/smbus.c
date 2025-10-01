@@ -32,10 +32,7 @@ int32_t SmBusInit(void)
 
 /******************************************************************************
  * @brief     : Send data to SMBus device
- * @param[in] : deviceAddr - SMBus device address
- * @param[in] : command - Command byte
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : deviceAddr - SMBus device address, command - Command byte, data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes data to SMBus device
@@ -60,7 +57,7 @@ int32_t SmBusSendData(uint8_t deviceAddr, uint8_t command, uint8_t* data, uint16
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }
@@ -72,7 +69,7 @@ int32_t SmBusSendData(uint8_t deviceAddr, uint8_t command, uint8_t* data, uint16
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }
@@ -85,7 +82,7 @@ int32_t SmBusSendData(uint8_t deviceAddr, uint8_t command, uint8_t* data, uint16
             return -1;
         }
 
-        if (!SmBusCheckAck()) {
+        if (SmBusCheckAck() == 0) {
             SmBusGenerateStop();
             return -1;
         }
@@ -97,10 +94,7 @@ int32_t SmBusSendData(uint8_t deviceAddr, uint8_t command, uint8_t* data, uint16
 
 /******************************************************************************
  * @brief     : Read data from SMBus device
- * @param[in] : deviceAddr - SMBus device address
- * @param[in] : command - Command byte
- * @param[in] : buffer - Pointer to buffer to store received data
- * @param[in] : length - Number of bytes to read
+ * @param[in] : deviceAddr - SMBus device address, command - Command byte, length - Number of bytes to read
  * @param[out]: buffer - Received data
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that reads data from SMBus device
@@ -126,7 +120,7 @@ int32_t SmBusReadData(uint8_t deviceAddr, uint8_t command, uint8_t* buffer, uint
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }
@@ -138,7 +132,7 @@ int32_t SmBusReadData(uint8_t deviceAddr, uint8_t command, uint8_t* buffer, uint
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }
@@ -157,7 +151,7 @@ int32_t SmBusReadData(uint8_t deviceAddr, uint8_t command, uint8_t* buffer, uint
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }
@@ -179,8 +173,7 @@ int32_t SmBusReadData(uint8_t deviceAddr, uint8_t command, uint8_t* buffer, uint
 
 /******************************************************************************
  * @brief     : Read single byte from SMBus device
- * @param[in] : deviceAddr - SMBus device address
- * @param[in] : command - Command byte
+ * @param[in] : deviceAddr - SMBus device address, command - Command byte
  * @param[out]: data - Pointer to store received byte
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that reads a single byte from SMBus device
@@ -203,9 +196,7 @@ int32_t SmBusReadByte(uint8_t deviceAddr, uint8_t command, uint8_t* data)
 
 /******************************************************************************
  * @brief     : Write single byte to SMBus device
- * @param[in] : deviceAddr - SMBus device address
- * @param[in] : command - Command byte
- * @param[in] : data - Byte to write
+ * @param[in] : deviceAddr - SMBus device address, command - Command byte, data - Byte to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes a single byte to SMBus device
@@ -259,7 +250,7 @@ int32_t SmBusCheckDevice(uint8_t deviceAddr)
         return -1;
     }
 
-    if (!SmBusCheckAck()) {
+    if (SmBusCheckAck() == 0) {
         SmBusGenerateStop();
         return -1;
     }

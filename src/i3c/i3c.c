@@ -32,9 +32,7 @@ int32_t I3cInit(void)
 
 /******************************************************************************
  * @brief     : Send data to I3C device
- * @param[in] : deviceAddr - I3C device address
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : deviceAddr - I3C device address, data - Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that writes data to I3C device
@@ -58,7 +56,7 @@ int32_t I3cSendData(uint8_t deviceAddr, uint8_t* data, uint16_t length)
         return -1;
     }
 
-    if (!I3cCheckAck()) {
+    if (I3cCheckAck() == 0) {
         I3cGenerateStop();
         return -1;
     }
@@ -70,7 +68,7 @@ int32_t I3cSendData(uint8_t deviceAddr, uint8_t* data, uint16_t length)
             return -1;
         }
 
-        if (!I3cCheckAck()) {
+        if (I3cCheckAck() == 0) {
             I3cGenerateStop();
             return -1;
         }
@@ -82,9 +80,7 @@ int32_t I3cSendData(uint8_t deviceAddr, uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Read data from I3C device
- * @param[in] : deviceAddr - I3C device address
- * @param[in] : buffer - Pointer to buffer to store received data
- * @param[in] : length - Number of bytes to read
+ * @param[in] : deviceAddr - I3C device address, length - Number of bytes to read
  * @param[out]: buffer - Received data
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that reads data from I3C device
@@ -108,7 +104,7 @@ int32_t I3cReadData(uint8_t deviceAddr, uint8_t* buffer, uint16_t length)
         return -1;
     }
 
-    if (!I3cCheckAck()) {
+    if (I3cCheckAck() == 0) {
         I3cGenerateStop();
         return -1;
     }
@@ -164,7 +160,7 @@ int32_t I3cCheckDevice(uint8_t deviceAddr)
         return -1;
     }
 
-    if (!I3cCheckAck()) {
+    if (I3cCheckAck() == 0) {
         I3cGenerateStop();
         return -1;
     }

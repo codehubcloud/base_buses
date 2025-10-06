@@ -3,7 +3,6 @@
 #include "apb_hal.h"
 #include "securec.h"
 
-
 /* Global APB state management */
 static ApbState_E g_apbState = APB_STATE_IDLE;
 static uint32_t g_apbTimeoutUs = APB_DEFAULT_TIMEOUT_US;

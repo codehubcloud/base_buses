@@ -3,7 +3,6 @@
 #include "ahb_hal.h"
 #include "securec.h"
 
-
 /******************************************************************************
  * @brief     : Initialize AHB bus controller
  * @param[in] : None

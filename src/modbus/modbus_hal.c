@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* NOTE: Modbus is implemented on top of UART/RS485
  * Modbus RTU uses CRC16 for error checking
  * All platforms share the same CRC calculation algorithm

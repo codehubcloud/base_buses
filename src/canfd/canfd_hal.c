@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 static FDCAN_HandleTypeDef g_canFdHandle;
@@ -31,7 +30,6 @@ static twai_filter_config_t g_filterConfig = TWAI_FILTER_CONFIG_ACCEPT_ALL();
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
 
 /* Linux CAN FD structures */
 #ifndef CANFD_MTU

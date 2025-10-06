@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific includes and definitions */
 #ifdef PLATFORM_STM32F4
 #include <string.h>

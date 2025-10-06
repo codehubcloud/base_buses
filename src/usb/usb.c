@@ -3,7 +3,6 @@
 #include "usb.h"
 #include "usb_hal.h"
 
-
 /* USB Module State */
 static struct {
     uint8_t mode;

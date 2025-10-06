@@ -11,7 +11,6 @@
 #include "platform_config.h"
 #include "sdio_hal.h"
 
-
 /******************************************************************************
  * Platform: STM32F4
  ******************************************************************************/
@@ -720,7 +719,6 @@ int32_t SdioWaitDataComplete(uint32_t timeout)
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-
 
 static int sdioFd = -1;
 

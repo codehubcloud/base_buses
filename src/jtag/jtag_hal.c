@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific GPIO pin definitions */
 #ifdef PLATFORM_STM32F4
 /* STM32F4: Using GPIO pins for bit-banging */

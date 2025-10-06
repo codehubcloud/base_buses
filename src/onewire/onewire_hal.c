@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* 1-Wire GPIO引脚定义 / 1-Wire GPIO pin definitions */
 /* STM32: PA0, ESP32: GPIO15, Linux: GPIO4 (可配置) */
 /* STM32: PA0, ESP32: GPIO15, Linux: GPIO4 (configurable) */
@@ -123,12 +122,13 @@ int32_t OnewireInitGpio(void)
     if (ret < 0) {
         return -1;
     }
-    ret = snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1, "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
+    ret =
+        snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1, "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
     if (ret < 0) {
         return -1;
     }
     ret = snprintf_s(g_gpioDirectionPath, sizeof(g_gpioDirectionPath), sizeof(g_gpioDirectionPath) - 1, "/sys/class/gpio/gpio%d/direction",
-               g_onewireGpioNum);
+                     g_onewireGpioNum);
     if (ret < 0) {
         return -1;
     }

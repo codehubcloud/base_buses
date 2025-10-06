@@ -2,7 +2,6 @@
 #include "pmbus_hal.h"
 #include "securec.h"
 
-
 /* NOTE: PMBus is built on SMBus/I2C for power management applications
  * PMBus uses LINEAR11 and LINEAR16 data formats
  * PMBus supports page addressing for multi-rail power supplies

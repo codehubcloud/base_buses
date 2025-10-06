@@ -2,7 +2,6 @@
 #include "securec.h"
 #include "smbus_hal.h"
 
-
 /* NOTE: SMBus is a subset of I2C with additional features
  * SMBus uses PEC (Packet Error Code) for error checking
  * This implementation uses I2C driver with SMBus-specific extensions

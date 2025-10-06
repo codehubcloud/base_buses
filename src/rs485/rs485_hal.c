@@ -2,7 +2,6 @@
 #include "rs485_hal.h"
 #include "securec.h"
 
-
 /* NOTE: RS485 is implemented using UART with DE (Driver Enable) pin control
  * DE pin HIGH = Transmit mode, DE pin LOW = Receive mode
  * Using PA1 as DE pin for STM32, GPIO_NUM_4 for ESP32

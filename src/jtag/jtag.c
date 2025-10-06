@@ -3,7 +3,6 @@
 #include "jtag_hal.h"
 #include "securec.h"
 
-
 /* Internal state tracking */
 static JtagState_E g_currentState = JTAG_STATE_TEST_LOGIC_RESET;
 static JtagConfig_T g_jtagConfig = {.clockFrequency = JTAG_DEFAULT_CLOCK_FREQ,

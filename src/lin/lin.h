@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
 #define LIN_DEFAULT_BAUDRATE 19200
 #define LIN_MAX_DATA_LENGTH 8
 #define LIN_SYNC_BYTE 0x55

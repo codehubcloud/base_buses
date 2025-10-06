@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 static DMA_HandleTypeDef g_dmaHandles[2][8] = {0}; /* DMA1 and DMA2, 8 streams each */

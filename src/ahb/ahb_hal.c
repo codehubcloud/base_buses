@@ -2,7 +2,6 @@
 #include "ahb.h"
 #include "ahb_hal.h"
 
-
 /* Platform-specific includes and implementations */
 
 #ifdef PLATFORM_STM32F4

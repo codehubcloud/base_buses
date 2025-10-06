@@ -13,7 +13,6 @@
 #include "axi.h"
 #include "axi_hal.h"
 
-
 #if defined(PLATFORM_STM32F4)
 /* STM32F4 Platform - Memory-mapped AXI peripheral access */
 

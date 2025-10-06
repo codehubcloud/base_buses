@@ -3,7 +3,6 @@
 #include "emmc_hal.h"
 #include "securec.h"
 
-
 /* Global card information */
 static EmmcCardInfo_S g_emmcCardInfo;
 static uint8_t g_emmcInitialized = 0;

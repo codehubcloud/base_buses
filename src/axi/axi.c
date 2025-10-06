@@ -9,7 +9,6 @@
 #include "axi_hal.h"
 #include "securec.h"
 
-
 /** Current AXI configuration */
 static AxiConfig g_axiConfig = {0};
 
@@ -273,7 +272,8 @@ int AxiReadTransaction(const AxiReadAddress* readAddr, AxiReadData* readData)
 
 /******************************************************************************
  * @brief      : Perform AXI burst write operation
- * @param[in]  : writeAddr --Write address channel structure writeData --Array of write data structures burstLength --Number of transfers in burst
+ * @param[in]  : writeAddr --Write address channel structure writeData --Array of write data structures burstLength --Number of transfers in
+ *burst
  * @param[out] : writeResp --Write response channel structure
  * @return     : 0 on success, -1 on failure
  * @note       :

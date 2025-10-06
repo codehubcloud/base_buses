@@ -3,7 +3,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific global variables and structures */
 #ifdef PLATFORM_STM32F4
 /* STM32F4 may have integrated FlexRay controller (e.g., STM32F407) or require external controller */

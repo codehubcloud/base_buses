@@ -2,7 +2,6 @@
 #include "securec.h"
 #include "spi_hal.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 static SPI_HandleTypeDef g_spiHandle;

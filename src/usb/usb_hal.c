@@ -2,7 +2,6 @@
 #include "securec.h"
 #include "usb_hal.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 #include "stm32f4xx_hal.h"

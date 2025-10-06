@@ -2,7 +2,6 @@
 #include "securec.h"
 #include "swd_hal.h"
 
-
 /* Platform-specific includes and definitions */
 #ifdef PLATFORM_STM32F4
 /* SWCLK: PA14 (TCK), SWDIO: PA13 (TMS) */

@@ -11,7 +11,6 @@
 #include <stddef.h>
 #include <stdint.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -145,7 +144,8 @@ int PcieDeinit(void);
 
 /******************************************************************************
  * @brief      : Read from PCIe configuration space
- * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space size --Size of data to read (1, 2, or 4 bytes)
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in
+ *configuration space size --Size of data to read (1, 2, or 4 bytes)
  * @param[out] : data --Pointer to store read data
  * @return     : 0 on success, -1 on error
  * @note       :
@@ -154,7 +154,8 @@ int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offse
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space
- * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space data --Data to write size --Size of data to write (1, 2, or 4 bytes)
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in
+ *configuration space data --Data to write size --Size of data to write (1, 2, or 4 bytes)
  * @param[out] :
  * @return     : 0 on success, -1 on error
  * @note       :

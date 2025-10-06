@@ -4,7 +4,6 @@
 #include "pmbus_hal.h"
 #include "securec.h"
 
-
 /******************************************************************************
  * @brief     : Initialize PMBus peripheral with default settings
  * @param[in] : None

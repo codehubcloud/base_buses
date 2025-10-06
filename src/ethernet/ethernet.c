@@ -3,7 +3,6 @@
 #include "ethernet_hal.h"
 #include "securec.h"
 
-
 /* Default Ethernet configuration */
 static EthernetConfig_t g_ethernetConfig = {.speed = ETHERNET_SPEED_100M,
                                             .duplexMode = ETHERNET_DUPLEX_FULL,

@@ -3,7 +3,6 @@
 #include "i2s_hal.h"
 #include "securec.h"
 
-
 /******************************************************************************
  * @brief     : Initialize I2S peripheral with default settings
  * @param[in] : None

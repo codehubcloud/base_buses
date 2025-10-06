@@ -8,7 +8,6 @@
 #include <string.h>
 #include "pcie_hal.h"
 
-
 /* Platform detection */
 #if defined(STM32F407xx) || defined(STM32F429xx)
 #define PLATFORM_STM32F4
@@ -29,7 +28,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "securec.h"
-
 
 /* Linux sysfs paths */
 #define PCIE_SYSFS_PATH "/sys/bus/pci/devices"
@@ -94,7 +92,8 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size
+ *--Size of data to write
  * @param[out] :
  * @return     : -1 (always fails)
  * @note       : Platform does not support PCIe hardware
@@ -257,7 +256,8 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size
+ *--Size of data to write
  * @param[out] :
  * @return     : -1 (always fails)
  * @note       : Platform does not support PCIe hardware
@@ -420,7 +420,8 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size
+ *--Size of data to write
  * @param[out] :
  * @return     : -1 (always fails)
  * @note       : Platform does not support PCIe hardware
@@ -602,7 +603,8 @@ int PcieHalDeinit(void)
 
 /******************************************************************************
  * @brief      : Read from PCIe configuration space
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read (1, 2, or 4 bytes)
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read (1,
+ *2, or 4 bytes)
  * @param[out] : data --Pointer to store read data
  * @return     : 0 on success, -1 on error
  * @note       : Linux implementation uses /sys/bus/pci/devices/DDDD:BB:DD.F/config
@@ -656,7 +658,8 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write (1, 2, or 4 bytes)
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size
+ *--Size of data to write (1, 2, or 4 bytes)
  * @param[out] :
  * @return     : 0 on success, -1 on error
  * @note       : Linux implementation uses /sys/bus/pci/devices/DDDD:BB:DD.F/config

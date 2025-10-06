@@ -11,7 +11,6 @@
 #include <stdint.h>
 #include "axi.h"
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 static I2C_HandleTypeDef g_i2cHandle;

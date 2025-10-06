@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* Platform-specific global variables */
 #ifdef PLATFORM_STM32F4
 static UART_HandleTypeDef g_linUartHandle;

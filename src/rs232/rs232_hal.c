@@ -2,7 +2,6 @@
 #include "rs232_hal.h"
 #include "securec.h"
 
-
 /* NOTE: RS232 is implemented using UART physical layer
  * All platforms use their respective UART hardware
  */

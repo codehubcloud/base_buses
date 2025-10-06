@@ -2,7 +2,6 @@
 #include "rs422_hal.h"
 #include "securec.h"
 
-
 /* NOTE: RS422 uses differential signaling (TX+/TX-, RX+/RX-) for full-duplex communication
  * Unlike RS485, RS422 does NOT require DE (Driver Enable) control
  * All platforms use USART/UART with external RS422 transceivers

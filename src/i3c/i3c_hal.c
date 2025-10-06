@@ -2,7 +2,6 @@
 #include "platform_config.h"
 #include "securec.h"
 
-
 /* NOTE: I3C hardware support is limited in most platforms.
  * This implementation uses I2C compatibility mode for platforms without native I3C support.
  * STM32F4/F1/ESP32/Linux: Using I2C driver for I3C compatibility mode

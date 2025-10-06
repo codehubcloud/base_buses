@@ -3,7 +3,6 @@
 #include "dma_hal.h"
 #include "securec.h"
 
-
 /******************************************************************************
  * @brief     : Initialize DMA controller
  * @param[in] : None

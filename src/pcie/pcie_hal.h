@@ -42,7 +42,8 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
 
 /******************************************************************************
  * @brief      : Write to PCIe configuration space (HAL level)
- * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size
+ *--Size of data to write
  * @param[out] :
  * @return     : 0 on success, -1 on error
  * @note       :

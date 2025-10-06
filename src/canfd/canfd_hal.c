@@ -341,7 +341,7 @@ int32_t CanFdTxBufferEmpty(void)
 
 /******************************************************************************
  * @brief     : Write CAN FD frame
- * @param[in] : frame - Pointer to CAN FD frame structure to send
+ * @param[in] : frame --Pointer to CAN FD frame structure to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -456,7 +456,7 @@ int32_t CanFdRxBufferHasData(void)
 /******************************************************************************
  * @brief     : Read CAN FD frame
  * @param[in] : None
- * @param[out]: frame - Pointer to CAN FD frame structure to store received data
+ * @param[out]: frame --Pointer to CAN FD frame structure to store received data
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
  *****************************************************************************/
@@ -535,8 +535,8 @@ int32_t CanFdReadFrame(CanFdFrame* frame)
 
 /******************************************************************************
  * @brief     : Configure CAN FD bit rates
- * @param[in] : nominalBitRate - Nominal phase bit rate in bps
- * @param[in] : dataBitRate - Data phase bit rate in bps
+ * @param[in] : nominalBitRate --Nominal phase bit rate in bps
+ * @param[in] : dataBitRate --Data phase bit rate in bps
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -623,8 +623,8 @@ int32_t CanFdConfigureBitRate(uint32_t nominalBitRate, uint32_t dataBitRate)
 
 /******************************************************************************
  * @brief     : Configure CAN FD acceptance filter
- * @param[in] : filterId - Filter ID value
- * @param[in] : filterMask - Filter mask value
+ * @param[in] : filterId --Filter ID value
+ * @param[in] : filterMask --Filter mask value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -668,7 +668,7 @@ int32_t CanFdConfigureFilter(uint32_t filterId, uint32_t filterMask)
 /******************************************************************************
  * @brief     : Read CAN FD error counters
  * @param[in] : None
- * @param[out]: errorCount - Pointer to structure to store error counters
+ * @param[out]: errorCount --Pointer to structure to store error counters
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
  *****************************************************************************/

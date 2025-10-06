@@ -1,6 +1,6 @@
 /**
  * @file axi.h
- * @brief AXI (Advanced eXtensible Interface) bus protocol interface
+ * * @brief AXI (Advanced eXtensible Interface) bus protocol interface
  * @details Implements AXI4, AXI4-Lite, and AXI4-Stream protocol support
  *          with complete channel management for read/write transactions
  */
@@ -129,7 +129,7 @@ typedef enum {
  */
 
 /**
- * @brief AXI write address channel structure
+ * * @brief AXI write address channel structure
  */
 typedef struct {
     uint32_t address;       /**< Write address (AWADDR) */
@@ -146,7 +146,7 @@ typedef struct {
 } AxiWriteAddress;
 
 /**
- * @brief AXI write data channel structure
+ * * @brief AXI write data channel structure
  */
 typedef struct {
     uint8_t* data;   /**< Write data pointer (WDATA) */
@@ -156,7 +156,7 @@ typedef struct {
 } AxiWriteData;
 
 /**
- * @brief AXI write response channel structure
+ * * @brief AXI write response channel structure
  */
 typedef struct {
     AxiResponseType response; /**< Write response (BRESP) */
@@ -165,7 +165,7 @@ typedef struct {
 } AxiWriteResponse;
 
 /**
- * @brief AXI read address channel structure
+ * * @brief AXI read address channel structure
  */
 typedef struct {
     uint32_t address;       /**< Read address (ARADDR) */
@@ -182,7 +182,7 @@ typedef struct {
 } AxiReadAddress;
 
 /**
- * @brief AXI read data channel structure
+ * * @brief AXI read data channel structure
  */
 typedef struct {
     uint8_t* data;            /**< Read data pointer (RDATA) */
@@ -193,7 +193,7 @@ typedef struct {
 } AxiReadData;
 
 /**
- * @brief AXI4-Stream data structure
+ * * @brief AXI4-Stream data structure
  */
 typedef struct {
     uint8_t* data;   /**< Stream data pointer (TDATA) */
@@ -207,7 +207,7 @@ typedef struct {
 } AxiStreamData;
 
 /**
- * @brief AXI bus configuration structure
+ * * @brief AXI bus configuration structure
  */
 typedef struct {
     uint8_t dataWidth;      /**< Data bus width (32, 64, 128, 256, 512, 1024) */
@@ -219,7 +219,7 @@ typedef struct {
 } AxiConfig;
 
 /**
- * @brief AXI bus status structure
+ * * @brief AXI bus status structure
  */
 typedef struct {
     uint8_t isInitialized;     /**< Initialization status */
@@ -237,82 +237,94 @@ typedef struct {
  * @{
  */
 
-/**
- * @brief Initialize AXI bus interface
- * @param[in] config Configuration structure pointer
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Initialize AXI bus interface
+ * @param[in]  : config --Configuration structure pointer
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiInit(const AxiConfig* config);
 
-/**
- * @brief Deinitialize AXI bus interface
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Deinitialize AXI bus interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiDeinit(void);
 
-/**
- * @brief Perform single AXI write transaction
- * @param[in] writeAddr Write address channel structure
- * @param[in] writeData Write data channel structure
- * @param[out] writeResp Write response channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform single AXI write transaction
+ * @param[in]  : writeAddr --Write address channel structure writeData --Write data channel structure
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiWriteTransaction(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, AxiWriteResponse* writeResp);
 
-/**
- * @brief Perform single AXI read transaction
- * @param[in] readAddr Read address channel structure
- * @param[out] readData Read data channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform single AXI read transaction
+ * @param[in]  : readAddr --Read address channel structure
+ * @param[out] : readData --Read data channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiReadTransaction(const AxiReadAddress* readAddr, AxiReadData* readData);
 
-/**
- * @brief Perform AXI burst write operation
- * @param[in] writeAddr Write address channel structure
- * @param[in] writeData Array of write data structures
- * @param[in] burstLength Number of transfers in burst
- * @param[out] writeResp Write response channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform AXI burst write operation
+ * @param[in]  : writeAddr --Write address channel structure writeData --Array of write data structures burstLength --Number of transfers in burst
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiWriteBurst(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, uint8_t burstLength, AxiWriteResponse* writeResp);
 
-/**
- * @brief Perform AXI burst read operation
- * @param[in] readAddr Read address channel structure
- * @param[out] readData Array of read data structures
- * @param[in] burstLength Number of transfers in burst
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform AXI burst read operation
+ * @param[in]  : readAddr --Read address channel structure burstLength --Number of transfers in burst
+ * @param[out] : readData --Array of read data structures
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiReadBurst(const AxiReadAddress* readAddr, AxiReadData* readData, uint8_t burstLength);
 
-/**
- * @brief Configure AXI Quality of Service settings
- * @param[in] qosValue QoS value (0-15)
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Configure AXI Quality of Service settings
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiSetQoS(uint8_t qosValue);
 
-/**
- * @brief Get current AXI bus status
- * @param[out] status Status structure pointer
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Get current AXI bus status
+ * @param[in]  :
+ * @param[out] : status --Status structure pointer
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiGetStatus(AxiStatus* status);
 
-/**
- * @brief Send data via AXI4-Stream interface
- * @param[in] streamData Stream data structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Send data via AXI4-Stream interface
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiStreamSend(const AxiStreamData* streamData);
 
-/**
- * @brief Receive data via AXI4-Stream interface
- * @param[out] streamData Stream data structure
- * @param[in] maxLength Maximum length to receive
- * @return Number of bytes received on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Receive data via AXI4-Stream interface
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : Number of bytes received on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiStreamReceive(AxiStreamData* streamData, size_t maxLength);
 
 /** @} */

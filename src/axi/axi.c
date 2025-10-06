@@ -19,11 +19,13 @@ static AxiStatus g_axiStatus = {0};
 /** Initialization flag */
 static uint8_t g_axiInitialized = 0;
 
-/**
- * @brief Validate AXI configuration parameters
- * @param[in] config Configuration structure pointer
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Validate AXI configuration parameters
+ * @param[in]  : config --Configuration structure pointer
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 static int ValidateConfig(const AxiConfig* config)
 {
     if (config == NULL) {
@@ -50,11 +52,13 @@ static int ValidateConfig(const AxiConfig* config)
     return 0;
 }
 
-/**
- * @brief Validate write address channel parameters
- * @param[in] writeAddr Write address channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Validate write address channel parameters
+ * @param[in]  : writeAddr --Write address channel structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 static int ValidateWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (writeAddr == NULL) {
@@ -76,11 +80,13 @@ static int ValidateWriteAddress(const AxiWriteAddress* writeAddr)
     return 0;
 }
 
-/**
- * @brief Validate read address channel parameters
- * @param[in] readAddr Read address channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Validate read address channel parameters
+ * @param[in]  : readAddr --Read address channel structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 static int ValidateReadAddress(const AxiReadAddress* readAddr)
 {
     if (readAddr == NULL) {
@@ -102,11 +108,13 @@ static int ValidateReadAddress(const AxiReadAddress* readAddr)
     return 0;
 }
 
-/**
- * @brief Initialize AXI bus interface
- * @param[in] config Configuration structure pointer
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Initialize AXI bus interface
+ * @param[in]  : config --Configuration structure pointer
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiInit(const AxiConfig* config)
 {
     if (g_axiInitialized) {
@@ -134,13 +142,16 @@ int AxiInit(const AxiConfig* config)
     return 0;
 }
 
-/**
- * @brief Deinitialize AXI bus interface
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Deinitialize AXI bus interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiDeinit(void)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -159,16 +170,16 @@ int AxiDeinit(void)
     return 0;
 }
 
-/**
- * @brief Perform single AXI write transaction
- * @param[in] writeAddr Write address channel structure
- * @param[in] writeData Write data channel structure
- * @param[out] writeResp Write response channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform single AXI write transaction
+ * @param[in]  : writeAddr --Write address channel structure writeData --Write data channel structure
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiWriteTransaction(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, AxiWriteResponse* writeResp)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -214,15 +225,16 @@ int AxiWriteTransaction(const AxiWriteAddress* writeAddr, const AxiWriteData* wr
     return 0;
 }
 
-/**
- * @brief Perform single AXI read transaction
- * @param[in] readAddr Read address channel structure
- * @param[out] readData Read data channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform single AXI read transaction
+ * @param[in]  : readAddr --Read address channel structure
+ * @param[out] : readData --Read data channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiReadTransaction(const AxiReadAddress* readAddr, AxiReadData* readData)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -259,17 +271,16 @@ int AxiReadTransaction(const AxiReadAddress* readAddr, AxiReadData* readData)
     return 0;
 }
 
-/**
- * @brief Perform AXI burst write operation
- * @param[in] writeAddr Write address channel structure
- * @param[in] writeData Array of write data structures
- * @param[in] burstLength Number of transfers in burst
- * @param[out] writeResp Write response channel structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform AXI burst write operation
+ * @param[in]  : writeAddr --Write address channel structure writeData --Array of write data structures burstLength --Number of transfers in burst
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiWriteBurst(const AxiWriteAddress* writeAddr, const AxiWriteData* writeData, uint8_t burstLength, AxiWriteResponse* writeResp)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -321,16 +332,16 @@ int AxiWriteBurst(const AxiWriteAddress* writeAddr, const AxiWriteData* writeDat
     return 0;
 }
 
-/**
- * @brief Perform AXI burst read operation
- * @param[in] readAddr Read address channel structure
- * @param[out] readData Array of read data structures
- * @param[in] burstLength Number of transfers in burst
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Perform AXI burst read operation
+ * @param[in]  : readAddr --Read address channel structure burstLength --Number of transfers in burst
+ * @param[out] : readData --Array of read data structures
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiReadBurst(const AxiReadAddress* readAddr, AxiReadData* readData, uint8_t burstLength)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -377,14 +388,16 @@ int AxiReadBurst(const AxiReadAddress* readAddr, AxiReadData* readData, uint8_t 
     return 0;
 }
 
-/**
- * @brief Configure AXI Quality of Service settings
- * @param[in] qosValue QoS value (0-15)
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Configure AXI Quality of Service settings
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiSetQoS(uint8_t qosValue)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -399,14 +412,16 @@ int AxiSetQoS(uint8_t qosValue)
     return 0;
 }
 
-/**
- * @brief Get current AXI bus status
- * @param[out] status Status structure pointer
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Get current AXI bus status
+ * @param[in]  :
+ * @param[out] : status --Status structure pointer
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiGetStatus(AxiStatus* status)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -426,14 +441,16 @@ int AxiGetStatus(AxiStatus* status)
     return 0;
 }
 
-/**
- * @brief Send data via AXI4-Stream interface
- * @param[in] streamData Stream data structure
- * @return 0 on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Send data via AXI4-Stream interface
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiStreamSend(const AxiStreamData* streamData)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 
@@ -453,15 +470,16 @@ int AxiStreamSend(const AxiStreamData* streamData)
     return 0;
 }
 
-/**
- * @brief Receive data via AXI4-Stream interface
- * @param[out] streamData Stream data structure
- * @param[in] maxLength Maximum length to receive
- * @return Number of bytes received on success, -1 on failure
- */
+/******************************************************************************
+ * @brief      : Receive data via AXI4-Stream interface
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : Number of bytes received on success, -1 on failure
+ * @note       :
+ *****************************************************************************/
 int AxiStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
-    if (!g_axiInitialized) {
+    if (g_axiInitialized == 0) {
         return -1;
     }
 

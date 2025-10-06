@@ -44,6 +44,13 @@
 static volatile uint32_t* g_axiBase = NULL;
 static AxiConfig g_axiHalConfig = {0};
 
+/******************************************************************************
+ * @brief      : Initialize AXI HAL layer for STM32F4 platform
+ * @param[in]  : config --Pointer to AXI configuration structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Enables DMA clocks and initializes AXI base address
+ *****************************************************************************/
 int AxiHalInit(const AxiConfig* config)
 {
     if (config == NULL) {
@@ -51,7 +58,9 @@ int AxiHalInit(const AxiConfig* config)
     }
 
     g_axiBase = (volatile uint32_t*)AXI_BASE_ADDRESS;
-    memcpy(&g_axiHalConfig, config, sizeof(AxiConfig));
+    if (memcpy_s(&g_axiHalConfig, sizeof(AxiConfig), config, sizeof(AxiConfig)) != EOK) {
+        return -1;
+    }
 
     RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN | RCC_AHB1ENR_DMA2EN;
 
@@ -60,6 +69,13 @@ int AxiHalInit(const AxiConfig* config)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize AXI HAL layer for STM32F4 platform
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Clears AXI status register and releases base address pointer
+ *****************************************************************************/
 int AxiHalDeinit(void)
 {
     if (g_axiBase == NULL) {
@@ -72,6 +88,13 @@ int AxiHalDeinit(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write address channel
+ * @param[in]  : writeAddr --Write address channel structure containing address, burst length and size
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Configures AXI write address registers (AWADDR, AWLEN, AWSIZE)
+ *****************************************************************************/
 int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (g_axiBase == NULL || writeAddr == NULL) {
@@ -85,6 +108,14 @@ int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write data channel
+ * @param[in]  : writeData --Write data channel structure containing data and strobe signals
+                dataWidth --Data width in bytes
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Writes data to WDATA registers, sets WSTRB to 0xFFFFFFFF if strobe is NULL
+ *****************************************************************************/
 int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     if (g_axiBase == NULL || writeData == NULL || writeData->data == NULL) {
@@ -104,6 +135,13 @@ int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI write response channel
+ * @param[in]  :
+ * @param[out] : writeResp --Write response channel structure to store response and ID
+ * @return     : 0 on success, -1 on failure or timeout
+ * @note       : Waits for transaction completion, reads BRESP register for response type and ID
+ *****************************************************************************/
 int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     if (g_axiBase == NULL || writeResp == NULL) {
@@ -126,6 +164,13 @@ int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI read address channel
+ * @param[in]  : readAddr --Read address channel structure containing address, burst length and size
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Configures AXI read address registers (ARADDR, ARLEN, ARSIZE)
+ *****************************************************************************/
 int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     if (g_axiBase == NULL || readAddr == NULL) {
@@ -139,6 +184,13 @@ int AxiHalReadAddress(const AxiReadAddress* readAddr)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI read data channel
+ * @param[in]  : dataWidth --Data width in bytes
+ * @param[out] : readData --Read data channel structure to store data, response and ID
+ * @return     : 0 on success, -1 on failure or timeout
+ * @note       : Waits for transaction completion, reads RDATA registers and RRESP for response
+ *****************************************************************************/
 int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     if (g_axiBase == NULL || readData == NULL || readData->data == NULL) {
@@ -165,6 +217,13 @@ int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Send AXI4-Stream data
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : -1 (not implemented on STM32F4)
+ * @note       : AXI4-Stream interface not implemented for this platform
+ *****************************************************************************/
 int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     if (g_axiBase == NULL || streamData == NULL) {
@@ -174,6 +233,13 @@ int AxiHalStreamSend(const AxiStreamData* streamData)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive AXI4-Stream data
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : -1 (not implemented on STM32F4)
+ * @note       : AXI4-Stream interface not implemented for this platform
+ *****************************************************************************/
 int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     if (g_axiBase == NULL || streamData == NULL) {
@@ -183,6 +249,13 @@ int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Check if AXI bus is busy
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 1 if busy, 0 if idle, -1 on error
+ * @note       : Reads AXI_STATUS_BUSY bit from status register
+ *****************************************************************************/
 int AxiHalIsBusy(void)
 {
     if (g_axiBase == NULL) {
@@ -192,6 +265,13 @@ int AxiHalIsBusy(void)
     return (g_axiBase[AXI_STATUS_OFFSET / 4] & AXI_STATUS_BUSY) ? 1 : 0;
 }
 
+/******************************************************************************
+ * @brief      : Wait for AXI transaction completion
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] :
+ * @return     : 0 on success, -1 on timeout or error
+ * @note       : Polls status register until busy flag clears or timeout expires
+ *****************************************************************************/
 int AxiHalWaitComplete(uint32_t timeoutMs)
 {
     if (g_axiBase == NULL) {
@@ -207,6 +287,13 @@ int AxiHalWaitComplete(uint32_t timeoutMs)
     return (timeout == 0) ? -1 : 0;
 }
 
+/******************************************************************************
+ * @brief      : Set AXI Quality of Service register
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Writes lower 4 bits of qosValue to AXI QoS register
+ *****************************************************************************/
 int AxiHalSetQoS(uint8_t qosValue)
 {
     if (g_axiBase == NULL) {
@@ -217,6 +304,13 @@ int AxiHalSetQoS(uint8_t qosValue)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Reset AXI interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Clears AXI status register to reset interface state
+ *****************************************************************************/
 int AxiHalReset(void)
 {
     if (g_axiBase == NULL) {
@@ -230,23 +324,51 @@ int AxiHalReset(void)
 #elif defined(PLATFORM_STM32F1)
 /* STM32F1 Platform - No AXI hardware support */
 
+/******************************************************************************
+ * @brief      : Initialize AXI HAL layer for STM32F1 platform
+ * @param[in]  : config --Pointer to AXI configuration structure
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalInit(const AxiConfig* config)
 {
     (void)config;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize AXI HAL layer for STM32F1 platform
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalDeinit(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write address channel
+ * @param[in]  : writeAddr --Write address channel structure
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     (void)writeAddr;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write data channel
+ * @param[in]  : writeData --Write data channel structure dataWidth --Data width in bytes
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     (void)writeData;
@@ -254,18 +376,39 @@ int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI write response channel
+ * @param[in]  :
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     (void)writeResp;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI read address channel
+ * @param[in]  : readAddr --Read address channel structure
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     (void)readAddr;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI read data channel
+ * @param[in]  : dataWidth --Data width in bytes
+ * @param[out] : readData --Read data channel structure
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     (void)readData;
@@ -273,12 +416,26 @@ int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Send AXI4-Stream data
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     (void)streamData;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive AXI4-Stream data
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     (void)streamData;
@@ -286,23 +443,51 @@ int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Check if AXI bus is busy
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalIsBusy(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Wait for AXI transaction completion
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWaitComplete(uint32_t timeoutMs)
 {
     (void)timeoutMs;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Set AXI Quality of Service register
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalSetQoS(uint8_t qosValue)
 {
     (void)qosValue;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Reset AXI interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on STM32F1)
+ * @note       : STM32F1 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReset(void)
 {
     return -1;
@@ -311,23 +496,51 @@ int AxiHalReset(void)
 #elif defined(PLATFORM_ESP32)
 /* ESP32 Platform - No AXI hardware support */
 
+/******************************************************************************
+ * @brief      : Initialize AXI HAL layer for ESP32 platform
+ * @param[in]  : config --Pointer to AXI configuration structure
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalInit(const AxiConfig* config)
 {
     (void)config;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize AXI HAL layer for ESP32 platform
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalDeinit(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write address channel
+ * @param[in]  : writeAddr --Write address channel structure
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     (void)writeAddr;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write data channel
+ * @param[in]  : writeData --Write data channel structure dataWidth --Data width in bytes
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     (void)writeData;
@@ -335,18 +548,39 @@ int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI write response channel
+ * @param[in]  :
+ * @param[out] : writeResp --Write response channel structure
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     (void)writeResp;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI read address channel
+ * @param[in]  : readAddr --Read address channel structure
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     (void)readAddr;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI read data channel
+ * @param[in]  : dataWidth --Data width in bytes
+ * @param[out] : readData --Read data channel structure
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     (void)readData;
@@ -354,12 +588,26 @@ int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Send AXI4-Stream data
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     (void)streamData;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive AXI4-Stream data
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     (void)streamData;
@@ -367,23 +615,51 @@ int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Check if AXI bus is busy
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalIsBusy(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Wait for AXI transaction completion
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalWaitComplete(uint32_t timeoutMs)
 {
     (void)timeoutMs;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Set AXI Quality of Service register
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalSetQoS(uint8_t qosValue)
 {
     (void)qosValue;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Reset AXI interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (not supported on ESP32)
+ * @note       : ESP32 does not support AXI hardware interface
+ *****************************************************************************/
 int AxiHalReset(void)
 {
     return -1;
@@ -418,6 +694,13 @@ static uint8_t* g_simulatedMemory = NULL;
 static size_t g_memorySize = 1024 * 1024;
 static AxiConfig g_axiHalConfig = {0};
 
+/******************************************************************************
+ * @brief      : Initialize AXI HAL layer for Linux platform
+ * @param[in]  : config --Pointer to AXI configuration structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Allocates simulated AXI registers and 1MB memory buffer
+ *****************************************************************************/
 int AxiHalInit(const AxiConfig* config)
 {
     if (config == NULL) {
@@ -436,13 +719,38 @@ int AxiHalInit(const AxiConfig* config)
         return -1;
     }
 
-    memset(g_axiRegs, 0, sizeof(AxiSimulatedRegs));
-    memset(g_simulatedMemory, 0, g_memorySize);
-    memcpy(&g_axiHalConfig, config, sizeof(AxiConfig));
+    if (memset_s(g_axiRegs, sizeof(AxiSimulatedRegs), 0, sizeof(AxiSimulatedRegs)) != EOK) {
+        free(g_simulatedMemory);
+        free(g_axiRegs);
+        g_axiRegs = NULL;
+        g_simulatedMemory = NULL;
+        return -1;
+    }
+    if (memset_s(g_simulatedMemory, g_memorySize, 0, g_memorySize) != EOK) {
+        free(g_simulatedMemory);
+        free(g_axiRegs);
+        g_axiRegs = NULL;
+        g_simulatedMemory = NULL;
+        return -1;
+    }
+    if (memcpy_s(&g_axiHalConfig, sizeof(AxiConfig), config, sizeof(AxiConfig)) != EOK) {
+        free(g_simulatedMemory);
+        free(g_axiRegs);
+        g_axiRegs = NULL;
+        g_simulatedMemory = NULL;
+        return -1;
+    }
 
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize AXI HAL layer for Linux platform
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success
+ * @note       : Frees allocated simulated registers and memory buffer
+ *****************************************************************************/
 int AxiHalDeinit(void)
 {
     if (g_axiRegs != NULL) {
@@ -458,6 +766,13 @@ int AxiHalDeinit(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write address channel
+ * @param[in]  : writeAddr --Write address channel structure containing address, burst length and size
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Updates simulated AWADDR, AWLEN, AWSIZE registers and sets busy status
+ *****************************************************************************/
 int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
 {
     if (g_axiRegs == NULL || writeAddr == NULL) {
@@ -472,6 +787,14 @@ int AxiHalWriteAddress(const AxiWriteAddress* writeAddr)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI write data channel
+ * @param[in]  : writeData --Write data channel structure containing data and strobe signals
+                dataWidth --Data width in bytes
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Writes data to simulated memory, validates address bounds and sets write response
+ *****************************************************************************/
 int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
 {
     if (g_axiRegs == NULL || writeData == NULL || writeData->data == NULL) {
@@ -483,11 +806,17 @@ int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
         return -1;
     }
 
-    memcpy(g_axiRegs->wData, writeData->data, dataWidth);
+    if (memcpy_s(g_axiRegs->wData, sizeof(g_axiRegs->wData), writeData->data, dataWidth) != EOK) {
+        g_axiRegs->bResp = AXI_RESP_SLVERR;
+        return -1;
+    }
 
     size_t writeSize = (1U << g_axiRegs->awSize);
     if (g_axiRegs->awAddr + writeSize <= g_memorySize) {
-        memcpy(&g_simulatedMemory[g_axiRegs->awAddr], writeData->data, writeSize);
+        if (memcpy_s(&g_simulatedMemory[g_axiRegs->awAddr], g_memorySize - g_axiRegs->awAddr, writeData->data, writeSize) != EOK) {
+            g_axiRegs->bResp = AXI_RESP_SLVERR;
+            return -1;
+        }
         g_axiRegs->bResp = AXI_RESP_OKAY;
     } else {
         g_axiRegs->bResp = AXI_RESP_SLVERR;
@@ -498,6 +827,13 @@ int AxiHalWriteData(const AxiWriteData* writeData, uint8_t dataWidth)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI write response channel
+ * @param[in]  :
+ * @param[out] : writeResp --Write response channel structure to store response, ID and user data
+ * @return     : 0 on success, -1 on failure
+ * @note       : Retrieves write response from simulated BRESP register
+ *****************************************************************************/
 int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
 {
     if (g_axiRegs == NULL || writeResp == NULL) {
@@ -511,6 +847,13 @@ int AxiHalReadWriteResponse(AxiWriteResponse* writeResp)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to AXI read address channel
+ * @param[in]  : readAddr --Read address channel structure containing address, burst length and size
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Updates simulated ARADDR, ARLEN, ARSIZE registers and sets busy status
+ *****************************************************************************/
 int AxiHalReadAddress(const AxiReadAddress* readAddr)
 {
     if (g_axiRegs == NULL || readAddr == NULL) {
@@ -525,6 +868,13 @@ int AxiHalReadAddress(const AxiReadAddress* readAddr)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from AXI read data channel
+ * @param[in]  : dataWidth --Data width in bytes
+ * @param[out] : readData --Read data channel structure to store data, response, ID and flags
+ * @return     : 0 on success, -1 on failure
+ * @note       : Reads data from simulated memory, validates address bounds and sets read response
+ *****************************************************************************/
 int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 {
     if (g_axiRegs == NULL || readData == NULL || readData->data == NULL) {
@@ -539,8 +889,16 @@ int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
 
     size_t readSize = (1U << g_axiRegs->arSize);
     if (g_axiRegs->arAddr + readSize <= g_memorySize) {
-        memcpy(readData->data, &g_simulatedMemory[g_axiRegs->arAddr], readSize);
-        memcpy(g_axiRegs->rData, readData->data, dataWidth);
+        if (memcpy_s(readData->data, dataWidth, &g_simulatedMemory[g_axiRegs->arAddr], readSize) != EOK) {
+            g_axiRegs->rResp = AXI_RESP_SLVERR;
+            readData->response = AXI_RESP_SLVERR;
+            return -1;
+        }
+        if (memcpy_s(g_axiRegs->rData, sizeof(g_axiRegs->rData), readData->data, dataWidth) != EOK) {
+            g_axiRegs->rResp = AXI_RESP_SLVERR;
+            readData->response = AXI_RESP_SLVERR;
+            return -1;
+        }
         g_axiRegs->rResp = AXI_RESP_OKAY;
         readData->response = AXI_RESP_OKAY;
     } else {
@@ -557,6 +915,13 @@ int AxiHalReadData(AxiReadData* readData, uint8_t dataWidth)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Send AXI4-Stream data
+ * @param[in]  : streamData --Stream data structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : AXI4-Stream interface simulated (stub implementation)
+ *****************************************************************************/
 int AxiHalStreamSend(const AxiStreamData* streamData)
 {
     if (g_axiRegs == NULL || streamData == NULL) {
@@ -566,6 +931,13 @@ int AxiHalStreamSend(const AxiStreamData* streamData)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Receive AXI4-Stream data
+ * @param[in]  : maxLength --Maximum length to receive
+ * @param[out] : streamData --Stream data structure
+ * @return     : 0 on success, -1 on failure
+ * @note       : AXI4-Stream interface simulated (stub implementation)
+ *****************************************************************************/
 int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
 {
     if (g_axiRegs == NULL || streamData == NULL) {
@@ -575,6 +947,13 @@ int AxiHalStreamReceive(AxiStreamData* streamData, size_t maxLength)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Check if AXI bus is busy
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 1 if busy, 0 if idle, -1 on error
+ * @note       : Reads simulated status register busy bit
+ *****************************************************************************/
 int AxiHalIsBusy(void)
 {
     if (g_axiRegs == NULL) {
@@ -584,6 +963,13 @@ int AxiHalIsBusy(void)
     return (g_axiRegs->status & 0x01) ? 1 : 0;
 }
 
+/******************************************************************************
+ * @brief      : Wait for AXI transaction completion
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] :
+ * @return     : 0 on success, -1 on timeout or error
+ * @note       : Polls simulated status register with 1ms sleep intervals
+ *****************************************************************************/
 int AxiHalWaitComplete(uint32_t timeoutMs)
 {
     if (g_axiRegs == NULL) {
@@ -599,6 +985,13 @@ int AxiHalWaitComplete(uint32_t timeoutMs)
     return (elapsed >= timeoutMs) ? -1 : 0;
 }
 
+/******************************************************************************
+ * @brief      : Set AXI Quality of Service register
+ * @param[in]  : qosValue --QoS value (0-15)
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Writes lower 4 bits of qosValue to simulated QoS register
+ *****************************************************************************/
 int AxiHalSetQoS(uint8_t qosValue)
 {
     if (g_axiRegs == NULL) {
@@ -609,13 +1002,22 @@ int AxiHalSetQoS(uint8_t qosValue)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Reset AXI interface
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on failure
+ * @note       : Clears all simulated AXI registers to reset interface state
+ *****************************************************************************/
 int AxiHalReset(void)
 {
     if (g_axiRegs == NULL) {
         return -1;
     }
 
-    memset(g_axiRegs, 0, sizeof(AxiSimulatedRegs));
+    if (memset_s(g_axiRegs, sizeof(AxiSimulatedRegs), 0, sizeof(AxiSimulatedRegs)) != EOK) {
+        return -1;
+    }
     return 0;
 }
 

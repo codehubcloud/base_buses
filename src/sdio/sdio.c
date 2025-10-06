@@ -73,7 +73,7 @@ int32_t SdioDeinit(void)
 
 /******************************************************************************
  * @brief     : Send SDIO command
- * @param[in] : cmd - Command index (0-63), arg - Command argument
+ * @param[in] : cmd --Command index (0-63), arg - Command argument
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Sends command with CRC7 checksum
@@ -97,8 +97,8 @@ int32_t SdioSendCommand(uint8_t cmd, uint32_t arg)
 
 /******************************************************************************
  * @brief     : Read SDIO response
- * @param[in] : responseType - Type of response expected (NONE/SHORT/LONG)
- * @param[out]: response - Pointer to response buffer (up to 4 words)
+ * @param[in] : responseType --Type of response expected (NONE/SHORT/LONG)
+ * @param[out]: response --Pointer to response buffer (up to 4 words)
  * @return    : 0 if success, -1 if error
  * @note      : Reads and validates response with CRC7 check
  *****************************************************************************/
@@ -117,8 +117,8 @@ int32_t SdioReadResponse(uint32_t* response, SdioResponseType_E responseType)
 
 /******************************************************************************
  * @brief     : Read data from SDIO
- * @param[in] : length - Number of bytes to read
- * @param[out]: data - Buffer to store received data
+ * @param[in] : length --Number of bytes to read
+ * @param[out]: data --Buffer to store received data
  * @return    : 0 if success, -1 if error
  * @note      : Reads data with CRC16 validation
  *****************************************************************************/
@@ -138,7 +138,7 @@ int32_t SdioReadData(uint8_t* data, uint32_t length)
 
 /******************************************************************************
  * @brief     : Write data to SDIO
- * @param[in] : data - Pointer to data buffer, length - Number of bytes to write
+ * @param[in] : data --Pointer to data buffer, length - Number of bytes to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes data with CRC16 checksum
@@ -160,7 +160,7 @@ int32_t SdioWriteData(uint8_t* data, uint32_t length)
 
 /******************************************************************************
  * @brief     : Set SDIO bus width
- * @param[in] : width - Bus width (1, 4, or 8 bits)
+ * @param[in] : width --Bus width (1, 4, or 8 bits)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures data bus width for parallel transfer
@@ -181,7 +181,7 @@ int32_t SdioSetBusWidth(uint8_t width)
 
 /******************************************************************************
  * @brief     : Set SDIO clock speed
- * @param[in] : speed - Clock speed in Hz
+ * @param[in] : speed --Clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures SDIO clock frequency
@@ -197,7 +197,7 @@ int32_t SdioSetClockSpeed(uint32_t speed)
 
 /******************************************************************************
  * @brief     : Calculate CRC7 checksum for SDIO commands
- * @param[in] : data - Pointer to data buffer, length - Number of bytes
+ * @param[in] : data --Pointer to data buffer, length - Number of bytes
  * @param[out]: None
  * @return    : CRC7 checksum value (7 bits)
  * @note      : Used for command and response validation
@@ -223,7 +223,7 @@ uint8_t SdioCalculateCRC7(uint8_t* data, uint8_t length)
 
 /******************************************************************************
  * @brief     : Calculate CRC16 checksum for SDIO data
- * @param[in] : data - Pointer to data buffer, length - Number of bytes
+ * @param[in] : data --Pointer to data buffer, length - Number of bytes
  * @param[out]: None
  * @return    : CRC16 checksum value
  * @note      : Used for data block validation
@@ -249,8 +249,8 @@ uint16_t SdioCalculateCRC16(uint8_t* data, uint32_t length)
 
 /******************************************************************************
  * @brief     : Read single block from SDIO device
- * @param[in] : blockAddr - Block address, blockSize - Size of block in bytes
- * @param[out]: data - Buffer to store block data
+ * @param[in] : blockAddr --Block address, blockSize - Size of block in bytes
+ * @param[out]: data --Buffer to store block data
  * @return    : 0 if success, -1 if error
  * @note      : Reads a single data block with CMD17
  *****************************************************************************/
@@ -281,7 +281,7 @@ int32_t SdioReadBlock(uint32_t blockAddr, uint8_t* data, uint32_t blockSize)
 
 /******************************************************************************
  * @brief     : Write single block to SDIO device
- * @param[in] : blockAddr - Block address, data - Data to write, blockSize - Size of block
+ * @param[in] : blockAddr --Block address, data - Data to write, blockSize - Size of block
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes a single data block with CMD24

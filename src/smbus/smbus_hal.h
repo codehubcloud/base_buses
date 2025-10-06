@@ -50,7 +50,7 @@ int32_t SmBusGenerateStop(void);
 
 /******************************************************************************
  * @brief     : Send byte through SMBus
- * @param[in] : data - Byte to send
+ * @param[in] : data --Byte to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -95,7 +95,7 @@ void SmBusSendNack(void);
 
 /******************************************************************************
  * @brief     : Configure SMBus clock speed
- * @param[in] : clockSpeed - Desired clock speed in Hz
+ * @param[in] : clockSpeed --Desired clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required

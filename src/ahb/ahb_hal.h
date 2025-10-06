@@ -59,7 +59,7 @@ void AhbDisableMaster(void);
 
 /******************************************************************************
  * @brief     : Set AHB transfer address
- * @param[in] : address - Target address
+ * @param[in] : address --Target address
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -68,7 +68,7 @@ void AhbSetAddress(uint32_t address);
 
 /******************************************************************************
  * @brief     : Set AHB transfer type
- * @param[in] : transferType - Transfer type (HTRANS)
+ * @param[in] : transferType --Transfer type (HTRANS)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -77,7 +77,7 @@ void AhbSetTransferType(uint8_t transferType);
 
 /******************************************************************************
  * @brief     : Set AHB burst type
- * @param[in] : burstType - Burst type (HBURST)
+ * @param[in] : burstType --Burst type (HBURST)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -86,7 +86,7 @@ void AhbSetBurstType(uint8_t burstType);
 
 /******************************************************************************
  * @brief     : Set AHB transfer size
- * @param[in] : transferSize - Transfer size (HSIZE)
+ * @param[in] : transferSize --Transfer size (HSIZE)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -95,7 +95,7 @@ void AhbSetTransferSize(uint8_t transferSize);
 
 /******************************************************************************
  * @brief     : Set AHB write direction
- * @param[in] : write - 1 for write, 0 for read
+ * @param[in] : write --1 for write, 0 for read
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -104,7 +104,7 @@ void AhbSetWrite(uint8_t write);
 
 /******************************************************************************
  * @brief     : Set AHB protection control
- * @param[in] : protection - Protection control signals (HPROT)
+ * @param[in] : protection --Protection control signals (HPROT)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -113,7 +113,7 @@ void AhbSetProtection(uint8_t protection);
 
 /******************************************************************************
  * @brief     : Write data to AHB bus
- * @param[in] : data - Data to write
+ * @param[in] : data --Data to write
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -149,7 +149,7 @@ int32_t AhbCheckReady(void);
 
 /******************************************************************************
  * @brief     : Configure AHB master priority
- * @param[in] : priority - Priority level
+ * @param[in] : priority --Priority level
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required

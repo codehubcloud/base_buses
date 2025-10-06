@@ -178,9 +178,9 @@ int32_t CanTxBufferEmpty(void)
 
 /******************************************************************************
  * @brief     : Write message to CAN
- * @param[in] : id - CAN message ID
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send (0-8)
+ * @param[in] : id --CAN message ID
+ * @param[in] : data --Pointer to data buffer to send
+ * @param[in] : length --Number of bytes to send (0-8)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -278,11 +278,11 @@ int32_t CanRxBufferHasData(void)
 
 /******************************************************************************
  * @brief     : Read message from CAN
- * @param[in] : id - Pointer to store received message ID
- * @param[in] : buffer - Pointer to buffer to store received data
- * @param[in] : maxLength - Maximum number of bytes to receive (should be 8)
- * @param[out]: id - Received message ID
- * @param[out]: buffer - Received data
+ * @param[in] : id --Pointer to store received message ID
+ * @param[in] : buffer --Pointer to buffer to store received data
+ * @param[in] : maxLength --Maximum number of bytes to receive (should be 8)
+ * @param[out]: id --Received message ID
+ * @param[out]: buffer --Received data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Platform-specific implementation
  *****************************************************************************/
@@ -347,7 +347,7 @@ int32_t CanReadMessage(uint32_t* id, uint8_t* buffer, uint8_t maxLength)
 
 /******************************************************************************
  * @brief     : Configure CAN baud rate
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

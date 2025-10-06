@@ -125,8 +125,8 @@ int32_t ModbusUartInit(void)
 
 /******************************************************************************
  * @brief     : Send data through Modbus UART
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send
+ * @param[in] : data --Pointer to data buffer to send
+ * @param[in] : length --Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -157,9 +157,9 @@ int32_t ModbusUartSendData(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from Modbus UART
- * @param[in] : buffer - Pointer to buffer to store received data
- * @param[in] : maxLength - Maximum number of bytes to receive
- * @param[out]: buffer - Received data
+ * @param[in] : buffer --Pointer to buffer to store received data
+ * @param[in] : maxLength --Maximum number of bytes to receive
+ * @param[out]: buffer --Received data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Platform-specific implementation
  *****************************************************************************/
@@ -214,8 +214,8 @@ int32_t ModbusUartReceiveData(uint8_t* buffer, uint16_t maxLength)
 
 /******************************************************************************
  * @brief     : Calculate Modbus CRC16
- * @param[in] : data - Pointer to data buffer
- * @param[in] : length - Number of bytes in data buffer
+ * @param[in] : data --Pointer to data buffer
+ * @param[in] : length --Number of bytes in data buffer
  * @param[out]: None
  * @return    : Calculated CRC16 value
  * @note      : Platform-independent implementation (Modbus RTU CRC16)

@@ -42,7 +42,7 @@ void FlexRayHalDeinit(void);
 
 /******************************************************************************
  * @brief     : Configure FlexRay bit rate
- * @param[in] : bitRate - Desired bit rate in bps
+ * @param[in] : bitRate --Desired bit rate in bps
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -51,9 +51,9 @@ int32_t FlexRayHalConfigureBitRate(uint32_t bitRate);
 
 /******************************************************************************
  * @brief     : Configure FlexRay slot in hardware
- * @param[in] : slotId - Slot identifier
- * @param[in] : channel - Channel selection
- * @param[in] : payloadLength - Payload length in bytes
+ * @param[in] : slotId --Slot identifier
+ * @param[in] : channel --Channel selection
+ * @param[in] : payloadLength --Payload length in bytes
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -62,8 +62,8 @@ int32_t FlexRayHalConfigureSlot(uint16_t slotId, uint8_t channel, uint16_t paylo
 
 /******************************************************************************
  * @brief     : Send FlexRay frame
- * @param[in] : slotId - Slot identifier
- * @param[in] : frame - Pointer to frame structure
+ * @param[in] : slotId --Slot identifier
+ * @param[in] : frame --Pointer to frame structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -72,7 +72,7 @@ int32_t FlexRayHalSendFrame(uint16_t slotId, FlexRayFrame_t* frame);
 
 /******************************************************************************
  * @brief     : Check if RX slot has data
- * @param[in] : slotId - Slot identifier
+ * @param[in] : slotId --Slot identifier
  * @param[out]: None
  * @return    : 1 if has data, 0 if no data
  * @note      : Platform-specific implementation required
@@ -81,8 +81,8 @@ int32_t FlexRayHalRxSlotHasData(uint16_t slotId);
 
 /******************************************************************************
  * @brief     : Receive FlexRay frame
- * @param[in] : slotId - Slot identifier
- * @param[out]: frame - Pointer to frame structure to fill
+ * @param[in] : slotId --Slot identifier
+ * @param[out]: frame --Pointer to frame structure to fill
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
  *****************************************************************************/
@@ -108,8 +108,8 @@ int32_t FlexRayHalStopCommunication(void);
 
 /******************************************************************************
  * @brief     : Update FlexRay status from hardware
- * @param[in] : status - Pointer to status structure
- * @param[out]: status - Updated status structure
+ * @param[in] : status --Pointer to status structure
+ * @param[out]: status --Updated status structure
  * @return    : None
  * @note      : Platform-specific implementation required
  *****************************************************************************/
@@ -117,9 +117,9 @@ void FlexRayHalUpdateStatus(FlexRayStatus_t* status);
 
 /******************************************************************************
  * @brief     : Configure FlexRay timing parameters
- * @param[in] : cycleLength - Cycle length in macroticks
- * @param[in] : staticSlots - Number of static slots
- * @param[in] : dynamicSlots - Number of dynamic slots
+ * @param[in] : cycleLength --Cycle length in macroticks
+ * @param[in] : staticSlots --Number of static slots
+ * @param[in] : dynamicSlots --Number of dynamic slots
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required

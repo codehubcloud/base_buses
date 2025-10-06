@@ -61,7 +61,7 @@ int32_t OneWireReset(void)
 
 /******************************************************************************
  * @brief     : Write single bit to 1-Wire bus
- * @param[in] : bit - Bit value to write (0 or 1)
+ * @param[in] : bit --Bit value to write (0 or 1)
  * @param[out]: none
  * @return    : 0 if success, -1 if error
  * @note      : Follows 1-Wire timing specification
@@ -85,7 +85,7 @@ int32_t OneWireReadBit(void)
 
 /******************************************************************************
  * @brief     : Write byte to 1-Wire bus
- * @param[in] : data - Byte to write
+ * @param[in] : data --Byte to write
  * @param[out]: none
  * @return    : 0 if success, -1 if error
  * @note      : LSB first transmission
@@ -104,7 +104,7 @@ int32_t OneWireWriteByte(uint8_t data)
 /******************************************************************************
  * @brief     : Read byte from 1-Wire bus
  * @param[in] : none
- * @param[out]: data - Pointer to store received byte
+ * @param[out]: data --Pointer to store received byte
  * @return    : 0 if success, -1 if error
  * @note      : LSB first reception
  ******************************************************************************/
@@ -129,7 +129,7 @@ int32_t OneWireReadByte(uint8_t* data)
 
 /******************************************************************************
  * @brief     : Write multiple bytes to 1-Wire bus
- * @param[in] : data - Pointer to data buffer, length - Number of bytes
+ * @param[in] : data --Pointer to data buffer, length - Number of bytes
  * @param[out]: none
  * @return    : Number of bytes written, -1 if error
  * @note      : Sequential byte transmission
@@ -151,8 +151,8 @@ int32_t OneWireWriteBytes(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Read multiple bytes from 1-Wire bus
- * @param[in] : length - Number of bytes to read
- * @param[out]: data - Pointer to receive buffer
+ * @param[in] : length --Number of bytes to read
+ * @param[out]: data --Pointer to receive buffer
  * @return    : Number of bytes read, -1 if error
  * @note      : Sequential byte reception
  ******************************************************************************/
@@ -173,7 +173,7 @@ int32_t OneWireReadBytes(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Calculate CRC8 for 1-Wire data
- * @param[in] : data - Pointer to data buffer, length - Number of bytes
+ * @param[in] : data --Pointer to data buffer, length - Number of bytes
  * @param[out]: none
  * @return    : CRC8 value
  * @note      : Polynomial: 0x31 (x^8 + x^5 + x^4 + 1)
@@ -203,8 +203,8 @@ uint8_t OneWireCalculateCRC8(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Search for devices on 1-Wire bus
- * @param[in] : maxDevices - Maximum devices to find
- * @param[out]: romCodes - Array to store 64-bit ROM codes
+ * @param[in] : maxDevices --Maximum devices to find
+ * @param[out]: romCodes --Array to store 64-bit ROM codes
  * @return    : Number of devices found, -1 if error
  * @note      : Implements ROM search algorithm
  ******************************************************************************/
@@ -282,7 +282,7 @@ int32_t OneWireSearch(uint64_t* romCodes, uint8_t maxDevices)
 
 /******************************************************************************
  * @brief     : Set 1-Wire communication speed
- * @param[in] : speed - Speed mode (standard/overdrive)
+ * @param[in] : speed --Speed mode (standard/overdrive)
  * @param[out]: none
  * @return    : 0 if success, -1 if error
  * @note      : Changes timing parameters

@@ -50,7 +50,7 @@ int32_t I3cGenerateStop(void);
 
 /******************************************************************************
  * @brief     : Send byte through I3C
- * @param[in] : data - Byte to send
+ * @param[in] : data --Byte to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -95,7 +95,7 @@ void I3cSendNack(void);
 
 /******************************************************************************
  * @brief     : Configure I3C clock speed
- * @param[in] : clockSpeed - Desired clock speed in Hz
+ * @param[in] : clockSpeed --Desired clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required

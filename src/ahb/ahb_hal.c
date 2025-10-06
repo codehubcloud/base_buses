@@ -20,6 +20,13 @@ static volatile uint8_t ahbProt = 0;
 static volatile uint8_t ahbResp = AHB_RESP_OKAY;
 static volatile uint8_t ahbReady = 1;
 
+/******************************************************************************
+ * @brief     : Enable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F4 platform - Enables DMA1 and DMA2 clocks
+ *****************************************************************************/
 int32_t AhbEnableClock(void)
 {
     __HAL_RCC_DMA1_CLK_ENABLE();
@@ -27,12 +34,26 @@ int32_t AhbEnableClock(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Disables DMA1 and DMA2 clocks
+ *****************************************************************************/
 void AhbDisableClock(void)
 {
     __HAL_RCC_DMA1_CLK_DISABLE();
     __HAL_RCC_DMA2_CLK_DISABLE();
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB bus matrix
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F4 platform - Enables Flash prefetch buffer
+ *****************************************************************************/
 int32_t AhbConfigureBusMatrix(void)
 {
     /* Configure AHB bus matrix priority for DMA and peripherals */
@@ -40,6 +61,13 @@ int32_t AhbConfigureBusMatrix(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Reset AHB controller
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Resets all AHB state variables to default
+ *****************************************************************************/
 void AhbResetController(void)
 {
     ahbAddress = 0;
@@ -53,48 +81,111 @@ void AhbResetController(void)
     ahbReady = 1;
 }
 
+/******************************************************************************
+ * @brief     : Enable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Enables instruction cache
+ *****************************************************************************/
 void AhbEnableMaster(void)
 {
     /* Enable AHB master interface */
     SCB->CCR |= SCB_CCR_IC_Msk;
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Disables instruction cache
+ *****************************************************************************/
 void AhbDisableMaster(void)
 {
     /* Disable AHB master interface */
     SCB->CCR &= ~SCB_CCR_IC_Msk;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer address
+ * @param[in] : address --Target address for AHB transaction
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Stores address for subsequent read/write
+ *****************************************************************************/
 void AhbSetAddress(uint32_t address)
 {
     ahbAddress = address;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer type
+ * @param[in] : transferType --Transfer type (HTRANS: IDLE/BUSY/NONSEQ/SEQ)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Sets transfer type state variable
+ *****************************************************************************/
 void AhbSetTransferType(uint8_t transferType)
 {
     ahbTransType = transferType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB burst type
+ * @param[in] : burstType --Burst type (HBURST: SINGLE/INCR/WRAP4/INCR4/etc)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Sets burst type state variable
+ *****************************************************************************/
 void AhbSetBurstType(uint8_t burstType)
 {
     ahbBurstType = burstType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer size
+ * @param[in] : transferSize --Transfer size (HSIZE: BYTE/HALFWORD/WORD)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Sets data width for read/write operations
+ *****************************************************************************/
 void AhbSetTransferSize(uint8_t transferSize)
 {
     ahbSize = transferSize;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB write direction
+ * @param[in] : write --1 for write operation, 0 for read operation
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Sets write direction flag
+ *****************************************************************************/
 void AhbSetWrite(uint8_t write)
 {
     ahbWrite = write;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB protection control
+ * @param[in] : protection --Protection control signals (HPROT)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Sets protection attributes
+ *****************************************************************************/
 void AhbSetProtection(uint8_t protection)
 {
     ahbProt = protection;
 }
 
+/******************************************************************************
+ * @brief     : Write data to AHB bus
+ * @param[in] : data --Data to write to target address
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F4 platform - Writes to memory-mapped address based on size
+ *****************************************************************************/
 void AhbWriteData(uint32_t data)
 {
     volatile uint32_t* targetAddress = (volatile uint32_t*)ahbAddress;
@@ -110,6 +201,13 @@ void AhbWriteData(uint32_t data)
     ahbData = data;
 }
 
+/******************************************************************************
+ * @brief     : Read data from AHB bus
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Data read from target address
+ * @note      : STM32F4 platform - Reads from memory-mapped address based on size
+ *****************************************************************************/
 uint32_t AhbReadData(void)
 {
     volatile uint32_t* sourceAddress = (volatile uint32_t*)ahbAddress;
@@ -127,16 +225,37 @@ uint32_t AhbReadData(void)
     return data;
 }
 
+/******************************************************************************
+ * @brief     : Get AHB response signal
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Response type (HRESP: OKAY/ERROR)
+ * @note      : STM32F4 platform - Returns current response status
+ *****************************************************************************/
 uint8_t AhbGetResponse(void)
 {
     return ahbResp;
 }
 
+/******************************************************************************
+ * @brief     : Check if AHB bus is ready
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 1 if ready, 0 if not ready
+ * @note      : STM32F4 platform - Returns HREADY signal status
+ *****************************************************************************/
 int32_t AhbCheckReady(void)
 {
     return ahbReady ? 1 : 0;
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB master priority
+ * @param[in] : priority --Priority level for bus arbitration
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F4 platform - Currently not implemented (reserved)
+ *****************************************************************************/
 int32_t AhbConfigurePriority(uint8_t priority)
 {
     /* Configure bus matrix priority */
@@ -159,6 +278,13 @@ static volatile uint8_t ahbProt = 0;
 static volatile uint8_t ahbResp = AHB_RESP_OKAY;
 static volatile uint8_t ahbReady = 1;
 
+/******************************************************************************
+ * @brief     : Enable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F1 platform - Enables DMA1 and DMA2 clocks
+ *****************************************************************************/
 int32_t AhbEnableClock(void)
 {
     __HAL_RCC_DMA1_CLK_ENABLE();
@@ -166,12 +292,26 @@ int32_t AhbEnableClock(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Disables DMA1 and DMA2 clocks
+ *****************************************************************************/
 void AhbDisableClock(void)
 {
     __HAL_RCC_DMA1_CLK_DISABLE();
     __HAL_RCC_DMA2_CLK_DISABLE();
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB bus matrix
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F1 platform - Enables Flash prefetch buffer
+ *****************************************************************************/
 int32_t AhbConfigureBusMatrix(void)
 {
     /* Configure AHB bus for STM32F1 */
@@ -179,6 +319,13 @@ int32_t AhbConfigureBusMatrix(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Reset AHB controller
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Resets all AHB state variables to default
+ *****************************************************************************/
 void AhbResetController(void)
 {
     ahbAddress = 0;
@@ -192,46 +339,109 @@ void AhbResetController(void)
     ahbReady = 1;
 }
 
+/******************************************************************************
+ * @brief     : Enable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - No operation (reserved for compatibility)
+ *****************************************************************************/
 void AhbEnableMaster(void)
 {
     /* Enable AHB master interface */
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - No operation (reserved for compatibility)
+ *****************************************************************************/
 void AhbDisableMaster(void)
 {
     /* Disable AHB master interface */
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer address
+ * @param[in] : address --Target address for AHB transaction
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Stores address for subsequent read/write
+ *****************************************************************************/
 void AhbSetAddress(uint32_t address)
 {
     ahbAddress = address;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer type
+ * @param[in] : transferType --Transfer type (HTRANS: IDLE/BUSY/NONSEQ/SEQ)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Sets transfer type state variable
+ *****************************************************************************/
 void AhbSetTransferType(uint8_t transferType)
 {
     ahbTransType = transferType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB burst type
+ * @param[in] : burstType --Burst type (HBURST: SINGLE/INCR/WRAP4/INCR4/etc)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Sets burst type state variable
+ *****************************************************************************/
 void AhbSetBurstType(uint8_t burstType)
 {
     ahbBurstType = burstType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer size
+ * @param[in] : transferSize --Transfer size (HSIZE: BYTE/HALFWORD/WORD)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Sets data width for read/write operations
+ *****************************************************************************/
 void AhbSetTransferSize(uint8_t transferSize)
 {
     ahbSize = transferSize;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB write direction
+ * @param[in] : write --1 for write operation, 0 for read operation
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Sets write direction flag
+ *****************************************************************************/
 void AhbSetWrite(uint8_t write)
 {
     ahbWrite = write;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB protection control
+ * @param[in] : protection --Protection control signals (HPROT)
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Sets protection attributes
+ *****************************************************************************/
 void AhbSetProtection(uint8_t protection)
 {
     ahbProt = protection;
 }
 
+/******************************************************************************
+ * @brief     : Write data to AHB bus
+ * @param[in] : data --Data to write to target address
+ * @param[out]: None
+ * @return    : None
+ * @note      : STM32F1 platform - Writes to memory-mapped address based on size
+ *****************************************************************************/
 void AhbWriteData(uint32_t data)
 {
     volatile uint32_t* targetAddress = (volatile uint32_t*)ahbAddress;
@@ -247,6 +457,13 @@ void AhbWriteData(uint32_t data)
     ahbData = data;
 }
 
+/******************************************************************************
+ * @brief     : Read data from AHB bus
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Data read from target address
+ * @note      : STM32F1 platform - Reads from memory-mapped address based on size
+ *****************************************************************************/
 uint32_t AhbReadData(void)
 {
     volatile uint32_t* sourceAddress = (volatile uint32_t*)ahbAddress;
@@ -264,16 +481,37 @@ uint32_t AhbReadData(void)
     return data;
 }
 
+/******************************************************************************
+ * @brief     : Get AHB response signal
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Response type (HRESP: OKAY/ERROR)
+ * @note      : STM32F1 platform - Returns current response status
+ *****************************************************************************/
 uint8_t AhbGetResponse(void)
 {
     return ahbResp;
 }
 
+/******************************************************************************
+ * @brief     : Check if AHB bus is ready
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 1 if ready, 0 if not ready
+ * @note      : STM32F1 platform - Returns HREADY signal status
+ *****************************************************************************/
 int32_t AhbCheckReady(void)
 {
     return ahbReady ? 1 : 0;
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB master priority
+ * @param[in] : priority --Priority level for bus arbitration
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : STM32F1 platform - Currently not implemented (reserved)
+ *****************************************************************************/
 int32_t AhbConfigurePriority(uint8_t priority)
 {
     /* Configure bus priority for STM32F1 */
@@ -286,78 +524,197 @@ int32_t AhbConfigurePriority(uint8_t priority)
 /* ESP32 does not use ARM AHB bus architecture - Not supported */
 #include <stdio.h>
 
+/******************************************************************************
+ * @brief     : Enable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : -1 (not supported)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 int32_t AhbEnableClock(void)
 {
     printf("AHB: ESP32 does not support ARM AHB bus architecture\n");
     return -1;
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbDisableClock(void)
 {
     printf("AHB: Not supported on ESP32\n");
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB bus matrix
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : -1 (not supported)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 int32_t AhbConfigureBusMatrix(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief     : Reset AHB controller
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbResetController(void) {}
 
+/******************************************************************************
+ * @brief     : Enable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbEnableMaster(void) {}
 
+/******************************************************************************
+ * @brief     : Disable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbDisableMaster(void) {}
 
+/******************************************************************************
+ * @brief     : Set AHB transfer address
+ * @param[in] : address --Target address (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetAddress(uint32_t address)
 {
     (void)address;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer type
+ * @param[in] : transferType --Transfer type (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetTransferType(uint8_t transferType)
 {
     (void)transferType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB burst type
+ * @param[in] : burstType --Burst type (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetBurstType(uint8_t burstType)
 {
     (void)burstType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer size
+ * @param[in] : transferSize --Transfer size (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetTransferSize(uint8_t transferSize)
 {
     (void)transferSize;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB write direction
+ * @param[in] : write --Write flag (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetWrite(uint8_t write)
 {
     (void)write;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB protection control
+ * @param[in] : protection --Protection control (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbSetProtection(uint8_t protection)
 {
     (void)protection;
 }
 
+/******************************************************************************
+ * @brief     : Write data to AHB bus
+ * @param[in] : data --Data to write (ignored)
+ * @param[out]: None
+ * @return    : None
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 void AhbWriteData(uint32_t data)
 {
     (void)data;
 }
 
+/******************************************************************************
+ * @brief     : Read data from AHB bus
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 (dummy value)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 uint32_t AhbReadData(void)
 {
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Get AHB response signal
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : AHB_RESP_ERROR (not supported)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 uint8_t AhbGetResponse(void)
 {
     return AHB_RESP_ERROR;
 }
 
+/******************************************************************************
+ * @brief     : Check if AHB bus is ready
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 (not ready - not supported)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 int32_t AhbCheckReady(void)
 {
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB master priority
+ * @param[in] : priority --Priority level (ignored)
+ * @param[out]: None
+ * @return    : -1 (not supported)
+ * @note      : ESP32 platform - ARM AHB bus not supported on this platform
+ *****************************************************************************/
 int32_t AhbConfigurePriority(uint8_t priority)
 {
     (void)priority;
@@ -385,27 +742,57 @@ static volatile uint8_t ahbResp = AHB_RESP_OKAY;
 static volatile uint8_t ahbReady = 1;
 static uint8_t ahbInitialized = 0;
 
+/******************************************************************************
+ * @brief     : Enable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : Linux platform - Initializes simulated AHB memory buffer
+ *****************************************************************************/
 int32_t AhbEnableClock(void)
 {
     printf("AHB: Enabling simulated AHB bus clock\n");
-    if (!ahbInitialized) {
-        memset(ahbMemory, 0, AHB_MEMORY_SIZE);
+    if (ahbInitialized == 0) {
+        if (memset_s(ahbMemory, AHB_MEMORY_SIZE, 0, AHB_MEMORY_SIZE) != EOK) {
+            return -1;
+        }
         ahbInitialized = 1;
     }
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB bus clock
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Simulated operation with debug output
+ *****************************************************************************/
 void AhbDisableClock(void)
 {
     printf("AHB: Disabling simulated AHB bus clock\n");
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB bus matrix
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : Linux platform - Simulated operation with debug output
+ *****************************************************************************/
 int32_t AhbConfigureBusMatrix(void)
 {
     printf("AHB: Configuring simulated bus matrix\n");
     return 0;
 }
 
+/******************************************************************************
+ * @brief     : Reset AHB controller
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Resets all AHB state variables to default
+ *****************************************************************************/
 void AhbResetController(void)
 {
     printf("AHB: Resetting controller\n");
@@ -420,46 +807,109 @@ void AhbResetController(void)
     ahbReady = 1;
 }
 
+/******************************************************************************
+ * @brief     : Enable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Simulated operation with debug output
+ *****************************************************************************/
 void AhbEnableMaster(void)
 {
     printf("AHB: Enabling master interface\n");
 }
 
+/******************************************************************************
+ * @brief     : Disable AHB master interface
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Simulated operation with debug output
+ *****************************************************************************/
 void AhbDisableMaster(void)
 {
     printf("AHB: Disabling master interface\n");
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer address
+ * @param[in] : address --Target address for AHB transaction
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Address is wrapped to simulated memory size
+ *****************************************************************************/
 void AhbSetAddress(uint32_t address)
 {
     ahbAddress = address % AHB_MEMORY_SIZE;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer type
+ * @param[in] : transferType --Transfer type (HTRANS: IDLE/BUSY/NONSEQ/SEQ)
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Sets transfer type state variable
+ *****************************************************************************/
 void AhbSetTransferType(uint8_t transferType)
 {
     ahbTransType = transferType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB burst type
+ * @param[in] : burstType --Burst type (HBURST: SINGLE/INCR/WRAP4/INCR4/etc)
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Sets burst type state variable
+ *****************************************************************************/
 void AhbSetBurstType(uint8_t burstType)
 {
     ahbBurstType = burstType;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB transfer size
+ * @param[in] : transferSize --Transfer size (HSIZE: BYTE/HALFWORD/WORD)
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Sets data width for read/write operations
+ *****************************************************************************/
 void AhbSetTransferSize(uint8_t transferSize)
 {
     ahbSize = transferSize;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB write direction
+ * @param[in] : write --1 for write operation, 0 for read operation
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Sets write direction flag
+ *****************************************************************************/
 void AhbSetWrite(uint8_t write)
 {
     ahbWrite = write;
 }
 
+/******************************************************************************
+ * @brief     : Set AHB protection control
+ * @param[in] : protection --Protection control signals (HPROT)
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Sets protection attributes
+ *****************************************************************************/
 void AhbSetProtection(uint8_t protection)
 {
     ahbProt = protection;
 }
 
+/******************************************************************************
+ * @brief     : Write data to AHB bus
+ * @param[in] : data --Data to write to target address
+ * @param[out]: None
+ * @return    : None
+ * @note      : Linux platform - Writes to simulated memory with bounds check
+ *****************************************************************************/
 void AhbWriteData(uint32_t data)
 {
     uint32_t offset = ahbAddress % AHB_MEMORY_SIZE;
@@ -480,6 +930,13 @@ void AhbWriteData(uint32_t data)
     printf("AHB: Write 0x%08X to address 0x%08X (size=%d)\n", data, ahbAddress, ahbSize);
 }
 
+/******************************************************************************
+ * @brief     : Read data from AHB bus
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Data read from target address
+ * @note      : Linux platform - Reads from simulated memory with bounds check
+ *****************************************************************************/
 uint32_t AhbReadData(void)
 {
     uint32_t data = 0;
@@ -502,16 +959,37 @@ uint32_t AhbReadData(void)
     return data;
 }
 
+/******************************************************************************
+ * @brief     : Get AHB response signal
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : Response type (HRESP: OKAY/ERROR)
+ * @note      : Linux platform - Returns current response status
+ *****************************************************************************/
 uint8_t AhbGetResponse(void)
 {
     return ahbResp;
 }
 
+/******************************************************************************
+ * @brief     : Check if AHB bus is ready
+ * @param[in] : None
+ * @param[out]: None
+ * @return    : 1 if ready, 0 if not ready
+ * @note      : Linux platform - Returns HREADY signal status
+ *****************************************************************************/
 int32_t AhbCheckReady(void)
 {
     return ahbReady ? 1 : 0;
 }
 
+/******************************************************************************
+ * @brief     : Configure AHB master priority
+ * @param[in] : priority --Priority level for bus arbitration
+ * @param[out]: None
+ * @return    : 0 if success, -1 if error
+ * @note      : Linux platform - Simulated operation with debug output
+ *****************************************************************************/
 int32_t AhbConfigurePriority(uint8_t priority)
 {
     printf("AHB: Setting priority to %d\n", priority);

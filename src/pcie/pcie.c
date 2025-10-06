@@ -14,13 +14,13 @@
 static uint8_t pcieInitialized = 0;
 static PcieConfig currentConfig = {0};
 
-/**
- * @brief Validate bus, device, function parameters
- * @param bus Bus number
- * @param device Device number
- * @param function Function number
- * @return 0 if valid, -1 if invalid
- */
+/******************************************************************************
+ * @brief      : Validate bus, device, function parameters
+ * @param[in]  : bus --Bus number device --Device number function --Function number
+ * @param[out] :
+ * @return     : 0 if valid, -1 if invalid
+ * @note       :
+ *****************************************************************************/
 static int ValidateBDF(uint8_t bus, uint8_t device, uint8_t function)
 {
     if (device >= PCIE_MAX_DEVICE) {
@@ -32,12 +32,13 @@ static int ValidateBDF(uint8_t bus, uint8_t device, uint8_t function)
     return 0;
 }
 
-/**
- * @brief Validate configuration space offset and size
- * @param offset Register offset
- * @param size Access size
- * @return 0 if valid, -1 if invalid
- */
+/******************************************************************************
+ * @brief      : Validate configuration space offset and size
+ * @param[in]  : offset --Register offset size --Access size
+ * @param[out] :
+ * @return     : 0 if valid, -1 if invalid
+ * @note       :
+ *****************************************************************************/
 static int ValidateConfigAccess(uint16_t offset, uint8_t size)
 {
     if (offset >= PCIE_CONFIG_SPACE_SIZE) {
@@ -52,11 +53,13 @@ static int ValidateConfigAccess(uint16_t offset, uint8_t size)
     return 0;
 }
 
-/**
- * @brief Initialize PCIe controller
- * @param config Pointer to PCIe configuration structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Initialize PCIe controller
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieInit(const PcieConfig* config)
 {
     if (config == NULL) {
@@ -90,10 +93,13 @@ int PcieInit(const PcieConfig* config)
     return 0;
 }
 
-/**
- * @brief Deinitialize PCIe controller
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Deinitialize PCIe controller
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieDeinit(void)
 {
     if (pcieInitialized == 0) {
@@ -112,16 +118,13 @@ int PcieDeinit(void)
     return 0;
 }
 
-/**
- * @brief Read from PCIe configuration space
- * @param bus Bus number (0-255)
- * @param device Device number (0-31)
- * @param function Function number (0-7)
- * @param offset Register offset in configuration space
- * @param data Pointer to store read data
- * @param size Size of data to read (1, 2, or 4 bytes)
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space size --Size of data to read (1, 2, or 4 bytes)
+ * @param[out] : data --Pointer to store read data
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     if (pcieInitialized == 0) {
@@ -145,16 +148,13 @@ int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offse
     return PcieHalConfigRead(bus, device, function, offset, data, size);
 }
 
-/**
- * @brief Write to PCIe configuration space
- * @param bus Bus number (0-255)
- * @param device Device number (0-31)
- * @param function Function number (0-7)
- * @param offset Register offset in configuration space
- * @param data Data to write
- * @param size Size of data to write (1, 2, or 4 bytes)
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space data --Data to write size --Size of data to write (1, 2, or 4 bytes)
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     if (pcieInitialized == 0) {
@@ -174,11 +174,13 @@ int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offs
     return PcieHalConfigWrite(bus, device, function, offset, data, size);
 }
 
-/**
- * @brief Send TLP packet
- * @param packet Pointer to TLP packet structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieSendTlp(const PcieTlpPacket* packet)
 {
     if (pcieInitialized == 0) {
@@ -198,12 +200,13 @@ int PcieSendTlp(const PcieTlpPacket* packet)
     return PcieHalSendTlp(packet);
 }
 
-/**
- * @brief Receive TLP packet
- * @param packet Pointer to TLP packet structure to store received data
- * @param timeoutMs Timeout in milliseconds
- * @return 0 on success, -1 on error or timeout
- */
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to TLP packet structure to store received data
+ * @return     : 0 on success, -1 on error or timeout
+ * @note       :
+ *****************************************************************************/
 int PcieReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     if (pcieInitialized == 0) {
@@ -223,11 +226,13 @@ int PcieReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
     return PcieHalReceiveTlp(packet, timeoutMs);
 }
 
-/**
- * @brief Get current PCIe link status
- * @param status Pointer to link status structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Get current PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieGetLinkStatus(PcieLinkStatus* status)
 {
     if (pcieInitialized == 0) {
@@ -247,13 +252,13 @@ int PcieGetLinkStatus(PcieLinkStatus* status)
     return PcieHalGetLinkStatus(status);
 }
 
-/**
- * @brief Enumerate PCIe devices on the bus
- * @param devices Array to store discovered device information
- * @param maxDevices Maximum number of devices to enumerate
- * @param deviceCount Pointer to store actual number of devices found
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Enumerate PCIe devices on the bus
+ * @param[in]  : maxDevices --Maximum number of devices to enumerate
+ * @param[out] : devices --Array to store discovered device information deviceCount --Pointer to store actual number of devices found
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieEnumerateDevices(PcieDeviceInfo* devices, uint32_t maxDevices, uint32_t* deviceCount)
 {
     uint8_t bus, device, function;
@@ -328,13 +333,13 @@ int PcieEnumerateDevices(PcieDeviceInfo* devices, uint32_t maxDevices, uint32_t*
     return 0;
 }
 
-/**
- * @brief Read PCIe memory-mapped region
- * @param address Physical address to read from
- * @param data Buffer to store read data
- * @param size Number of bytes to read
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Read PCIe memory-mapped region
+ * @param[in]  : address --Physical address to read from size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     if (pcieInitialized == 0) {
@@ -348,13 +353,13 @@ int PcieMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
     return PcieHalMemoryRead(address, data, size);
 }
 
-/**
- * @brief Write to PCIe memory-mapped region
- * @param address Physical address to write to
- * @param data Data to write
- * @param size Number of bytes to write
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address to write to data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     if (pcieInitialized == 0) {
@@ -368,10 +373,13 @@ int PcieMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
     return PcieHalMemoryWrite(address, data, size);
 }
 
-/**
- * @brief Enable PCIe interrupts
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieEnableInterrupts(void)
 {
     if (pcieInitialized == 0) {
@@ -381,10 +389,13 @@ int PcieEnableInterrupts(void)
     return PcieHalEnableInterrupts();
 }
 
-/**
- * @brief Disable PCIe interrupts
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieDisableInterrupts(void)
 {
     if (pcieInitialized == 0) {

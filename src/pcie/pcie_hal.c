@@ -1,6 +1,6 @@
 /**
  * @file pcie_hal.c
- * @brief PCIe Hardware Abstraction Layer implementation
+ * * @brief PCIe Hardware Abstraction Layer implementation
  * @details Multi-platform HAL implementation for PCIe operations
  *          Supports: STM32F4, STM32F1, ESP32 (not supported), Linux (full support)
  */
@@ -48,6 +48,13 @@ static uint16_t currentDomain = 0; /* PCI domain (usually 0) */
  *===========================================================================*/
 #ifdef PLATFORM_STM32F4
 
+/******************************************************************************
+ * @brief      : Initialize PCIe hardware
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalInit(const PcieConfig* config)
 {
     (void)config;
@@ -55,11 +62,25 @@ int PcieHalInit(const PcieConfig* config)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize PCIe hardware
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDeinit(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read
+ * @param[out] : data --Pointer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     (void)bus;
@@ -71,6 +92,13 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     (void)bus;
@@ -82,12 +110,26 @@ int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t o
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalSendTlp(const PcieTlpPacket* packet)
 {
     (void)packet;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to store received TLP packet
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     (void)packet;
@@ -95,12 +137,26 @@ int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Get PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalGetLinkStatus(PcieLinkStatus* status)
 {
     (void)status;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe memory-mapped region
+ * @param[in]  : address --Physical address size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -109,6 +165,13 @@ int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -117,11 +180,25 @@ int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalEnableInterrupts(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDisableInterrupts(void)
 {
     return -1;
@@ -134,6 +211,13 @@ int PcieHalDisableInterrupts(void)
  *===========================================================================*/
 #ifdef PLATFORM_STM32F1
 
+/******************************************************************************
+ * @brief      : Initialize PCIe hardware
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalInit(const PcieConfig* config)
 {
     (void)config;
@@ -141,11 +225,25 @@ int PcieHalInit(const PcieConfig* config)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize PCIe hardware
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDeinit(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read
+ * @param[out] : data --Pointer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     (void)bus;
@@ -157,6 +255,13 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     (void)bus;
@@ -168,12 +273,26 @@ int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t o
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalSendTlp(const PcieTlpPacket* packet)
 {
     (void)packet;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to store received TLP packet
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     (void)packet;
@@ -181,12 +300,26 @@ int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Get PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalGetLinkStatus(PcieLinkStatus* status)
 {
     (void)status;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe memory-mapped region
+ * @param[in]  : address --Physical address size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -195,6 +328,13 @@ int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -203,11 +343,25 @@ int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalEnableInterrupts(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDisableInterrupts(void)
 {
     return -1;
@@ -220,6 +374,13 @@ int PcieHalDisableInterrupts(void)
  *===========================================================================*/
 #ifdef PLATFORM_ESP32
 
+/******************************************************************************
+ * @brief      : Initialize PCIe hardware
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalInit(const PcieConfig* config)
 {
     (void)config;
@@ -227,11 +388,25 @@ int PcieHalInit(const PcieConfig* config)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize PCIe hardware
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDeinit(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read
+ * @param[out] : data --Pointer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     (void)bus;
@@ -243,6 +418,13 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     (void)bus;
@@ -254,12 +436,26 @@ int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t o
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalSendTlp(const PcieTlpPacket* packet)
 {
     (void)packet;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to store received TLP packet
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     (void)packet;
@@ -267,12 +463,26 @@ int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Get PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalGetLinkStatus(PcieLinkStatus* status)
 {
     (void)status;
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe memory-mapped region
+ * @param[in]  : address --Physical address size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -281,6 +491,13 @@ int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -289,11 +506,25 @@ int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalEnableInterrupts(void)
 {
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Platform does not support PCIe hardware
+ *****************************************************************************/
 int PcieHalDisableInterrupts(void)
 {
     return -1;
@@ -306,14 +537,13 @@ int PcieHalDisableInterrupts(void)
  *===========================================================================*/
 #ifdef PLATFORM_LINUX
 
-/**
- * @brief Helper function to open PCIe config file
- * @param bus Bus number
- * @param device Device number
- * @param function Function number
- * @param mode Open mode (O_RDONLY or O_RDWR)
- * @return File descriptor on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Helper function to open PCIe config file
+ * @param[in]  : bus --Bus number device --Device number function --Function number mode --Open mode (O_RDONLY or O_RDWR)
+ * @param[out] :
+ * @return     : File descriptor on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 static int OpenConfigFile(uint8_t bus, uint8_t device, uint8_t function, int mode)
 {
     char configPath[256];
@@ -327,6 +557,13 @@ static int OpenConfigFile(uint8_t bus, uint8_t device, uint8_t function, int mod
     return open(configPath, mode);
 }
 
+/******************************************************************************
+ * @brief      : Initialize PCIe hardware
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       : Linux implementation verifies /sys/bus/pci/devices exists
+ *****************************************************************************/
 int PcieHalInit(const PcieConfig* config)
 {
     DIR* dir;
@@ -346,6 +583,13 @@ int PcieHalInit(const PcieConfig* config)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Deinitialize PCIe hardware
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       : Linux implementation clears initialization flag
+ *****************************************************************************/
 int PcieHalDeinit(void)
 {
     if (linuxPcieInitialized == 0) {
@@ -356,6 +600,13 @@ int PcieHalDeinit(void)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset size --Size of data to read (1, 2, or 4 bytes)
+ * @param[out] : data --Pointer to store read data
+ * @return     : 0 on success, -1 on error
+ * @note       : Linux implementation uses /sys/bus/pci/devices/DDDD:BB:DD.F/config
+ *****************************************************************************/
 int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size)
 {
     int fd;
@@ -403,6 +654,13 @@ int PcieHalConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t of
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number device --Device number function --Function number offset --Register offset data --Data to write size --Size of data to write (1, 2, or 4 bytes)
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       : Linux implementation uses /sys/bus/pci/devices/DDDD:BB:DD.F/config
+ *****************************************************************************/
 int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size)
 {
     int fd;
@@ -446,6 +704,13 @@ int PcieHalConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t o
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : TLP-level operations not directly supported via sysfs, would require kernel driver or VFIO interface
+ *****************************************************************************/
 int PcieHalSendTlp(const PcieTlpPacket* packet)
 {
     (void)packet;
@@ -454,6 +719,13 @@ int PcieHalSendTlp(const PcieTlpPacket* packet)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to store received TLP packet
+ * @return     : -1 (always fails)
+ * @note       : TLP-level operations not directly supported via sysfs, would require kernel driver or VFIO interface
+ *****************************************************************************/
 int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
 {
     (void)packet;
@@ -462,6 +734,13 @@ int PcieHalReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Get PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : 0 on success, -1 on error
+ * @note       : Linux implementation reads current_link_speed and current_link_width from sysfs
+ *****************************************************************************/
 int PcieHalGetLinkStatus(PcieLinkStatus* status)
 {
     char speedPath[256];
@@ -480,7 +759,9 @@ int PcieHalGetLinkStatus(PcieLinkStatus* status)
     }
 
     /* Initialize status */
-    (void)memset_s(status, sizeof(PcieLinkStatus), 0, sizeof(PcieLinkStatus));
+    if (memset_s(status, sizeof(PcieLinkStatus), 0, sizeof(PcieLinkStatus)) != EOK) {
+        return -1;
+    }
 
     /* For simplicity, check bus 0, device 0, function 0 */
     /* In real implementation, should check root complex or specific device */
@@ -530,6 +811,13 @@ int PcieHalGetLinkStatus(PcieLinkStatus* status)
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Read from PCIe memory-mapped region
+ * @param[in]  : address --Physical address size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : -1 (always fails)
+ * @note       : Direct memory access requires /dev/mem and root privileges, not implemented for safety reasons
+ *****************************************************************************/
 int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -540,6 +828,13 @@ int PcieHalMemoryRead(uint64_t address, uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : -1 (always fails)
+ * @note       : Direct memory access requires /dev/mem and root privileges, not implemented for safety reasons
+ *****************************************************************************/
 int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
 {
     (void)address;
@@ -549,12 +844,26 @@ int PcieHalMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size)
     return -1;
 }
 
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 (success)
+ * @note       : Interrupt management handled by kernel drivers
+ *****************************************************************************/
 int PcieHalEnableInterrupts(void)
 {
     /* Interrupt management handled by kernel drivers */
     return 0;
 }
 
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 (success)
+ * @note       : Interrupt management handled by kernel drivers
+ *****************************************************************************/
 int PcieHalDisableInterrupts(void)
 {
     /* Interrupt management handled by kernel drivers */

@@ -49,9 +49,9 @@ int32_t ApbDeinit(void);
 
 /******************************************************************************
  * @brief     : Perform single write transaction on APB bus
- * @param[in] : address - Peripheral address (PADDR)
- * @param[in] : data - Data to write (PWDATA)
- * @param[in] : prot - Protection signals (PPROT)
+ * @param[in] : address --Peripheral address (PADDR)
+ * @param[in] : data --Data to write (PWDATA)
+ * @param[in] : prot --Protection signals (PPROT)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Executes SETUP and ACCESS phases for write
@@ -60,9 +60,9 @@ int32_t ApbWrite(uint32_t address, uint32_t data, uint8_t prot);
 
 /******************************************************************************
  * @brief     : Perform single read transaction on APB bus
- * @param[in] : address - Peripheral address (PADDR)
- * @param[in] : prot - Protection signals (PPROT)
- * @param[out]: data - Pointer to receive data (PRDATA)
+ * @param[in] : address --Peripheral address (PADDR)
+ * @param[in] : prot --Protection signals (PPROT)
+ * @param[out]: data --Pointer to receive data (PRDATA)
  * @return    : 0 if success, -1 if error
  * @note      : Executes SETUP and ACCESS phases for read
  *****************************************************************************/
@@ -70,10 +70,10 @@ int32_t ApbRead(uint32_t address, uint32_t* data, uint8_t prot);
 
 /******************************************************************************
  * @brief     : Perform write transaction with byte strobe (APB4 feature)
- * @param[in] : address - Peripheral address (PADDR)
- * @param[in] : data - Data to write (PWDATA)
- * @param[in] : strobe - Byte strobe mask (PSTRB), 1 bit per byte
- * @param[in] : prot - Protection signals (PPROT)
+ * @param[in] : address --Peripheral address (PADDR)
+ * @param[in] : data --Data to write (PWDATA)
+ * @param[in] : strobe --Byte strobe mask (PSTRB), 1 bit per byte
+ * @param[in] : prot --Protection signals (PPROT)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : APB4 only, allows partial word writes
@@ -82,10 +82,10 @@ int32_t ApbWriteWithStrobe(uint32_t address, uint32_t data, uint8_t strobe, uint
 
 /******************************************************************************
  * @brief     : Perform multiple consecutive read transactions
- * @param[in] : startAddress - Starting peripheral address
- * @param[in] : count - Number of words to read
- * @param[in] : prot - Protection signals (PPROT)
- * @param[out]: dataBuffer - Pointer to buffer for received data
+ * @param[in] : startAddress --Starting peripheral address
+ * @param[in] : count --Number of words to read
+ * @param[in] : prot --Protection signals (PPROT)
+ * @param[out]: dataBuffer --Pointer to buffer for received data
  * @return    : Number of words read, -1 if error
  * @note      : Optimized for burst reads from consecutive addresses
  *****************************************************************************/
@@ -93,10 +93,10 @@ int32_t ApbReadMultiple(uint32_t startAddress, uint32_t* dataBuffer, uint32_t co
 
 /******************************************************************************
  * @brief     : Perform multiple consecutive write transactions
- * @param[in] : startAddress - Starting peripheral address
- * @param[in] : dataBuffer - Pointer to data buffer to write
- * @param[in] : count - Number of words to write
- * @param[in] : prot - Protection signals (PPROT)
+ * @param[in] : startAddress --Starting peripheral address
+ * @param[in] : dataBuffer --Pointer to data buffer to write
+ * @param[in] : count --Number of words to write
+ * @param[in] : prot --Protection signals (PPROT)
  * @param[out]: None
  * @return    : Number of words written, -1 if error
  * @note      : Optimized for burst writes to consecutive addresses
@@ -105,7 +105,7 @@ int32_t ApbWriteMultiple(uint32_t startAddress, uint32_t* dataBuffer, uint32_t c
 
 /******************************************************************************
  * @brief     : Configure transaction timeout
- * @param[in] : timeoutUs - Timeout in microseconds
+ * @param[in] : timeoutUs --Timeout in microseconds
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Sets maximum wait time for bus ready state

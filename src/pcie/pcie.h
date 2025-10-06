@@ -1,6 +1,6 @@
 /**
  * @file pcie.h
- * @brief PCIe (PCI Express) protocol interface
+ * * @brief PCIe (PCI Express) protocol interface
  * @details Provides high-level PCIe communication functions including configuration
  *          space access, TLP packet handling, and device enumeration
  */
@@ -70,7 +70,7 @@ extern "C" {
 #define PCIE_CONFIG_SPACE_SIZE 256 /**< Standard configuration space size */
 
 /**
- * @brief PCIe generation enumeration
+ * * @brief PCIe generation enumeration
  */
 typedef enum {
     PCIE_GEN1 = 1, /**< PCIe Generation 1 (2.5 GT/s) */
@@ -80,7 +80,7 @@ typedef enum {
 } PcieGeneration;
 
 /**
- * @brief PCIe link status structure
+ * * @brief PCIe link status structure
  */
 typedef struct {
     PcieGeneration generation; /**< Current PCIe generation */
@@ -90,7 +90,7 @@ typedef struct {
 } PcieLinkStatus;
 
 /**
- * @brief PCIe device information structure
+ * * @brief PCIe device information structure
  */
 typedef struct {
     uint8_t bus;          /**< Bus number */
@@ -103,7 +103,7 @@ typedef struct {
 } PcieDeviceInfo;
 
 /**
- * @brief PCIe TLP packet structure
+ * * @brief PCIe TLP packet structure
  */
 typedef struct {
     uint8_t type;                    /**< TLP type */
@@ -116,7 +116,7 @@ typedef struct {
 } PcieTlpPacket;
 
 /**
- * @brief PCIe configuration structure
+ * * @brief PCIe configuration structure
  */
 typedef struct {
     PcieGeneration targetGeneration; /**< Target PCIe generation */
@@ -125,102 +125,112 @@ typedef struct {
     uint8_t enableAER;               /**< Enable Advanced Error Reporting */
 } PcieConfig;
 
-/**
- * @brief Initialize PCIe controller
- * @param config Pointer to PCIe configuration structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Initialize PCIe controller
+ * @param[in]  : config --Pointer to PCIe configuration structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieInit(const PcieConfig* config);
 
-/**
- * @brief Deinitialize PCIe controller
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Deinitialize PCIe controller
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieDeinit(void);
 
-/**
- * @brief Read from PCIe configuration space
- * @param bus Bus number (0-255)
- * @param device Device number (0-31)
- * @param function Function number (0-7)
- * @param offset Register offset in configuration space
- * @param data Pointer to store read data
- * @param size Size of data to read (1, 2, or 4 bytes)
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Read from PCIe configuration space
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space size --Size of data to read (1, 2, or 4 bytes)
+ * @param[out] : data --Pointer to store read data
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieConfigRead(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t* data, uint8_t size);
 
-/**
- * @brief Write to PCIe configuration space
- * @param bus Bus number (0-255)
- * @param device Device number (0-31)
- * @param function Function number (0-7)
- * @param offset Register offset in configuration space
- * @param data Data to write
- * @param size Size of data to write (1, 2, or 4 bytes)
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Write to PCIe configuration space
+ * @param[in]  : bus --Bus number (0-255) device --Device number (0-31) function --Function number (0-7) offset --Register offset in configuration space data --Data to write size --Size of data to write (1, 2, or 4 bytes)
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieConfigWrite(uint8_t bus, uint8_t device, uint8_t function, uint16_t offset, uint32_t data, uint8_t size);
 
-/**
- * @brief Send TLP packet
- * @param packet Pointer to TLP packet structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Send TLP packet
+ * @param[in]  : packet --Pointer to TLP packet structure
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieSendTlp(const PcieTlpPacket* packet);
 
-/**
- * @brief Receive TLP packet
- * @param packet Pointer to TLP packet structure to store received data
- * @param timeoutMs Timeout in milliseconds
- * @return 0 on success, -1 on error or timeout
- */
+/******************************************************************************
+ * @brief      : Receive TLP packet
+ * @param[in]  : timeoutMs --Timeout in milliseconds
+ * @param[out] : packet --Pointer to TLP packet structure to store received data
+ * @return     : 0 on success, -1 on error or timeout
+ * @note       :
+ *****************************************************************************/
 int PcieReceiveTlp(PcieTlpPacket* packet, uint32_t timeoutMs);
 
-/**
- * @brief Get current PCIe link status
- * @param status Pointer to link status structure
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Get current PCIe link status
+ * @param[in]  :
+ * @param[out] : status --Pointer to link status structure
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieGetLinkStatus(PcieLinkStatus* status);
 
-/**
- * @brief Enumerate PCIe devices on the bus
- * @param devices Array to store discovered device information
- * @param maxDevices Maximum number of devices to enumerate
- * @param deviceCount Pointer to store actual number of devices found
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Enumerate PCIe devices on the bus
+ * @param[in]  : maxDevices --Maximum number of devices to enumerate
+ * @param[out] : devices --Array to store discovered device information deviceCount --Pointer to store actual number of devices found
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieEnumerateDevices(PcieDeviceInfo* devices, uint32_t maxDevices, uint32_t* deviceCount);
 
-/**
- * @brief Read PCIe memory-mapped region
- * @param address Physical address to read from
- * @param data Buffer to store read data
- * @param size Number of bytes to read
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Read PCIe memory-mapped region
+ * @param[in]  : address --Physical address to read from size --Number of bytes to read
+ * @param[out] : data --Buffer to store read data
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieMemoryRead(uint64_t address, uint8_t* data, uint32_t size);
 
-/**
- * @brief Write to PCIe memory-mapped region
- * @param address Physical address to write to
- * @param data Data to write
- * @param size Number of bytes to write
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Write to PCIe memory-mapped region
+ * @param[in]  : address --Physical address to write to data --Data to write size --Number of bytes to write
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieMemoryWrite(uint64_t address, const uint8_t* data, uint32_t size);
 
-/**
- * @brief Enable PCIe interrupts
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Enable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieEnableInterrupts(void);
 
-/**
- * @brief Disable PCIe interrupts
- * @return 0 on success, -1 on error
- */
+/******************************************************************************
+ * @brief      : Disable PCIe interrupts
+ * @param[in]  :
+ * @param[out] :
+ * @return     : 0 on success, -1 on error
+ * @note       :
+ *****************************************************************************/
 int PcieDisableInterrupts(void);
 
 #ifdef __cplusplus

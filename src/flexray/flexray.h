@@ -78,9 +78,9 @@ int32_t FlexRayDeinit(void);
 
 /******************************************************************************
  * @brief     : Configure a FlexRay slot
- * @param[in] : slotId - Slot identifier (0-1023)
- * @param[in] : channel - Channel selection (FLEXRAY_CHANNEL_A/B/AB)
- * @param[in] : payloadLength - Payload length in bytes (0-254)
+ * @param[in] : slotId --Slot identifier (0-1023)
+ * @param[in] : channel --Channel selection (FLEXRAY_CHANNEL_A/B/AB)
+ * @param[in] : payloadLength --Payload length in bytes (0-254)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Must be called before starting communication
@@ -89,9 +89,9 @@ int32_t FlexRayConfigureSlot(uint16_t slotId, uint8_t channel, uint16_t payloadL
 
 /******************************************************************************
  * @brief     : Send a FlexRay frame in configured slot
- * @param[in] : slotId - Slot identifier (0-1023)
- * @param[in] : data - Pointer to data buffer to send
- * @param[in] : length - Number of bytes to send (0-254)
+ * @param[in] : slotId --Slot identifier (0-1023)
+ * @param[in] : data --Pointer to data buffer to send
+ * @param[in] : length --Number of bytes to send (0-254)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Frame is transmitted in the specified slot during next cycle
@@ -100,9 +100,9 @@ int32_t FlexRaySendFrame(uint16_t slotId, uint8_t* data, uint16_t length);
 
 /******************************************************************************
  * @brief     : Receive a FlexRay frame from configured slot
- * @param[in] : slotId - Slot identifier (0-1023)
- * @param[in] : maxLength - Maximum number of bytes to receive
- * @param[out]: data - Received data buffer
+ * @param[in] : slotId --Slot identifier (0-1023)
+ * @param[in] : maxLength --Maximum number of bytes to receive
+ * @param[out]: data --Received data buffer
  * @return    : Number of bytes actually received, -1 if error, 0 if no data
  * @note      : Non-blocking function, returns immediately if no data
  *****************************************************************************/
@@ -129,7 +129,7 @@ int32_t FlexRayStopCommunication(void);
 /******************************************************************************
  * @brief     : Get FlexRay communication status
  * @param[in] : None
- * @param[out]: status - Pointer to status structure to fill
+ * @param[out]: status --Pointer to status structure to fill
  * @return    : 0 if success, -1 if error
  * @note      : Returns current communication state and statistics
  *****************************************************************************/
@@ -137,7 +137,7 @@ int32_t FlexRayGetStatus(FlexRayStatus_t* status);
 
 /******************************************************************************
  * @brief     : Set FlexRay bit rate
- * @param[in] : bitRate - Desired bit rate in bps (typically 10000000)
+ * @param[in] : bitRate --Desired bit rate in bps (typically 10000000)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Should be called before FlexRayInit or after FlexRayDeinit
@@ -146,9 +146,9 @@ int32_t FlexRaySetBitRate(uint32_t bitRate);
 
 /******************************************************************************
  * @brief     : Configure FlexRay timing parameters
- * @param[in] : cycleLength - Communication cycle length in macroticks
- * @param[in] : staticSlots - Number of static slots
- * @param[in] : dynamicSlots - Number of dynamic slots
+ * @param[in] : cycleLength --Communication cycle length in macroticks
+ * @param[in] : staticSlots --Number of static slots
+ * @param[in] : dynamicSlots --Number of dynamic slots
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Advanced configuration, use with caution

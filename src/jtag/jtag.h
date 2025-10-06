@@ -82,7 +82,7 @@ int32_t JtagReset(void);
 
 /******************************************************************************
  * @brief     : Set TAP controller to specific state
- * @param[in] : state - Target TAP state
+ * @param[in] : state --Target TAP state
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Transitions through TAP state machine
@@ -91,7 +91,7 @@ int32_t JtagSetState(JtagState_E state);
 
 /******************************************************************************
  * @brief     : Shift data into Instruction Register
- * @param[in] : instruction - Instruction value to shift, bitLength - Number of bits
+ * @param[in] : instruction --Instruction value to shift, bitLength - Number of bits
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Transitions to Shift-IR state and shifts instruction
@@ -100,8 +100,8 @@ int32_t JtagShiftIR(uint32_t instruction, uint8_t bitLength);
 
 /******************************************************************************
  * @brief     : Shift data into Data Register
- * @param[in] : txData - Data to transmit, bitLength - Number of bits
- * @param[out]: rxData - Received data from TDO
+ * @param[in] : txData --Data to transmit, bitLength - Number of bits
+ * @param[out]: rxData --Received data from TDO
  * @return    : 0 if success, -1 if error
  * @note      : Transitions to Shift-DR state and shifts data
  *****************************************************************************/
@@ -110,7 +110,7 @@ int32_t JtagShiftDR(uint8_t* txData, uint8_t* rxData, uint16_t bitLength);
 /******************************************************************************
  * @brief     : Read device IDCODE register
  * @param[in] : None
- * @param[out]: idcode - 32-bit IDCODE value
+ * @param[out]: idcode --32-bit IDCODE value
  * @return    : 0 if success, -1 if error
  * @note      : Loads IDCODE instruction and reads DR
  *****************************************************************************/
@@ -118,7 +118,7 @@ int32_t JtagReadIdcode(uint32_t* idcode);
 
 /******************************************************************************
  * @brief     : Write data to JTAG register
- * @param[in] : instruction - IR instruction, data - Data to write, bitLength - Number of bits
+ * @param[in] : instruction --IR instruction, data - Data to write, bitLength - Number of bits
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Loads IR then shifts data into DR
@@ -127,8 +127,8 @@ int32_t JtagWriteRegister(uint32_t instruction, uint8_t* data, uint16_t bitLengt
 
 /******************************************************************************
  * @brief     : Read data from JTAG register
- * @param[in] : instruction - IR instruction, bitLength - Number of bits to read
- * @param[out]: data - Buffer to receive data
+ * @param[in] : instruction --IR instruction, bitLength - Number of bits to read
+ * @param[out]: data --Buffer to receive data
  * @return    : 0 if success, -1 if error
  * @note      : Loads IR then shifts data from DR
  *****************************************************************************/
@@ -136,7 +136,7 @@ int32_t JtagReadRegister(uint32_t instruction, uint8_t* data, uint16_t bitLength
 
 /******************************************************************************
  * @brief     : Set JTAG clock frequency
- * @param[in] : frequency - Clock frequency in Hz
+ * @param[in] : frequency --Clock frequency in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures TCK clock speed
@@ -145,7 +145,7 @@ int32_t JtagSetClockFrequency(uint32_t frequency);
 
 /******************************************************************************
  * @brief     : Configure JTAG parameters
- * @param[in] : config - JTAG configuration structure
+ * @param[in] : config --JTAG configuration structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Sets IR length, TAP count, and other parameters
@@ -163,7 +163,7 @@ JtagState_E JtagGetState(void);
 
 /******************************************************************************
  * @brief     : Run Test/Idle for specified clock cycles
- * @param[in] : cycles - Number of TCK cycles in Run-Test/Idle
+ * @param[in] : cycles --Number of TCK cycles in Run-Test/Idle
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Useful for delay between operations

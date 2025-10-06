@@ -9,7 +9,7 @@ static int32_t SwdTransaction(uint8_t request, uint32_t* data, int32_t isRead);
 
 /******************************************************************************
  * @brief     : Calculate even parity bit for 32-bit value
- * @param[in] : value - Input value
+ * @param[in] : value --Input value
  * @param[out]: None
  * @return    : Parity bit (0 or 1)
  * @note      : Counts number of set bits and returns LSB of count
@@ -27,8 +27,8 @@ static uint8_t SwdCalculateParity(uint32_t value)
 
 /******************************************************************************
  * @brief     : Perform low-level SWD transaction
- * @param[in] : request - 8-bit request header, isRead - 1 for read, 0 for write
- * @param[out]: data - Pointer to data (read or write)
+ * @param[in] : request --8-bit request header, isRead - 1 for read, 0 for write
+ * @param[out]: data --Pointer to data (read or write)
  * @return    : ACK value (SWD_ACK_OK/WAIT/FAULT), or -1 on error
  * @note      : Implements SWD protocol: request phase, ACK, data phase
  *****************************************************************************/
@@ -151,8 +151,8 @@ int32_t SwdReset(void)
 
 /******************************************************************************
  * @brief     : Read Debug Port register
- * @param[in] : address - DP register address (aligned to 4 bytes)
- * @param[out]: data - Pointer to store read data
+ * @param[in] : address --DP register address (aligned to 4 bytes)
+ * @param[out]: data --Pointer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Performs SWD read transaction with ACK checking
  *****************************************************************************/
@@ -197,7 +197,7 @@ int32_t SwdReadDP(uint8_t address, uint32_t* data)
 
 /******************************************************************************
  * @brief     : Write Debug Port register
- * @param[in] : address - DP register address (aligned to 4 bytes), data - Data to write
+ * @param[in] : address --DP register address (aligned to 4 bytes), data - Data to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Performs SWD write transaction with ACK checking
@@ -240,8 +240,8 @@ int32_t SwdWriteDP(uint8_t address, uint32_t data)
 
 /******************************************************************************
  * @brief     : Read Access Port register
- * @param[in] : address - AP register address (aligned to 4 bytes)
- * @param[out]: data - Pointer to store read data
+ * @param[in] : address --AP register address (aligned to 4 bytes)
+ * @param[out]: data --Pointer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Requires prior AP selection via DP SELECT register
  *****************************************************************************/
@@ -293,7 +293,7 @@ int32_t SwdReadAP(uint8_t address, uint32_t* data)
 
 /******************************************************************************
  * @brief     : Write Access Port register
- * @param[in] : address - AP register address (aligned to 4 bytes), data - Data to write
+ * @param[in] : address --AP register address (aligned to 4 bytes), data - Data to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Requires prior AP selection via DP SELECT register
@@ -338,7 +338,7 @@ int32_t SwdWriteAP(uint8_t address, uint32_t data)
 /******************************************************************************
  * @brief     : Read target device IDCODE
  * @param[in] : None
- * @param[out]: idcode - Pointer to store IDCODE value
+ * @param[out]: idcode --Pointer to store IDCODE value
  * @return    : 0 if success, -1 if error
  * @note      : Reads IDCODE from DP, verifies SWD connection
  *****************************************************************************/

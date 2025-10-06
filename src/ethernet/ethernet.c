@@ -62,7 +62,7 @@ int32_t EthernetDeinit(void)
 
 /******************************************************************************
  * @brief     : Send Ethernet frame
- * @param[in] : frame - Pointer to frame data buffer, length - Frame length in bytes
+ * @param[in] : frame --Pointer to frame data buffer, length - Frame length in bytes
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer availability
@@ -85,8 +85,8 @@ int32_t EthernetSendFrame(const uint8_t* frame, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive Ethernet frame
- * @param[in] : maxLength - Maximum frame length to receive
- * @param[out]: buffer - Received frame data
+ * @param[in] : maxLength --Maximum frame length to receive
+ * @param[out]: buffer --Received frame data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Non-blocking function that returns immediately if no data
  *****************************************************************************/
@@ -105,7 +105,7 @@ int32_t EthernetReceiveFrame(uint8_t* buffer, uint16_t maxLength)
 
 /******************************************************************************
  * @brief     : Set MAC address
- * @param[in] : macAddress - Pointer to MAC address structure
+ * @param[in] : macAddress --Pointer to MAC address structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures the MAC address for the Ethernet interface
@@ -137,7 +137,7 @@ int32_t EthernetGetLinkStatus(void)
 
 /******************************************************************************
  * @brief     : Set Ethernet speed and duplex mode
- * @param[in] : speed - Speed value (ETHERNET_SPEED_10M/100M/1000M), duplexMode - Duplex mode
+ * @param[in] : speed --Speed value (ETHERNET_SPEED_10M/100M/1000M), duplexMode - Duplex mode
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures PHY speed and duplex settings
@@ -160,7 +160,7 @@ int32_t EthernetSetSpeed(uint32_t speed, uint8_t duplexMode)
 
 /******************************************************************************
  * @brief     : Enable promiscuous mode
- * @param[in] : enable - 1 to enable, 0 to disable
+ * @param[in] : enable --1 to enable, 0 to disable
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : In promiscuous mode, all frames are received regardless of MAC

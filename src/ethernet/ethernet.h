@@ -58,74 +58,74 @@ typedef struct {
 } EthernetConfig_t;
 
 /******************************************************************************
- * @brief     : Initialize Ethernet peripheral with default settings
- * @param[in] : None
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : Configures Ethernet with 100M speed, full duplex by default
+ @brief      : Initialize Ethernet peripheral with default settings
+ @param[in]  :
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : Configures Ethernet with 100M speed, full duplex by default
  *****************************************************************************/
 int32_t EthernetInit(void);
 
 /******************************************************************************
- * @brief     : Deinitialize Ethernet peripheral
- * @param[in] : None
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : Disables Ethernet peripheral and releases resources
+ @brief      : Deinitialize Ethernet peripheral
+ @param[in]  :
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : Disables Ethernet peripheral and releases resources
  *****************************************************************************/
 int32_t EthernetDeinit(void);
 
 /******************************************************************************
- * @brief     : Send Ethernet frame
- * @param[in] : frame - Pointer to frame data buffer, length - Frame length in bytes
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : Blocking function that waits for TX buffer availability
+ @brief      : Send Ethernet frame
+ @param[in]  : frame --Pointer to frame data buffer length --Frame length in bytes
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : Blocking function that waits for TX buffer availability
  *****************************************************************************/
 int32_t EthernetSendFrame(const uint8_t* frame, uint16_t length);
 
 /******************************************************************************
- * @brief     : Receive Ethernet frame
- * @param[in] : maxLength - Maximum frame length to receive
- * @param[out]: buffer - Received frame data
- * @return    : Number of bytes actually received, -1 if error
- * @note      : Non-blocking function that returns immediately if no data
+ @brief      : Receive Ethernet frame
+ @param[in]  : maxLength --Maximum frame length to receive
+ @param[out] : buffer --Received frame data
+ @return     : Number of bytes actually received, -1 if error
+ @note       : Non-blocking function that returns immediately if no data
  *****************************************************************************/
 int32_t EthernetReceiveFrame(uint8_t* buffer, uint16_t maxLength);
 
 /******************************************************************************
- * @brief     : Set MAC address
- * @param[in] : macAddress - Pointer to MAC address structure
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : Configures the MAC address for the Ethernet interface
+ @brief      : Set MAC address
+ @param[in]  : macAddress --Pointer to MAC address structure
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : Configures the MAC address for the Ethernet interface
  *****************************************************************************/
 int32_t EthernetSetMacAddress(const EthernetMacAddress_t* macAddress);
 
 /******************************************************************************
- * @brief     : Get current link status
- * @param[in] : None
- * @param[out]: None
- * @return    : ETHERNET_LINK_UP if link is up, ETHERNET_LINK_DOWN if down
- * @note      : Checks PHY link status
+ @brief      : Get current link status
+ @param[in]  :
+ @param[out] :
+ @return     : ETHERNET_LINK_UP if link is up, ETHERNET_LINK_DOWN if down
+ @note       : Checks PHY link status
  *****************************************************************************/
 int32_t EthernetGetLinkStatus(void);
 
 /******************************************************************************
- * @brief     : Set Ethernet speed and duplex mode
- * @param[in] : speed - Speed value (ETHERNET_SPEED_10M/100M/1000M), duplexMode - Duplex mode
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : Configures PHY speed and duplex settings
+ @brief      : Set Ethernet speed and duplex mode
+ @param[in]  : speed --Speed value (ETHERNET_SPEED_10M/100M/1000M) duplexMode --Duplex mode
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : Configures PHY speed and duplex settings
  *****************************************************************************/
 int32_t EthernetSetSpeed(uint32_t speed, uint8_t duplexMode);
 
 /******************************************************************************
- * @brief     : Enable promiscuous mode
- * @param[in] : enable - 1 to enable, 0 to disable
- * @param[out]: None
- * @return    : 0 if success, -1 if error
- * @note      : In promiscuous mode, all frames are received regardless of MAC
+ @brief      : Enable promiscuous mode
+ @param[in]  : enable --1 to enable, 0 to disable
+ @param[out] :
+ @return     : 0 if success, -1 if error
+ @note       : In promiscuous mode, all frames are received regardless of MAC
  *****************************************************************************/
 int32_t EthernetEnablePromiscuous(uint8_t enable);
 

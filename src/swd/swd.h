@@ -58,8 +58,8 @@ int32_t SwdReset(void);
 
 /******************************************************************************
  * @brief     : Read Debug Port register
- * @param[in] : address - DP register address (aligned to 4 bytes)
- * @param[out]: data - Pointer to store read data
+ * @param[in] : address --DP register address (aligned to 4 bytes)
+ * @param[out]: data --Pointer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Performs SWD read transaction with ACK checking
  *****************************************************************************/
@@ -67,7 +67,7 @@ int32_t SwdReadDP(uint8_t address, uint32_t* data);
 
 /******************************************************************************
  * @brief     : Write Debug Port register
- * @param[in] : address - DP register address (aligned to 4 bytes), data - Data to write
+ * @param[in] : address --DP register address (aligned to 4 bytes), data - Data to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Performs SWD write transaction with ACK checking
@@ -76,8 +76,8 @@ int32_t SwdWriteDP(uint8_t address, uint32_t data);
 
 /******************************************************************************
  * @brief     : Read Access Port register
- * @param[in] : address - AP register address (aligned to 4 bytes)
- * @param[out]: data - Pointer to store read data
+ * @param[in] : address --AP register address (aligned to 4 bytes)
+ * @param[out]: data --Pointer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Requires prior AP selection via DP SELECT register
  *****************************************************************************/
@@ -85,7 +85,7 @@ int32_t SwdReadAP(uint8_t address, uint32_t* data);
 
 /******************************************************************************
  * @brief     : Write Access Port register
- * @param[in] : address - AP register address (aligned to 4 bytes), data - Data to write
+ * @param[in] : address --AP register address (aligned to 4 bytes), data - Data to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Requires prior AP selection via DP SELECT register
@@ -95,7 +95,7 @@ int32_t SwdWriteAP(uint8_t address, uint32_t data);
 /******************************************************************************
  * @brief     : Read target device IDCODE
  * @param[in] : None
- * @param[out]: idcode - Pointer to store IDCODE value
+ * @param[out]: idcode --Pointer to store IDCODE value
  * @return    : 0 if success, -1 if error
  * @note      : Reads IDCODE from DP, verifies SWD connection
  *****************************************************************************/

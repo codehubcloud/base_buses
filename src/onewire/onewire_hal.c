@@ -118,10 +118,20 @@ int32_t OnewireInitGpio(void)
     usleep(100000); /* 100ms延时 / 100ms delay */
 
     /* 设置GPIO路径 / Set GPIO paths */
-    snprintf_s(g_gpioPath, sizeof(g_gpioPath), sizeof(g_gpioPath) - 1, "/sys/class/gpio/gpio%d", g_onewireGpioNum);
-    snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1, "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
-    snprintf_s(g_gpioDirectionPath, sizeof(g_gpioDirectionPath), sizeof(g_gpioDirectionPath) - 1, "/sys/class/gpio/gpio%d/direction",
+    int ret;
+    ret = snprintf_s(g_gpioPath, sizeof(g_gpioPath), sizeof(g_gpioPath) - 1, "/sys/class/gpio/gpio%d", g_onewireGpioNum);
+    if (ret < 0) {
+        return -1;
+    }
+    ret = snprintf_s(g_gpioValuePath, sizeof(g_gpioValuePath), sizeof(g_gpioValuePath) - 1, "/sys/class/gpio/gpio%d/value", g_onewireGpioNum);
+    if (ret < 0) {
+        return -1;
+    }
+    ret = snprintf_s(g_gpioDirectionPath, sizeof(g_gpioDirectionPath), sizeof(g_gpioDirectionPath) - 1, "/sys/class/gpio/gpio%d/direction",
                g_onewireGpioNum);
+    if (ret < 0) {
+        return -1;
+    }
 
     /* 配置为输出模式 / Configure as output mode */
     fp = fopen(g_gpioDirectionPath, "w");
@@ -313,7 +323,7 @@ int32_t OnewireReadPin(void)
 
 /******************************************************************************
  * @brief     : 微秒级延时 / Microsecond delay
- * @param[in] : us - 延时时间（微秒）/ Delay time in microseconds
+ * @param[in] : us --延时时间（微秒）/ Delay time in microseconds
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation

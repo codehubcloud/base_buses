@@ -268,16 +268,21 @@ int32_t JtagReleaseGpio(void)
     gpio_reset_pin(JTAG_TRST_GPIO);
     return 0;
 #elif defined(PLATFORM_LINUX)
-    if (g_tckFd >= 0)
+    if (g_tckFd >= 0) {
         close(g_tckFd);
-    if (g_tmsFd >= 0)
+    }
+    if (g_tmsFd >= 0) {
         close(g_tmsFd);
-    if (g_tdiFd >= 0)
+    }
+    if (g_tdiFd >= 0) {
         close(g_tdiFd);
-    if (g_tdoFd >= 0)
+    }
+    if (g_tdoFd >= 0) {
         close(g_tdoFd);
-    if (g_trstFd >= 0)
+    }
+    if (g_trstFd >= 0) {
         close(g_trstFd);
+    }
 
     g_tckFd = g_tmsFd = g_tdiFd = g_tdoFd = g_trstFd = -1;
     return 0;
@@ -314,7 +319,7 @@ int32_t JtagEnableClock(void)
 
 /******************************************************************************
  * @brief     : Set TCK (Test Clock) pin state
- * @param[in] : state - Pin state (0=low, 1=high)
+ * @param[in] : state --Pin state (0=low, 1=high)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -338,7 +343,7 @@ void JtagSetTck(uint8_t state)
 
 /******************************************************************************
  * @brief     : Set TMS (Test Mode Select) pin state
- * @param[in] : state - Pin state (0=low, 1=high)
+ * @param[in] : state --Pin state (0=low, 1=high)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -362,7 +367,7 @@ void JtagSetTms(uint8_t state)
 
 /******************************************************************************
  * @brief     : Set TDI (Test Data In) pin state
- * @param[in] : state - Pin state (0=low, 1=high)
+ * @param[in] : state --Pin state (0=low, 1=high)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -416,7 +421,7 @@ uint8_t JtagGetTdo(void)
 
 /******************************************************************************
  * @brief     : Set TRST (Test Reset) pin state
- * @param[in] : state - Pin state (0=low/reset, 1=high/inactive)
+ * @param[in] : state --Pin state (0=low/reset, 1=high/inactive)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation, optional pin
@@ -440,7 +445,7 @@ void JtagSetTrst(uint8_t state)
 
 /******************************************************************************
  * @brief     : Microsecond delay for JTAG timing
- * @param[in] : us - Delay in microseconds
+ * @param[in] : us --Delay in microseconds
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -468,7 +473,7 @@ void JtagDelayUs(uint32_t us)
 
 /******************************************************************************
  * @brief     : Configure JTAG clock speed
- * @param[in] : frequency - Clock frequency in Hz
+ * @param[in] : frequency --Clock frequency in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

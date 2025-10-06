@@ -125,7 +125,7 @@ int32_t LinConfigureGpio(void)
 
 /******************************************************************************
  * @brief     : Configure LIN UART peripheral
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -201,7 +201,11 @@ int32_t LinConfigureUart(uint32_t baudRate)
     }
 
     /* Configure terminal */
-    memset(&tty, 0, sizeof(tty));
+    if (memset_s(&tty, sizeof(tty), 0, sizeof(tty)) != EOK) {
+        close(g_linFd);
+        g_linFd = -1;
+        return -1;
+    }
     if (tcgetattr(g_linFd, &tty) != 0) {
         close(g_linFd);
         g_linFd = -1;
@@ -389,7 +393,7 @@ int32_t LinHalSendBreak(void)
 
 /******************************************************************************
  * @brief     : Write byte to LIN UART
- * @param[in] : data - Byte to write
+ * @param[in] : data --Byte to write
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -417,7 +421,7 @@ int32_t LinWriteByte(uint8_t data)
 /******************************************************************************
  * @brief     : Read byte from LIN UART
  * @param[in] : None
- * @param[out]: data - Pointer to store read byte
+ * @param[out]: data --Pointer to store read byte
  * @return    : 0 if success, -1 if error/timeout
  * @note      : Platform-specific implementation
  *****************************************************************************/
@@ -558,7 +562,7 @@ void LinFlushTxBuffer(void)
 
 /******************************************************************************
  * @brief     : Set LIN break length (for platforms supporting variable break)
- * @param[in] : breakLength - Break length in bit times
+ * @param[in] : breakLength --Break length in bit times
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation, LIN uses 13-bit break
@@ -674,7 +678,7 @@ void LinConfigureNvic(void)
 
 /******************************************************************************
  * @brief     : Delay in microseconds
- * @param[in] : us - Microseconds to delay
+ * @param[in] : us --Microseconds to delay
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation for precise timing

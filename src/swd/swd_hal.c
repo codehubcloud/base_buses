@@ -476,7 +476,7 @@ void SwdTurnaround(void)
 
 /******************************************************************************
  * @brief     : Write SWD request header
- * @param[in] : request - 8-bit request value
+ * @param[in] : request --8-bit request value
  * @param[out]: None
  * @return    : None
  * @note      : Sends request LSB first
@@ -528,7 +528,7 @@ uint8_t SwdReadAck(void)
 
 /******************************************************************************
  * @brief     : Write 32-bit data
- * @param[in] : data - Data to write
+ * @param[in] : data --Data to write
  * @param[out]: None
  * @return    : None
  * @note      : Sends data LSB first
@@ -580,7 +580,7 @@ uint32_t SwdReadData(void)
 
 /******************************************************************************
  * @brief     : Write parity bit
- * @param[in] : parity - Parity bit value (0 or 1)
+ * @param[in] : parity --Parity bit value (0 or 1)
  * @param[out]: None
  * @return    : None
  * @note      : Sends single parity bit

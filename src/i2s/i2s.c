@@ -55,7 +55,7 @@ int32_t I2sDeinit(void)
 
 /******************************************************************************
  * @brief     : Configure I2S audio format and parameters
- * @param[in] : dataFormat - Audio data format (16/24/32-bit)
+ * @param[in] : dataFormat --Audio data format (16/24/32-bit)
  *              channelMode - Channel mode (stereo/mono)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
@@ -72,7 +72,7 @@ int32_t I2sConfigureFormat(uint8_t dataFormat, uint8_t channelMode)
 
 /******************************************************************************
  * @brief     : Transmit audio data through I2S interface
- * @param[in] : data - Pointer to audio data buffer
+ * @param[in] : data --Pointer to audio data buffer
  *              length - Number of bytes to transmit
  * @param[out]: None
  * @return    : 0 if success, -1 if error
@@ -89,8 +89,8 @@ int32_t I2sTransmitData(uint8_t* data, uint32_t length)
 
 /******************************************************************************
  * @brief     : Receive audio data from I2S interface
- * @param[in] : maxLength - Maximum number of bytes to receive
- * @param[out]: buffer - Received audio data
+ * @param[in] : maxLength --Maximum number of bytes to receive
+ * @param[out]: buffer --Received audio data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Blocking function that waits for data reception
  *****************************************************************************/
@@ -105,7 +105,7 @@ int32_t I2sReceiveData(uint8_t* buffer, uint32_t maxLength)
 
 /******************************************************************************
  * @brief     : Set I2S sample rate
- * @param[in] : sampleRate - Desired sample rate in Hz
+ * @param[in] : sampleRate --Desired sample rate in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Common sample rates: 8kHz to 192kHz

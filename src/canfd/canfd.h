@@ -67,7 +67,7 @@ int32_t CanFdDeinit(void);
 
 /******************************************************************************
  * @brief     : Send CAN FD frame
- * @param[in] : frame - Pointer to CAN FD frame structure to send
+ * @param[in] : frame --Pointer to CAN FD frame structure to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer to be empty
@@ -77,7 +77,7 @@ int32_t CanFdSendFrame(const CanFdFrame* frame);
 /******************************************************************************
  * @brief     : Receive CAN FD frame
  * @param[in] : None
- * @param[out]: frame - Pointer to CAN FD frame structure to store received data
+ * @param[out]: frame --Pointer to CAN FD frame structure to store received data
  * @return    : 0 if success, -1 if error or no data available
  * @note      : Non-blocking function that returns immediately if no data
  *****************************************************************************/
@@ -85,8 +85,8 @@ int32_t CanFdReceiveFrame(CanFdFrame* frame);
 
 /******************************************************************************
  * @brief     : Set CAN FD bit rates
- * @param[in] : nominalBitRate - Nominal phase bit rate in bps
- * @param[in] : dataBitRate - Data phase bit rate in bps
+ * @param[in] : nominalBitRate --Nominal phase bit rate in bps
+ * @param[in] : dataBitRate --Data phase bit rate in bps
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Recalculates and sets the bit rate registers for both phases
@@ -95,8 +95,8 @@ int32_t CanFdSetBitRate(uint32_t nominalBitRate, uint32_t dataBitRate);
 
 /******************************************************************************
  * @brief     : Configure CAN FD acceptance filter
- * @param[in] : filterId - Filter ID value
- * @param[in] : filterMask - Filter mask value
+ * @param[in] : filterId --Filter ID value
+ * @param[in] : filterMask --Filter mask value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures hardware filter to accept specific message IDs
@@ -106,7 +106,7 @@ int32_t CanFdSetFilter(uint32_t filterId, uint32_t filterMask);
 /******************************************************************************
  * @brief     : Get CAN FD error counters
  * @param[in] : None
- * @param[out]: errorCount - Pointer to structure to store error counters
+ * @param[out]: errorCount --Pointer to structure to store error counters
  * @return    : 0 if success, -1 if error
  * @note      : Reads current TX and RX error counter values
  *****************************************************************************/

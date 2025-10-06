@@ -217,7 +217,7 @@ int32_t ApbIsTransferComplete(void)
 
 /******************************************************************************
  * @brief     : Set APB peripheral address (PADDR)
- * @param[in] : address - Peripheral address
+ * @param[in] : address --Peripheral address
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -237,7 +237,7 @@ void ApbSetAddress(uint32_t address)
 
 /******************************************************************************
  * @brief     : Set APB protection signals (PPROT)
- * @param[in] : prot - Protection signals
+ * @param[in] : prot --Protection signals
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -261,7 +261,7 @@ void ApbSetProtection(uint8_t prot)
 
 /******************************************************************************
  * @brief     : Set APB transfer type (read/write)
- * @param[in] : type - Transfer type
+ * @param[in] : type --Transfer type
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -285,7 +285,7 @@ void ApbSetTransferType(ApbTransferType_E type)
 
 /******************************************************************************
  * @brief     : Set APB write data (PWDATA)
- * @param[in] : data - Data to write
+ * @param[in] : data --Data to write
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -393,7 +393,7 @@ void ApbDeassertPenable(void)
 
 /******************************************************************************
  * @brief     : Set APB byte strobe (PSTRB) for APB4
- * @param[in] : strobe - Byte strobe mask
+ * @param[in] : strobe --Byte strobe mask
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation, APB4 only
@@ -449,7 +449,7 @@ int32_t ApbGetSlaveError(void)
 
 /******************************************************************************
  * @brief     : Delay for specified microseconds
- * @param[in] : us - Microseconds to delay
+ * @param[in] : us --Microseconds to delay
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation

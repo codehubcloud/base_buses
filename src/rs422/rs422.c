@@ -47,7 +47,7 @@ int32_t Rs422Deinit(void)
 
 /******************************************************************************
  * @brief     : Send data through RS422 interface
- * @param[in] : data - Pointer to data buffer to send, length - Number of bytes to send
+ * @param[in] : data --Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function, full-duplex operation, no DE control needed
@@ -69,8 +69,8 @@ int32_t Rs422SendData(uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from RS422 interface
- * @param[in] : maxLength - Maximum number of bytes to receive
- * @param[out]: buffer - Received data
+ * @param[in] : maxLength --Maximum number of bytes to receive
+ * @param[out]: buffer --Received data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Non-blocking function, returns immediately if no data available
  *****************************************************************************/
@@ -96,7 +96,7 @@ int32_t Rs422ReceiveData(uint8_t* buffer, uint16_t maxLength)
 
 /******************************************************************************
  * @brief     : Set RS422 baud rate
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Recalculates and sets the baud rate registers
@@ -111,7 +111,7 @@ int32_t Rs422SetBaudRate(uint32_t baudRate)
 
 /******************************************************************************
  * @brief     : Configure RS422 data format
- * @param[in] : dataBits - Data bits (7 or 8), parity - Parity mode, stopBits - Stop bits (1 or 2)
+ * @param[in] : dataBits --Data bits (7 or 8), parity - Parity mode, stopBits - Stop bits (1 or 2)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures frame format for RS422 communication

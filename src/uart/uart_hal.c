@@ -143,7 +143,7 @@ int32_t UartTxBufferEmpty(void)
 
 /******************************************************************************
  * @brief     : Write byte to UART
- * @param[in] : data - Byte to write
+ * @param[in] : data --Byte to write
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -222,7 +222,7 @@ uint8_t UartReadByte(void)
 
 /******************************************************************************
  * @brief     : Configure UART baud rate
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

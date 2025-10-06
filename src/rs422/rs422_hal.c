@@ -251,7 +251,7 @@ int32_t Rs422TxBufferEmpty(void)
 
 /******************************************************************************
  * @brief     : Write byte to RS422
- * @param[in] : data - Byte to write
+ * @param[in] : data --Byte to write
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation
@@ -332,7 +332,7 @@ uint8_t Rs422ReadByte(void)
 
 /******************************************************************************
  * @brief     : Configure RS422 baud rate
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -391,7 +391,7 @@ int32_t Rs422ConfigureBaudRate(uint32_t baudRate)
 
 /******************************************************************************
  * @brief     : Configure RS422 data format
- * @param[in] : dataBits - Data bits (7 or 8), parity - Parity mode, stopBits - Stop bits (1 or 2)
+ * @param[in] : dataBits --Data bits (7 or 8), parity - Parity mode, stopBits - Stop bits (1 or 2)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

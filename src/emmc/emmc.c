@@ -104,8 +104,8 @@ int32_t EmmcDeinit(void)
 
 /******************************************************************************
  * @brief     : Read single block from eMMC
- * @param[in] : blockAddress - Block address to read from
- * @param[out]: data - Buffer to store read data (must be at least 512 bytes)
+ * @param[in] : blockAddress --Block address to read from
+ * @param[out]: data --Buffer to store read data (must be at least 512 bytes)
  * @return    : 0 if success, -1 if error
  * @note      : Reads one 512-byte block
  *****************************************************************************/
@@ -141,7 +141,7 @@ int32_t EmmcReadBlock(uint32_t blockAddress, uint8_t* data)
 
 /******************************************************************************
  * @brief     : Write single block to eMMC
- * @param[in] : blockAddress - Block address to write to, data - Data to write (must be 512 bytes)
+ * @param[in] : blockAddress --Block address to write to, data - Data to write (must be 512 bytes)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes one 512-byte block
@@ -184,8 +184,8 @@ int32_t EmmcWriteBlock(uint32_t blockAddress, const uint8_t* data)
 
 /******************************************************************************
  * @brief     : Read multiple blocks from eMMC
- * @param[in] : blockAddress - Starting block address, blockCount - Number of blocks to read
- * @param[out]: data - Buffer to store read data (must be at least blockCount * 512 bytes)
+ * @param[in] : blockAddress --Starting block address, blockCount - Number of blocks to read
+ * @param[out]: data --Buffer to store read data (must be at least blockCount * 512 bytes)
  * @return    : 0 if success, -1 if error
  * @note      : Reads multiple 512-byte blocks
  *****************************************************************************/
@@ -230,7 +230,7 @@ int32_t EmmcReadMultipleBlocks(uint32_t blockAddress, uint32_t blockCount, uint8
 
 /******************************************************************************
  * @brief     : Write multiple blocks to eMMC
- * @param[in] : blockAddress - Starting block address, blockCount - Number of blocks to write, data - Data to write (must be blockCount *
+ * @param[in] : blockAddress --Starting block address, blockCount - Number of blocks to write, data - Data to write (must be blockCount *
  *512 bytes)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
@@ -283,7 +283,7 @@ int32_t EmmcWriteMultipleBlocks(uint32_t blockAddress, uint32_t blockCount, cons
 
 /******************************************************************************
  * @brief     : Set eMMC bus width
- * @param[in] : busWidth - Bus width to set (1-bit, 4-bit, or 8-bit)
+ * @param[in] : busWidth --Bus width to set (1-bit, 4-bit, or 8-bit)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures data bus width for communication
@@ -338,7 +338,7 @@ int32_t EmmcSetBusWidth(EmmcBusWidth_E busWidth)
 
 /******************************************************************************
  * @brief     : Set eMMC speed mode
- * @param[in] : speedMode - Speed mode to set (Legacy, HS, HS200, HS400, DDR52)
+ * @param[in] : speedMode --Speed mode to set (Legacy, HS, HS200, HS400, DDR52)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures clock speed and timing mode
@@ -400,7 +400,7 @@ int32_t EmmcSetSpeedMode(EmmcSpeedMode_E speedMode)
 /******************************************************************************
  * @brief     : Get eMMC card information
  * @param[in] : None
- * @param[out]: cardInfo - Pointer to structure to store card information
+ * @param[out]: cardInfo --Pointer to structure to store card information
  * @return    : 0 if success, -1 if error
  * @note      : Reads CID, CSD, EXT_CSD and calculates capacity
  *****************************************************************************/
@@ -418,7 +418,7 @@ int32_t EmmcGetCardInfo(EmmcCardInfo_S* cardInfo)
 
 /******************************************************************************
  * @brief     : Select eMMC partition
- * @param[in] : partition - Partition to select (USER, BOOT1, BOOT2, RPMB)
+ * @param[in] : partition --Partition to select (USER, BOOT1, BOOT2, RPMB)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Switches active partition for read/write operations
@@ -474,7 +474,7 @@ int32_t EmmcSelectPartition(EmmcPartition_E partition)
 /******************************************************************************
  * @brief     : Get eMMC card status
  * @param[in] : None
- * @param[out]: status - Pointer to store card status register value
+ * @param[out]: status --Pointer to store card status register value
  * @return    : 0 if success, -1 if error
  * @note      : Reads current card status flags
  *****************************************************************************/
@@ -499,7 +499,7 @@ int32_t EmmcGetCardStatus(uint32_t* status)
 
 /******************************************************************************
  * @brief     : Erase blocks on eMMC
- * @param[in] : startBlock - Start block address, endBlock - End block address
+ * @param[in] : startBlock --Start block address, endBlock - End block address
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Erases blocks from startBlock to endBlock (inclusive)
@@ -548,8 +548,8 @@ int32_t EmmcEraseBlocks(uint32_t startBlock, uint32_t endBlock)
 
 /******************************************************************************
  * @brief     : Send eMMC command
- * @param[in] : cmd - Command index, arg - Command argument
- * @param[out]: response - Command response (can be NULL if not needed)
+ * @param[in] : cmd --Command index, arg - Command argument
+ * @param[out]: response --Command response (can be NULL if not needed)
  * @return    : 0 if success, -1 if error
  * @note      : Internal helper function
  *****************************************************************************/
@@ -655,7 +655,7 @@ static int32_t EmmcIdentifyCard(void)
 
 /******************************************************************************
  * @brief     : Extract bits from byte array
- * @param[in] : data - Byte array, startBit - Start bit position, bitCount - Number of bits
+ * @param[in] : data --Byte array, startBit - Start bit position, bitCount - Number of bits
  * @param[out]: None
  * @return    : Extracted value
  * @note      : Internal helper function

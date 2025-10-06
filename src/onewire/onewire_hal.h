@@ -71,7 +71,7 @@ int32_t OnewireReadPin(void);
 
 /******************************************************************************
  * @brief     : 微秒级延时 / Microsecond delay
- * @param[in] : us - 延时时间（微秒）/ Delay time in microseconds
+ * @param[in] : us --延时时间（微秒）/ Delay time in microseconds
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required

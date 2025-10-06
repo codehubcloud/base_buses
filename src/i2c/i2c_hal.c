@@ -174,7 +174,7 @@ int32_t I2cGenerateStop(void)
 
 /******************************************************************************
  * @brief     : Send byte through I2C
- * @param[in] : data - Byte to send
+ * @param[in] : data --Byte to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -310,7 +310,7 @@ void I2cSendNack(void)
 
 /******************************************************************************
  * @brief     : Configure I2C clock speed
- * @param[in] : clockSpeed - Desired clock speed in Hz
+ * @param[in] : clockSpeed --Desired clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

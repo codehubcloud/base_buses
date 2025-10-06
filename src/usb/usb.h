@@ -96,7 +96,7 @@ typedef struct {
 
 /******************************************************************************
  * @brief     : Initialize USB peripheral
- * @param[in] : mode - USB operating mode (USB_MODE_DEVICE or USB_MODE_HOST)
+ * @param[in] : mode --USB operating mode (USB_MODE_DEVICE or USB_MODE_HOST)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures USB hardware for specified mode
@@ -132,7 +132,7 @@ int32_t UsbDeviceDisconnect(void);
 
 /******************************************************************************
  * @brief     : Send data through USB endpoint
- * @param[in] : endpoint - Endpoint number (0-7), data - Pointer to data buffer, length - Number of bytes to send
+ * @param[in] : endpoint --Endpoint number (0-7), data - Pointer to data buffer, length - Number of bytes to send
  * @param[out]: None
  * @return    : Number of bytes sent, -1 if error
  * @note      : Blocking function for control/bulk transfers
@@ -141,8 +141,8 @@ int32_t UsbSendData(uint8_t endpoint, uint8_t* data, uint16_t length);
 
 /******************************************************************************
  * @brief     : Receive data from USB endpoint
- * @param[in] : endpoint - Endpoint number (0-7), maxLength - Maximum number of bytes to receive
- * @param[out]: data - Pointer to buffer for received data
+ * @param[in] : endpoint --Endpoint number (0-7), maxLength - Maximum number of bytes to receive
+ * @param[out]: data --Pointer to buffer for received data
  * @return    : Number of bytes received, -1 if error
  * @note      : Blocking function with timeout
  *****************************************************************************/
@@ -150,7 +150,7 @@ int32_t UsbReceiveData(uint8_t endpoint, uint8_t* data, uint16_t maxLength);
 
 /******************************************************************************
  * @brief     : Process USB control transfer setup packet
- * @param[in] : setupPacket - Pointer to 8-byte setup packet data
+ * @param[in] : setupPacket --Pointer to 8-byte setup packet data
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Handles standard USB device requests
@@ -159,8 +159,8 @@ int32_t UsbSetupControlTransfer(uint8_t* setupPacket);
 
 /******************************************************************************
  * @brief     : Get USB device descriptor
- * @param[in] : maxLength - Maximum descriptor size
- * @param[out]: descriptor - Pointer to buffer for device descriptor
+ * @param[in] : maxLength --Maximum descriptor size
+ * @param[out]: descriptor --Pointer to buffer for device descriptor
  * @return    : Actual descriptor size, -1 if error
  * @note      : Returns the device descriptor structure
  *****************************************************************************/
@@ -168,7 +168,7 @@ int32_t UsbGetDeviceDescriptor(uint8_t* descriptor, uint16_t maxLength);
 
 /******************************************************************************
  * @brief     : Set USB device address
- * @param[in] : address - Device address (0-127)
+ * @param[in] : address --Device address (0-127)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Used during enumeration process
@@ -177,7 +177,7 @@ int32_t UsbSetAddress(uint8_t address);
 
 /******************************************************************************
  * @brief     : Configure USB endpoint
- * @param[in] : config - Pointer to endpoint configuration structure
+ * @param[in] : config --Pointer to endpoint configuration structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures endpoint type, direction, and packet size
@@ -204,7 +204,7 @@ int32_t UsbEnumerateDevices(void);
 
 /******************************************************************************
  * @brief     : Set USB speed mode
- * @param[in] : speed - Speed mode (USB_SPEED_FULL or USB_SPEED_HIGH)
+ * @param[in] : speed --Speed mode (USB_SPEED_FULL or USB_SPEED_HIGH)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Must be called before UsbInit
@@ -213,7 +213,7 @@ int32_t UsbSetSpeed(uint8_t speed);
 
 /******************************************************************************
  * @brief     : Stall USB endpoint
- * @param[in] : endpoint - Endpoint number to stall
+ * @param[in] : endpoint --Endpoint number to stall
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Used to signal unsupported requests
@@ -222,7 +222,7 @@ int32_t UsbStallEndpoint(uint8_t endpoint);
 
 /******************************************************************************
  * @brief     : Clear stall condition on endpoint
- * @param[in] : endpoint - Endpoint number to clear
+ * @param[in] : endpoint --Endpoint number to clear
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Clears previously set stall condition

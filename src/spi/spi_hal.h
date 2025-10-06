@@ -51,7 +51,7 @@ int32_t SpiTransferComplete(void);
 
 /******************************************************************************
  * @brief     : Write data to SPI
- * @param[in] : data - Byte to write
+ * @param[in] : data --Byte to write
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required
@@ -69,7 +69,7 @@ uint8_t SpiReadData(void);
 
 /******************************************************************************
  * @brief     : Configure SPI clock speed
- * @param[in] : clockSpeed - Desired clock speed in Hz
+ * @param[in] : clockSpeed --Desired clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -78,7 +78,7 @@ int32_t SpiConfigureClockSpeed(uint32_t clockSpeed);
 
 /******************************************************************************
  * @brief     : Configure SPI mode
- * @param[in] : mode - SPI mode (MASTER or SLAVE)
+ * @param[in] : mode --SPI mode (MASTER or SLAVE)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation required
@@ -87,7 +87,7 @@ int32_t SpiConfigureMode(SpiMode_E mode);
 
 /******************************************************************************
  * @brief     : Set SPI data format
- * @param[in] : format - Data format (8-bit or 16-bit)
+ * @param[in] : format --Data format (8-bit or 16-bit)
  * @param[out]: None
  * @return    : None
  * @note      : Platform-specific implementation required

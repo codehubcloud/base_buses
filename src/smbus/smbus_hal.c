@@ -39,8 +39,8 @@ static uint8_t g_smbusDeviceAddr = 0;
 
 /******************************************************************************
  * @brief     : Calculate SMBus PEC (CRC-8)
- * @param[in] : data - Pointer to data buffer
- * @param[in] : length - Number of bytes in data buffer
+ * @param[in] : data --Pointer to data buffer
+ * @param[in] : length --Number of bytes in data buffer
  * @param[out]: None
  * @return    : Calculated PEC value
  * @note      : Platform-independent implementation (SMBus PEC uses CRC-8)
@@ -212,7 +212,7 @@ int32_t SmBusGenerateStop(void)
 
 /******************************************************************************
  * @brief     : Send byte through SMBus
- * @param[in] : data - Byte to send
+ * @param[in] : data --Byte to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -348,7 +348,7 @@ void SmBusSendNack(void)
 
 /******************************************************************************
  * @brief     : Configure SMBus clock speed
- * @param[in] : clockSpeed - Desired clock speed in Hz
+ * @param[in] : clockSpeed --Desired clock speed in Hz
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

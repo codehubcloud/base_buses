@@ -49,7 +49,7 @@ int32_t AhbDeinit(void)
 
 /******************************************************************************
  * @brief     : Perform single AHB write transaction
- * @param[in] : address - Target address, data - Data to write, size - Transfer size
+ * @param[in] : address --Target address, data --Data to write, size --Transfer size
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Executes NONSEQ transfer with OKAY response check
@@ -89,8 +89,8 @@ int32_t AhbWrite(uint32_t address, uint32_t data, uint8_t size)
 
 /******************************************************************************
  * @brief     : Perform single AHB read transaction
- * @param[in] : address - Target address, size - Transfer size
- * @param[out]: data - Pointer to store read data
+ * @param[in] : address --Target address, size --Transfer size
+ * @param[out]: data --Pointer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Executes NONSEQ transfer with OKAY response check
  *****************************************************************************/
@@ -129,7 +129,7 @@ int32_t AhbRead(uint32_t address, uint32_t* data, uint8_t size)
 
 /******************************************************************************
  * @brief     : Perform AHB burst write transaction
- * @param[in] : address - Start address, data - Data buffer, length - Number of transfers, burstType - Burst type
+ * @param[in] : address --Start address, data --Data buffer, length --Number of transfers, burstType --Burst type
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Supports INCR, INCR4/8/16, WRAP4/8/16 burst types
@@ -184,8 +184,8 @@ int32_t AhbBurstWrite(uint32_t address, uint32_t* data, uint16_t length, uint8_t
 
 /******************************************************************************
  * @brief     : Perform AHB burst read transaction
- * @param[in] : address - Start address, length - Number of transfers, burstType - Burst type
- * @param[out]: data - Buffer to store read data
+ * @param[in] : address --Start address, length --Number of transfers, burstType --Burst type
+ * @param[out]: data --Buffer to store read data
  * @return    : 0 if success, -1 if error
  * @note      : Supports INCR, INCR4/8/16, WRAP4/8/16 burst types
  *****************************************************************************/
@@ -239,7 +239,7 @@ int32_t AhbBurstRead(uint32_t address, uint32_t* data, uint16_t length, uint8_t 
 
 /******************************************************************************
  * @brief     : Set AHB master priority level
- * @param[in] : priority - Priority level (0 = highest)
+ * @param[in] : priority --Priority level (0 = highest)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Configures bus arbitration priority for this master
@@ -274,7 +274,7 @@ int32_t AhbGetBusStatus(void)
 
 /******************************************************************************
  * @brief     : Wait for AHB bus ready signal
- * @param[in] : timeout - Maximum cycles to wait (0 = infinite)
+ * @param[in] : timeout --Maximum cycles to wait (0 = infinite)
  * @param[out]: None
  * @return    : 0 if ready, -1 if timeout or error
  * @note      : Polls HREADY signal until high or timeout
@@ -295,7 +295,7 @@ int32_t AhbWaitReady(uint32_t timeout)
 
 /******************************************************************************
  * @brief     : Execute custom AHB transaction
- * @param[in] : transaction - Pointer to AHB transaction structure
+ * @param[in] : transaction --Pointer to AHB transaction structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Allows full control over all AHB signals

@@ -148,7 +148,7 @@ int32_t UsbHalConfigureGpio(void)
 
 /******************************************************************************
  * @brief     : Initialize USB controller hardware
- * @param[in] : mode - USB mode (device or host), speed - USB speed
+ * @param[in] : mode --USB mode (device or host), speed - USB speed
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -330,7 +330,7 @@ int32_t UsbHalDeviceDisconnect(void)
 
 /******************************************************************************
  * @brief     : Configure USB endpoint
- * @param[in] : config - Pointer to endpoint configuration structure
+ * @param[in] : config --Pointer to endpoint configuration structure
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -404,7 +404,7 @@ int32_t UsbHalConfigureEndpoint(UsbEndpointConfig_t* config)
 
 /******************************************************************************
  * @brief     : Set USB device address
- * @param[in] : address - Device address (0-127)
+ * @param[in] : address --Device address (0-127)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -430,7 +430,7 @@ int32_t UsbHalSetDeviceAddress(uint8_t address)
 
 /******************************************************************************
  * @brief     : Transmit data on endpoint
- * @param[in] : endpoint - Endpoint number, data - Data buffer, length - Data length
+ * @param[in] : endpoint --Endpoint number, data - Data buffer, length - Data length
  * @param[out]: None
  * @return    : Number of bytes transmitted, -1 if error
  * @note      : Platform-specific implementation
@@ -482,8 +482,8 @@ int32_t UsbHalTransmitData(uint8_t endpoint, uint8_t* data, uint16_t length)
 
 /******************************************************************************
  * @brief     : Receive data from endpoint
- * @param[in] : endpoint - Endpoint number, maxLength - Maximum buffer size
- * @param[out]: data - Data buffer for received data
+ * @param[in] : endpoint --Endpoint number, maxLength - Maximum buffer size
+ * @param[out]: data --Data buffer for received data
  * @return    : Number of bytes received, -1 if error
  * @note      : Platform-specific implementation
  *****************************************************************************/
@@ -544,7 +544,7 @@ int32_t UsbHalReceiveData(uint8_t endpoint, uint8_t* data, uint16_t maxLength)
 
 /******************************************************************************
  * @brief     : Check if endpoint is ready for transfer
- * @param[in] : endpoint - Endpoint number (with direction bit)
+ * @param[in] : endpoint --Endpoint number (with direction bit)
  * @param[out]: None
  * @return    : 1 if ready, 0 if not ready
  * @note      : Platform-specific implementation
@@ -568,7 +568,7 @@ int32_t UsbHalIsEndpointReady(uint8_t endpoint)
 
 /******************************************************************************
  * @brief     : Check if data is available on endpoint
- * @param[in] : endpoint - Endpoint number
+ * @param[in] : endpoint --Endpoint number
  * @param[out]: None
  * @return    : 1 if data available, 0 if not
  * @note      : Platform-specific implementation
@@ -592,7 +592,7 @@ int32_t UsbHalIsDataAvailable(uint8_t endpoint)
 
 /******************************************************************************
  * @brief     : Stall endpoint
- * @param[in] : endpoint - Endpoint number to stall
+ * @param[in] : endpoint --Endpoint number to stall
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -620,7 +620,7 @@ int32_t UsbHalStallEndpoint(uint8_t endpoint)
 
 /******************************************************************************
  * @brief     : Clear stall condition on endpoint
- * @param[in] : endpoint - Endpoint number
+ * @param[in] : endpoint --Endpoint number
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation
@@ -772,7 +772,7 @@ int32_t UsbHalReset(void)
 
 /******************************************************************************
  * @brief     : Flush TX FIFO for endpoint
- * @param[in] : endpoint - Endpoint number
+ * @param[in] : endpoint --Endpoint number
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Platform-specific implementation

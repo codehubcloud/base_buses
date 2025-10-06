@@ -16,7 +16,7 @@ int32_t Rs232Init(void);
 
 /******************************************************************************
  * @brief     : Send data through RS232 interface
- * @param[in] : data - Pointer to data buffer to send, length - Number of bytes to send
+ * @param[in] : data --Pointer to data buffer to send, length - Number of bytes to send
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Blocking function that waits for TX buffer to be empty
@@ -25,8 +25,8 @@ int32_t Rs232SendData(uint8_t* data, uint16_t length);
 
 /******************************************************************************
  * @brief     : Receive data from RS232 interface
- * @param[in] : maxLength - Maximum number of bytes to receive
- * @param[out]: buffer - Received data
+ * @param[in] : maxLength --Maximum number of bytes to receive
+ * @param[out]: buffer --Received data
  * @return    : Number of bytes actually received, -1 if error
  * @note      : Non-blocking function that returns immediately if no data
  *****************************************************************************/
@@ -34,7 +34,7 @@ int32_t Rs232ReceiveData(uint8_t* buffer, uint16_t maxLength);
 
 /******************************************************************************
  * @brief     : Set RS232 baud rate
- * @param[in] : baudRate - Desired baud rate value
+ * @param[in] : baudRate --Desired baud rate value
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Recalculates and sets the baud rate registers

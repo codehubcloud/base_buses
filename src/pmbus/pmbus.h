@@ -138,7 +138,7 @@ int32_t PmBusDeinit(void);
 
 /******************************************************************************
  * @brief     : Set PMBus page for multi-rail devices
- * @param[in] : deviceAddr - PMBus device address, page - Page number (0-15)
+ * @param[in] : deviceAddr --PMBus device address, page - Page number (0-15)
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Selects the target rail/page for subsequent commands
@@ -147,8 +147,8 @@ int32_t PmBusSetPage(uint8_t deviceAddr, uint8_t page);
 
 /******************************************************************************
  * @brief     : Read output voltage from PMBus device
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: voltage - Pointer to store voltage in volts
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: voltage --Pointer to store voltage in volts
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_VOUT command and converts LINEAR16 to float
  *****************************************************************************/
@@ -156,8 +156,8 @@ int32_t PmBusReadVoltage(uint8_t deviceAddr, float* voltage);
 
 /******************************************************************************
  * @brief     : Read output current from PMBus device
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: current - Pointer to store current in amperes
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: current --Pointer to store current in amperes
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_IOUT command and converts LINEAR11 to float
  *****************************************************************************/
@@ -165,8 +165,8 @@ int32_t PmBusReadCurrent(uint8_t deviceAddr, float* current);
 
 /******************************************************************************
  * @brief     : Read temperature from PMBus device
- * @param[in] : deviceAddr - PMBus device address, sensor - Sensor number (1-3)
- * @param[out]: temperature - Pointer to store temperature in Celsius
+ * @param[in] : deviceAddr --PMBus device address, sensor - Sensor number (1-3)
+ * @param[out]: temperature --Pointer to store temperature in Celsius
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_TEMPERATURE_X command and converts LINEAR11 to float
  *****************************************************************************/
@@ -174,8 +174,8 @@ int32_t PmBusReadTemperature(uint8_t deviceAddr, uint8_t sensor, float* temperat
 
 /******************************************************************************
  * @brief     : Read input voltage from PMBus device
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: voltage - Pointer to store voltage in volts
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: voltage --Pointer to store voltage in volts
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_VIN command and converts LINEAR11 to float
  *****************************************************************************/
@@ -183,8 +183,8 @@ int32_t PmBusReadInputVoltage(uint8_t deviceAddr, float* voltage);
 
 /******************************************************************************
  * @brief     : Read input current from PMBus device
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: current - Pointer to store current in amperes
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: current --Pointer to store current in amperes
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_IIN command and converts LINEAR11 to float
  *****************************************************************************/
@@ -192,8 +192,8 @@ int32_t PmBusReadInputCurrent(uint8_t deviceAddr, float* current);
 
 /******************************************************************************
  * @brief     : Read output power from PMBus device
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: power - Pointer to store power in watts
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: power --Pointer to store power in watts
  * @return    : 0 if success, -1 if error
  * @note      : Reads READ_POUT command and converts LINEAR11 to float
  *****************************************************************************/
@@ -201,7 +201,7 @@ int32_t PmBusReadOutputPower(uint8_t deviceAddr, float* power);
 
 /******************************************************************************
  * @brief     : Set output voltage on PMBus device
- * @param[in] : deviceAddr - PMBus device address, voltage - Voltage to set in volts
+ * @param[in] : deviceAddr --PMBus device address, voltage - Voltage to set in volts
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Writes VOUT_COMMAND with LINEAR16 format
@@ -210,8 +210,8 @@ int32_t PmBusSetVoltage(uint8_t deviceAddr, float voltage);
 
 /******************************************************************************
  * @brief     : Get PMBus status word
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: status - Pointer to store 16-bit status word
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: status --Pointer to store 16-bit status word
  * @return    : 0 if success, -1 if error
  * @note      : Reads STATUS_WORD command
  *****************************************************************************/
@@ -219,8 +219,8 @@ int32_t PmBusGetStatus(uint8_t deviceAddr, uint16_t* status);
 
 /******************************************************************************
  * @brief     : Get PMBus status byte
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: status - Pointer to store 8-bit status byte
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: status --Pointer to store 8-bit status byte
  * @return    : 0 if success, -1 if error
  * @note      : Reads STATUS_BYTE command
  *****************************************************************************/
@@ -228,7 +228,7 @@ int32_t PmBusGetStatusByte(uint8_t deviceAddr, uint8_t* status);
 
 /******************************************************************************
  * @brief     : Clear all faults on PMBus device
- * @param[in] : deviceAddr - PMBus device address
+ * @param[in] : deviceAddr --PMBus device address
  * @param[out]: None
  * @return    : 0 if success, -1 if error
  * @note      : Sends CLEAR_FAULTS command
@@ -237,7 +237,7 @@ int32_t PmBusClearFaults(uint8_t deviceAddr);
 
 /******************************************************************************
  * @brief     : Convert LINEAR11 format to float
- * @param[in] : linear11 - 16-bit LINEAR11 value (5-bit exponent, 11-bit mantissa)
+ * @param[in] : linear11 --16-bit LINEAR11 value (5-bit exponent, 11-bit mantissa)
  * @param[out]: None
  * @return    : Floating point value
  * @note      : LINEAR11 format: Y = mantissa * 2^exponent
@@ -246,7 +246,7 @@ float PmBusLinear11ToFloat(uint16_t linear11);
 
 /******************************************************************************
  * @brief     : Convert LINEAR16 format to float
- * @param[in] : linear16 - 16-bit LINEAR16 mantissa, exponent - 5-bit exponent from VOUT_MODE
+ * @param[in] : linear16 --16-bit LINEAR16 mantissa, exponent - 5-bit exponent from VOUT_MODE
  * @param[out]: None
  * @return    : Floating point value
  * @note      : LINEAR16 format: Y = mantissa * 2^exponent
@@ -255,7 +255,7 @@ float PmBusLinear16ToFloat(uint16_t linear16, int8_t exponent);
 
 /******************************************************************************
  * @brief     : Convert float to LINEAR11 format
- * @param[in] : value - Floating point value to convert
+ * @param[in] : value --Floating point value to convert
  * @param[out]: None
  * @return    : 16-bit LINEAR11 value
  * @note      : LINEAR11 format: Y = mantissa * 2^exponent
@@ -264,7 +264,7 @@ uint16_t PmBusFloatToLinear11(float value);
 
 /******************************************************************************
  * @brief     : Convert float to LINEAR16 format
- * @param[in] : value - Floating point value to convert, exponent - 5-bit exponent
+ * @param[in] : value --Floating point value to convert, exponent - 5-bit exponent
  * @param[out]: None
  * @return    : 16-bit LINEAR16 mantissa
  * @note      : LINEAR16 format: Y = mantissa * 2^exponent
@@ -273,8 +273,8 @@ uint16_t PmBusFloatToLinear16(float value, int8_t exponent);
 
 /******************************************************************************
  * @brief     : Read VOUT_MODE to get voltage mode and exponent
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: exponent - Pointer to store exponent value
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: exponent --Pointer to store exponent value
  * @return    : 0 if success, -1 if error
  * @note      : Extracts exponent from VOUT_MODE for LINEAR16 conversions
  *****************************************************************************/
@@ -282,8 +282,8 @@ int32_t PmBusGetVoutMode(uint8_t deviceAddr, int8_t* exponent);
 
 /******************************************************************************
  * @brief     : Read manufacturer ID from PMBus device
- * @param[in] : deviceAddr - PMBus device address, maxLength - Maximum buffer size
- * @param[out]: buffer - Pointer to store manufacturer ID string
+ * @param[in] : deviceAddr --PMBus device address, maxLength - Maximum buffer size
+ * @param[out]: buffer --Pointer to store manufacturer ID string
  * @return    : 0 if success, -1 if error
  * @note      : Reads MFR_ID command
  *****************************************************************************/
@@ -291,8 +291,8 @@ int32_t PmBusReadManufacturerId(uint8_t deviceAddr, uint8_t* buffer, uint16_t ma
 
 /******************************************************************************
  * @brief     : Read model name from PMBus device
- * @param[in] : deviceAddr - PMBus device address, maxLength - Maximum buffer size
- * @param[out]: buffer - Pointer to store model name string
+ * @param[in] : deviceAddr --PMBus device address, maxLength - Maximum buffer size
+ * @param[out]: buffer --Pointer to store model name string
  * @return    : 0 if success, -1 if error
  * @note      : Reads MFR_MODEL command
  *****************************************************************************/
@@ -300,8 +300,8 @@ int32_t PmBusReadModel(uint8_t deviceAddr, uint8_t* buffer, uint16_t maxLength);
 
 /******************************************************************************
  * @brief     : Read PMBus revision
- * @param[in] : deviceAddr - PMBus device address
- * @param[out]: revision - Pointer to store revision byte
+ * @param[in] : deviceAddr --PMBus device address
+ * @param[out]: revision --Pointer to store revision byte
  * @return    : 0 if success, -1 if error
  * @note      : Reads PMBUS_REVISION command
  *****************************************************************************/

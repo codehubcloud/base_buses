@@ -562,7 +562,7 @@ MIT License - 详见 LICENSE 文件
 
 ## 联系方式 (Contact)
 
-- **GitHub**: [https://github.com/codehubcloud/base_buss.git](https://github.com/codehubcloud/base_buss.git)
+- **GitHub**: [https://github.com/codehubcloud/base_buses.git](https://github.com/codehubcloud/base_buses.git)
 - **Issues**: 欢迎提交问题和建议
 
 ---

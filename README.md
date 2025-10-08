@@ -13,13 +13,12 @@
 - ✅ 27 个独立通信协议模块
 - ✅ 支持 4 大平台: STM32F4、STM32F1、ESP32、Linux
 - ✅ 完整的硬件抽象层(HAL)设计
-- ✅ 严格的返回值检查和错误处理
 - ✅ 使用 securec 安全函数库
-- ✅ 符合 C99 标准，代码规范严格
+- ✅ 使用业界的代码规范，结合Google的代码规范,进行一些修改
 - ✅ 每个模块独立编译为静态库
 - ✅ 完整的测试用例和使用示例
 
-[持续更新中...](https://github.com/codehubcloud/base_buss.git)
+[持续更新中...](https://github.com/codehubcloud/base_buses.git)
 
 ---
 
@@ -64,8 +63,7 @@ base_buses/
 │   ├── CMakeLists.txt      # 测试CMake配置
 │   └── README.md           # 测试说明文档
 ├── CMakeLists.txt          # 项目根CMake配置
-├── README.md               # 项目说明文档
-└── CLAUDE.md               # 项目开发指南
+└── README.md               # 项目说明文档
 ```
 
 ---
